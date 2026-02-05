@@ -1,5 +1,3 @@
-// Import necessary components and functions from react-router-dom.
-
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -13,26 +11,30 @@ import Sitters from "./pages/Sitters";
 import CreateSitter from "./pages/CreateSitter";
 import EditSitter from "./pages/EditSitter";
 import InfoSitter from "./pages/InfoSitter";
+import ClientList from "./components/clients/ClientList";
+import ViewClient from "./components/clients/ViewClient";
+import EditClient from "./components/clients/EditClient";
+import NewClient from "./components/clients/NewClient";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
-    // CreateRoutesFromElements function allows you to build route elements declaratively.
-    // Create your routes here, if you want to keep the Navbar and Footer in all views, add your new routes inside the containing Route.
-    // Root, on the contrary, create a sister Route, if you have doubts, try it!
-    // Note: keep in mind that errorElement will be the default page when you don't get a route, customize that page to make your project more attractive.
-    // Note: The child paths of the Layout element replace the Outlet component with the elements contained in the "element" attribute of these child paths.
-
-      // Root Route: All navigation will start from here.
       <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
 
         {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
         
-        <Route path= "/" element={<Home />} />
-        <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
+        <Route index element={<Home />} />
+        
         <Route path="/sitters" element={ <Sitters />} />
-        <Route path="/sitters/:id" element={ <InfoSitter />} />
         <Route path="/sitters/create" element={ <CreateSitter />} />
         <Route path="/sitters/edit/:id" element={ <EditSitter />} />
+        <Route path="/sitters/:id" element={ <InfoSitter />} />
+
+        <Route path= "/newclients" element={<NewClient />} />
+        <Route path= "/clients" element={<ClientList />} />
+        <Route path= "/viewclients/:id" element={<ViewClient />} />
+        <Route path= "/editclients/:id" element={<EditClient />} />
+
+        <Route path="/single/:theId" element={ <Single />} />
         <Route path="/demo" element={<Demo />} />
       </Route>
     )
