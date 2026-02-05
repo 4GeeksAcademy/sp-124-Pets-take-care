@@ -5,18 +5,29 @@ from sqlalchemy.orm import Mapped, mapped_column
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = "user"
+
     id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
+    name:Mapped[str] = mapped_column(String(120), nullable=False)
+    last_name:Mapped[str] = mapped_column(String(120), nullable=False)
+    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
+    phone: Mapped[str] = mapped_column(String(120), nullable=True)
+    address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
 
     def serialize(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
-        }
+            return {
+                "id": self.id,
+                "name": self.name,
+                "last_name": self.last_name,
+                "email": self.email,
+                "phone": self.phone,
+                "address": self.address,
+                "is_active": self.is_active
+                # do not serialize the password, its a security breach
+            }
 
 class Sitter(db.Model):
     __tablename__ = "sitter"
@@ -48,3 +59,16 @@ class Sitter(db.Model):
 
             # do not serialize the password, its a security breach
         }
+    
+class Skill(db.Model):
+    __tablename__ = "skill"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    skill:Mapped[str] = mapped_column(String(120), nullable=False)
+
+    def serialize(self):
+            return {
+                "id": self.id,
+                "skill": self.skill,
+                # do not serialize the password, its a security breach
+            }
