@@ -59,16 +59,3 @@ class Sitter(db.Model):
 
             # do not serialize the password, its a security breach
         }
-    
-class Skill(db.Model):
-    __tablename__ = "skill"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    skill:Mapped[str] = mapped_column(String(120), nullable=False)
-
-    def serialize(self):
-            return {
-                "id": self.id,
-                "skill": self.skill,
-                # do not serialize the password, its a security breach
-            }
