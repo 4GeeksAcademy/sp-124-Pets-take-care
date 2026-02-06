@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../main";
 
 
 const InfoPet = () => {
@@ -18,7 +19,7 @@ const InfoPet = () => {
     
     const readPet = () => {
         fetch(
-            `https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/pets/${id}`
+             BACKEND_URL + `api/pets/${id}`
         )
             .then(resp => {
                 if (!resp.ok) {

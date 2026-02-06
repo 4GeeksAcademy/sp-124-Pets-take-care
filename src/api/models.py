@@ -10,8 +10,8 @@ class User(db.Model):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name:Mapped[str] = mapped_column(String(120), nullable=False)
-    last_name:Mapped[str] = mapped_column(String(120), nullable=False)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    last_name: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
@@ -66,7 +66,7 @@ class Skill(db.Model):
     __tablename__ = "skill"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    skill:Mapped[str] = mapped_column(String(120), nullable=False)
+    skill: Mapped[str] = mapped_column(String(120), nullable=False)
 
     def serialize(self):
             return {
