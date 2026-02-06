@@ -14,6 +14,7 @@ export const Navbar = () => {
 				</Link>
 				<button className="btn btn-primary" onClick={()=>navigate("/")}>Go Home</button>
 				<button className="btn btn-primary" onClick={()=>navigate("/sitters")}>Go Sitters</button>
+				<button className="btn btn-primary" onClick={()=>navigate("/pets")}>Go Pets</button>
 				<div className="ml-auto">
 					<Link to="/clients" className="btn btn-primary me-3">Client's List</Link>
 					<Link to="/skills" className="btn btn-primary me-3">Skill's List</Link>
