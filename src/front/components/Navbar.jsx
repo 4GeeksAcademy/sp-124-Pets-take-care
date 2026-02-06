@@ -15,12 +15,8 @@ export const Navbar = () => {
 				<button className="btn btn-primary" onClick={()=>navigate("/")}>Go Home</button>
 				<button className="btn btn-primary" onClick={()=>navigate("/sitters")}>Go Sitters</button>
 				<div className="ml-auto">
-					<Link to="/clients">
-						<button className="btn btn-primary me-3">Client's List</button>
-					</Link>
-					<Link to="/newclients">
-						<button className="btn btn-primary">Create Client</button>
-					</Link>
+					<Link to="/clients" className="btn btn-primary me-3">Client's List</Link>
+					<Link to="/skills" className="btn btn-primary me-3">Skill's List</Link>
 				</div>
 				
 			</div>

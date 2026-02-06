@@ -46,16 +46,29 @@ class Sitter(db.Model):
 
 
     def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "last_name":self.last_name,
-            "email": self.email,
-            "phone": self.phone,
-            "studies": self.studies,
-            "studies_comment": self.studies_comment,
-            "address": self.address,
-            "is_active": self.is_active
+            return {
+                "id": self.id,
+                "name": self.name,
+                "last_name":self.last_name,
+                "email": self.email,
+                "phone": self.phone,
+                "studies": self.studies,
+                "studies_comment": self.studies_comment,
+                "address": self.address,
+                "is_active": self.is_active
 
-            # do not serialize the password, its a security breach
-        }
+                # do not serialize the password, its a security breach
+            }
+    
+class Skill(db.Model):
+    __tablename__ = "skill"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    skill:Mapped[str] = mapped_column(String(120), nullable=False)
+
+    def serialize(self):
+            return {
+                "id": self.id,
+                "skill": self.skill
+                # do not serialize the password, its a security breach
+            }
