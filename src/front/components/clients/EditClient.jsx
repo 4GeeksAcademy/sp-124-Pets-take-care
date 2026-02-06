@@ -16,7 +16,7 @@ const EditClient = () => {
     const [editarActive, setEditarActive] = useState(false);
 
     useEffect(() => {
-        fetch(`https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients/${id}`)
+        fetch(BACKEND_URL+`api/clients/${id}`)
             .then(res => res.json())
             .then(data => {
                 setEditarName(data.name);
@@ -31,7 +31,7 @@ const EditClient = () => {
     const editClient = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients/${id}`,
+            const response = await fetch(BACKEND_URL+`api/clients/${id}`,
                 {
                     method: "PUT",
                     headers: {

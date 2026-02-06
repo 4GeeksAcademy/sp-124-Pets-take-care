@@ -12,7 +12,7 @@ const SkillsList = () => {
     }, [])
 
     const getSkills = () => {
-        fetch("https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/skills")
+        fetch(BACKEND_URL+"api/skills")
             .then(resp => {
                 if (!resp.ok) {
                     throw new Error("something went wrong")
@@ -27,7 +27,7 @@ const SkillsList = () => {
     const deleteSkills = async (id) => {
 
         const response = await fetch(
-            `https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/skills/${id}`,
+            BACKEND_URL+`api/skills/${id}`,
             {
                 method: "DELETE"
             }

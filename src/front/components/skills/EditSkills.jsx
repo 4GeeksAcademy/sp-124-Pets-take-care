@@ -11,7 +11,7 @@ const EditSkill = () => {
 
 
     useEffect(() => {
-        fetch(`https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/skills/${id}`)
+        fetch(BACKEND_URL+`api/skills/${id}`)
             .then(res => res.json())
             .then(data => {
                 setEditSkill(data.skill);
@@ -21,7 +21,7 @@ const EditSkill = () => {
     const putSkill = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/skills/${id}`,
+            const response = await fetch(BACKEND_URL+`api/skills/${id}`,
                 {
                     method: "PUT",
                     headers: {
