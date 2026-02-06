@@ -3,6 +3,9 @@ from sqlalchemy import String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date
 from sqlalchemy import Date
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+from typing import List
 
 db = SQLAlchemy()
 
@@ -17,6 +20,8 @@ class User(db.Model):
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+
+    pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user")
 
 
     def serialize(self):
@@ -45,6 +50,8 @@ class Sitter(db.Model):
     studies_comment: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=True)
+
+    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="sitter")
 
 
     def serialize(self):
@@ -87,10 +94,14 @@ class Pet(db.Model):
     color:Mapped[str] = mapped_column(String(120), nullable=True)
     has_nie: Mapped[bool] = mapped_column(Boolean(), nullable=False)
     nie: Mapped[str] = mapped_column(String(120), nullable=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     special_care: Mapped[bool] = mapped_column(Boolean(), nullable=True)
     birth_date: Mapped[date] = mapped_column(Date, nullable=True)
     type_food: Mapped[str] = mapped_column(String(120), nullable=True)
     sterilized: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+
+    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="pet")
+    user: Mapped["User"] = relationship("User", back_populates="pets")
     
 
 
@@ -109,4 +120,21 @@ class Pet(db.Model):
             "sterilized": self.sterilized,
 
             # do not serialize the password, its a security breach
+        }
+
+class SitterPet(db.Model):
+      __tablename__ = "sitterpet"
+
+      id: Mapped[int] = mapped_column(primary_key=True)
+      sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
+      pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
+
+      sitter: Mapped["Sitter"] = relationship(back_populates="sitterpets")
+      pet: Mapped["Pet"] = relationship(back_populates="sitterpets")
+      
+      def serialize(self):
+       
+        return {
+            "sitter_id": self.sitter_id,
+            "pet_id": self.pet_id
         }
