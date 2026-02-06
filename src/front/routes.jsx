@@ -19,6 +19,10 @@ import ClientList from "./components/clients/ClientList";
 import ViewClient from "./components/clients/ViewClient";
 import EditClient from "./components/clients/EditClient";
 import NewClient from "./components/clients/NewClient";
+import SkillsList from "./components/skills/SkillsList";
+import NewSkill from "./components/skills/NewSkill";
+import EditSkill from "./components/skills/EditSkills";
+import ViewSkills from "./components/skills/ViewSkill";
 
 
 export const router = createBrowserRouter(
@@ -40,8 +44,14 @@ export const router = createBrowserRouter(
         <Route path= "/viewclients/:id" element={<ViewClient />} />
         <Route path= "/editclients/:id" element={<EditClient />} />
 
-        
+        <Route path= "/newskills" element={<NewSkill />} />
+        <Route path= "/skills" element={<SkillsList />} />
+        <Route path= "/viewskills/:id" element={<ViewSkills />} />
+        <Route path= "/editskills/:id" element={<EditSkill />} />
+
+        <Route path="/single/:theId" element={ <Single />} />
         <Route path="/demo" element={<Demo />} />
+          
         <Route path="/pets" element={ <Pets />} />
         <Route path="/pets/:id" element={ <InfoPet />} />
         <Route path="/pets/create" element={ <CreatePet />} />

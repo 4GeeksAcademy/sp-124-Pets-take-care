@@ -58,45 +58,6 @@ def signup_sitter():
     return jsonify(response_body), 201
 
 
-@api.route("/clients", methods=["POST"])
-def create_clients():
-
-    body = request.get_json()
-    if not body:
-        return jsonify({"msg": "Request body is required"}), 400
-
-    name = body.get("name", None)
-    last_name = body.get("last_name", None)
-    email = body.get("email", None)
-    password = body.get("password", None)
-    phone = body.get("phone", None)
-    address = body.get("address", None)
-    is_active = body.get("is_active", None)
-    if not email or not password or not name or not last_name or not is_active:
-        return jsonify({"msg": "All fields are required"}), 400
-
-    user = db.session.execute(select(User).where(
-        User.email == email)).scalar_one_or_none()
-    if user:
-        return jsonify({"msg": "user already exist"}), 401
-
-    user = User(name=body["name"],
-                last_name=body["last_name"],
-                email=body["email"],
-                password=body["password"],
-                phone=phone,
-                address=address,
-                is_active=body["is_active"])
-
-    db.session.add(user)
-    db.session.commit()
-    response_body = {
-        "msg": "Created user"
-    }
-
-    return jsonify(response_body), 201
-
-
 @api.route('/sitters', methods=['GET'])
 def get_sitters():
 
@@ -163,6 +124,45 @@ def delete_sitter(sitter_id):
     return jsonify({"msg": "Sitter deleted"}), 200
 
 
+@api.route("/clients", methods=["POST"])
+def create_clients():
+
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    name = body.get("name", None)
+    last_name = body.get("last_name", None)
+    email = body.get("email", None)
+    password = body.get("password", None)
+    phone = body.get("phone", None)
+    address = body.get("address", None)
+    is_active = body.get("is_active", None)
+    if not email or not password or not name or not last_name or not is_active:
+        return jsonify({"msg": "All fields are required"}), 400
+
+    user = db.session.execute(select(User).where(
+        User.email == email)).scalar_one_or_none()
+    if user:
+        return jsonify({"msg": "user already exist"}), 401
+
+    user = User(name=body["name"],
+                last_name=body["last_name"],
+                email=body["email"],
+                password=body["password"],
+                phone=phone,
+                address=address,
+                is_active=body["is_active"])
+
+    db.session.add(user)
+    db.session.commit()
+    response_body = {
+        "msg": "Created user"
+    }
+
+    return jsonify(response_body), 201
+
+
 @api.route("/clients", methods=["GET"])
 def get_clients():
     users = db.session.execute(select(User)).scalars().all()
@@ -216,6 +216,77 @@ def delete_clien(client_id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({"msg": "Client deleted"}), 200
+
+@api.route("/skills", methods=["POST"])
+def create_skills():
+
+
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    skill = body.get("skill", None)
+    if not skill:
+        return jsonify({"msg": "All fields are required"}), 400
+
+    skill = db.session.execute(select(Skill).where(
+        Skill.skill == skill)).scalar_one_or_none()
+    if skill:
+        return jsonify({"msg": "Skill already exist"}), 401
+
+    skill = Skill(skill=body["skill"])
+
+    db.session.add(skill)
+    db.session.commit()
+    response_body = {
+        "msg": "Created skill"
+    }
+
+    return jsonify(response_body), 201
+
+@api.route("/skills", methods=["GET"])
+def get_skills():
+    skills = db.session.execute(select(Skill)).scalars().all()
+
+    result = list(map(lambda skill: skill.serialize(), skills))
+
+    return jsonify(result), 200
+
+@api.route('/skills/<int:skill_id>', methods=['GET'])
+def get_skill(skill_id):
+
+    skill = db.session.get(Skill, skill_id)
+
+    if skill is None:
+        return jsonify({"message": "Skill not found"}), 404
+
+    return jsonify(skill.serialize()), 200
+
+@api.route('/skills/<int:skill_id>', methods=['PUT'])
+def put_skill(skill_id):
+
+    body = request.get_json()
+    skill = db.session.get(Skill, skill_id)
+    if skill is None:
+        return jsonify({"message": "Skill not found"}), 404
+
+    skill.skill = body.get("skill", skill.skill)
+    db.session.commit()
+    return jsonify({"msg": "Skill updated successfully"}), 200
+
+@api.route('/skills/<int:skills_id>', methods=['DELETE'])
+def delete_skill(skills_id):
+
+    skill = db.session.execute(
+        select(Skill)
+        .where(Skill.id == skills_id,)).scalar_one_or_none()
+
+    if skill is None:
+        return jsonify({"msg": "Skill not found"}), 404
+
+    db.session.delete(skill)
+    db.session.commit()
+    return jsonify({"msg": "Skill deleted"}), 200
 
 @api.route('/pets', methods=['GET'])
 def get_pets():

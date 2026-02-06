@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 
 
@@ -50,6 +50,9 @@ const ClientList = () => {
     return (
         <div className="container">
             <div className="row">
+                <div className="d-flex justify-content-end my-3">
+                    <Link to="/newclients" className="btn btn-primary">Create Client</Link>
+                </div>
                 {
                     client?.map(el =>
                         <div className="col-lg-12" key={el.id}>
