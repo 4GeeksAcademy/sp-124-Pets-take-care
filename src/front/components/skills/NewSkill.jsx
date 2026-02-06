@@ -10,7 +10,7 @@ const NewSkill = () => {
     const postSkill = async () => {
 
         const response = await fetch(
-            "https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/skills",
+            BACKEND_URL+"api/skills",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
