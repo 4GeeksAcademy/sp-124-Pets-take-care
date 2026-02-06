@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const InfoSitter = () => {
 
+    const navigate = useNavigate();
     const { id } = useParams();
     const [sitter, setSitter] = useState(null)
 
@@ -62,7 +64,9 @@ const InfoSitter = () => {
                 <strong>Active:</strong>{" "}
                 {sitter.is_active ? "Yes" : "No"}
             </p>
+            <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/sitters")}>go back</button>
         </div>
+        
     );
 }
 

@@ -64,7 +64,7 @@ const EditSitter = () => {
             console.error(error);
             alert("Could not update sitter");
         }
-        console.log("ID desde useParams:", id, typeof id);
+        
     };
 
 

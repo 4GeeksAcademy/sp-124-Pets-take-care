@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Sitter, Skill
+from api.models import db, User, Sitter, Pet, Skill
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
@@ -102,8 +102,7 @@ def get_sitters():
 
     sitters = db.session.execute(select(Sitter)).scalars().all()
 
-    results_sitters = list(
-        map(lambda personaje: personaje.serialize(), sitters))
+    results_sitters = list(map(lambda sitter: sitter.serialize(), sitters))
 
     return jsonify(results_sitters), 200
 
@@ -217,3 +216,110 @@ def delete_clien(client_id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({"msg": "Client deleted"}), 200
+
+@api.route('/pets', methods=['GET'])
+def get_pets():
+
+    pets = db.session.execute(select(Pet)).scalars().all()
+
+    results_pets = list(map(lambda pet: pet.serialize(), pets))
+
+    return jsonify(results_pets), 200
+
+
+@api.route('/pets/<int:pet_id>', methods=['GET'])
+def get_pet(pet_id):
+
+    pet = db.session.get(Pet, pet_id )
+
+    if pet is None:
+       return jsonify({"message": "Pet not found"}), 404
+
+    return jsonify(pet.serialize()), 200
+
+@api.route("/signup/pets", methods=["POST"])
+def add_pet():
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+    
+    name = body.get("name", None)
+    species = body.get("species", None)
+    race = body.get("race", None)
+    gender = body.get("gender", None)
+    color = body.get("color", None)
+    nie =  body.get("nie", None)
+    birth_date =  body.get("birth_date", None)
+    type_food =  body.get("type_food", None)
+    special_care = body.get("special_care", None)
+    sterilized = body.get("sterilized", None)
+    
+
+    
+    if not name or not species:
+        return jsonify({"msg": "name and species fields are required"}), 400
+    
+    pet = db.session.execute(select(Pet).where(Pet.nie == nie)).scalar_one_or_none()
+    if pet:
+        return jsonify({"msg": "pet already exist"}), 409
+    
+    pet = Pet(name=body["name"],
+                  species=body["species"],
+                  has_nie=body["has_nie"],
+                  sterilized=body["sterilized"]
+                ) 
+    
+    db.session.add(pet)
+    db.session.commit() 
+    response_body = {
+        "msg": "Pet added"
+    }          
+      
+    return jsonify(response_body), 201
+
+@api.route('/pets/<int:pet_id>', methods=['PUT'])
+def put_pet(pet_id):
+
+    body = request.get_json()
+    if body is None:
+        return jsonify({"message": "Request body is required"}), 400
+    
+    pet = db.session.get(Pet, pet_id)
+    if pet is None:
+       return jsonify({"message": "Pet not found"}), 404
+    
+   
+
+    pet.name = body.get("name", pet.name)
+    pet.species = body.get("species", pet.species)
+    pet.race = body.get("race", pet.race)
+    pet.gender = body.get("gender", pet.gender)
+    pet.color = body.get("color", pet.color)
+    pet.nie = body.get("nie", pet.nie)
+    pet.birth_date = body.get("birth_date", pet.birth_date)
+    pet.type_food = body.get("type_food", pet.type_food)
+    pet.special_care = body.get("special_care", pet.special_care)
+    pet.sterilized = body.get("sterilized", pet.sterilized)
+
+    db.session.commit()
+
+    return jsonify({"msg": "Pet updated successfully"}), 200
+
+
+@api.route('/pets/<int:pet_id>', methods=['DELETE'])
+def delete_pet(pet_id):
+
+
+    pet = db.session.execute(
+        select(Pet)
+        .where( Pet.id == pet_id,)).scalar_one_or_none()
+   
+    if pet is None:
+     return jsonify({"msg": "Pet not found"}), 404
+
+   
+    db.session.delete(pet)
+    db.session.commit()
+
+
+    return jsonify({"msg": "pet deleted"}), 200
