@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { BACKEND_URL } from "../main";
 
 const CreatePet = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const CreatePet = () => {
 
   const newPet = async () => {
     const response = await fetch(
-      "https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/signup/pets",
+      BACKEND_URL + "api/signup/pets",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
