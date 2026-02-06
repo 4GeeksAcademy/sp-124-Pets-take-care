@@ -32,7 +32,7 @@ const NewSkill = () => {
 
     return (
         <div className="container">
-            <h1>New Client</h1>
+            <h1>New Skill</h1>
 
             <form>
                 <div className="container">

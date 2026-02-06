@@ -59,8 +59,8 @@ const EditSkill = () => {
                     <label className="form-label">Name</label>
                     <input type="text" className="form-control" value={editSkill} onChange={e => setEditSkill(e.target.value)} />
                 </div>
-                <button type="submit" className="btn btn-primary">Edit Client</button>
-                <Link className="btn btn-primary ms-2" to="/clients">Back</Link>
+                <button type="submit" className="btn btn-primary">Edit Skill</button>
+                <Link className="btn btn-primary ms-2" to="/skills">Back</Link>
             </form>
         </div>
     )
