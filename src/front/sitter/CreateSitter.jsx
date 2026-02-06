@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../main";
 
 const CreateSitter = () => {
   const navigate = useNavigate();
@@ -13,8 +14,18 @@ const CreateSitter = () => {
 
   const newSitter = async () => {
 
+    const prueba = {
+          "name": name,
+          "last_name": lastName,
+          "email": email,
+          "password": password,
+          "confirm_password": confirmPassword,
+
+        }
+        console.log(prueba)
+
     const response = await fetch(
-      BACKEND_URL +  "signup/sitters",
+      BACKEND_URL+"api/signup/sitters",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

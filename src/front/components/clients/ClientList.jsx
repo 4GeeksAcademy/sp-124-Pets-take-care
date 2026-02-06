@@ -14,7 +14,7 @@ const ClientList = () => {
     }, [])
 
     const getClients = () => {
-        fetch("https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients")
+        fetch(BACKEND_URL+"api/clients")
             .then(resp => {
                 if (!resp.ok) {
                     throw new Error("something went wrong")
@@ -29,7 +29,7 @@ const ClientList = () => {
     const deleteClients = async (id) => {
 
         const response = await fetch(
-            `https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients/${id}`,
+            BACKEND_URL+`api/clients/${id}`,
             {
                 method: "DELETE"
             }

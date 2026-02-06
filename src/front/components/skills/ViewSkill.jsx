@@ -15,7 +15,7 @@ const ViewSkills = () => {
 
     const getSkill = () => {
         fetch(
-            `https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/skills/${id}`
+            BACKEND_URL+`api/skills/${id}`
         )
             .then(resp => {
                 if (!resp.ok) {

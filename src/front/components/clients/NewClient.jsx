@@ -14,7 +14,7 @@ const NewClient = () => {
     const postClient = async () => {
 
         const response = await fetch(
-            "https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients",
+            BACKEND_URL+"api/clients",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
