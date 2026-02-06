@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
 
 
 const ViewClient = () => {

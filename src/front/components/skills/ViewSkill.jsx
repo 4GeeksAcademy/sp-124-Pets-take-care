@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
 
 
 const ViewSkills = () => {
@@ -8,7 +9,6 @@ const ViewSkills = () => {
     const [skill, setSkill] = useState(null)
 
     useEffect(() => {
-
         getSkill()
 
     }, [id])

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
 
 const NewSkill = () => {
     const navigate = useNavigate();
