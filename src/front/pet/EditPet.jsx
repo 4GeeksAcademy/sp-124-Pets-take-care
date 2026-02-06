@@ -20,7 +20,7 @@ const EditPet = () => {
     const [editarSterilized, setEditarSterilized] = useState(false);
 
     useEffect(() => {
-        fetch(`https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/pets/${id}`)
+        fetch( BACKEND_URL + `api/pets/${id}`)
             .then(res => res.json())
             .then(data => {
                 setEditarName(data.name);
@@ -38,7 +38,7 @@ const EditPet = () => {
 
     const updatePet = async () => {
         try {
-            const response = await fetch(`https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/pets/${id}`,
+            const response = await fetch( BACKEND_URL + `api/pets/${id}`,
                 {
                     method: "PUT",
                     headers: {

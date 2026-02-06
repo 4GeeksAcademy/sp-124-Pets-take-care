@@ -19,7 +19,7 @@ const Sitters = () => {
 
 
     const readSitters = () => {
-        fetch("https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/sitters")
+        fetch( BACKEND_URL + "api/sitters")
             .then(resp => {
                 if (!resp.ok) {
                     throw new Error("something went wrong")

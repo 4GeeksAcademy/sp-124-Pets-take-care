@@ -19,7 +19,7 @@ const Pets = () => {
 
 
     const readPets = () => {
-        fetch("https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/pets")
+        fetch( BACKEND_URL + "api/pets")
             .then(resp => {
                 if (!resp.ok) {
                     throw new Error("something went wrong")
@@ -36,7 +36,7 @@ const Pets = () => {
     const deletePet = async (id) => {
   
     const response = await fetch(
-      `https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/pets/${id}`,
+      BACKEND_URL +  `api/pets/${id}`,
       {
         method: "DELETE"
       }

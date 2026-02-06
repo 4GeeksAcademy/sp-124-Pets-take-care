@@ -14,7 +14,7 @@ const CreateSitter = () => {
   const newSitter = async () => {
 
     const response = await fetch(
-      "https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/signup/sitters",
+      BACKEND_URL +  "signup/sitters",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

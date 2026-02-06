@@ -19,7 +19,8 @@ const EditSitter = () => {
     const [editarActive, setEditarActive] = useState(false);
 
     useEffect(() => {
-        fetch(`https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/sitters/${id}`)
+        fetch(
+            BACKEND_URL + `sitters/${id}`)
             .then(res => res.json())
             .then(data => {
                 setEditarName(data.name);
@@ -35,7 +36,8 @@ const EditSitter = () => {
 
     const updateSitter = async () => {
         try {
-            const response = await fetch(`https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/sitters/${id}`,
+            const response = await fetch(
+                BACKEND_URL + `api/sitters/${id}`,
                 {
                     method: "PUT",
                     headers: {

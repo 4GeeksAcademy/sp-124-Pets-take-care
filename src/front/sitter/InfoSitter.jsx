@@ -18,7 +18,7 @@ const InfoSitter = () => {
     
     const readSitter = () => {
         fetch(
-            `https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/sitters/${id}`
+            BACKEND_URL + `api/sitters/${id}`
         )
             .then(resp => {
                 if (!resp.ok) {

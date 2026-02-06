@@ -66,7 +66,7 @@ class Skill(db.Model):
     __tablename__ = "skill"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    skill:Mapped[str] = mapped_column(String(120), nullable=False)
+    skill: Mapped[str] = mapped_column(String(120), nullable=False)
 
     def serialize(self):
             return {
