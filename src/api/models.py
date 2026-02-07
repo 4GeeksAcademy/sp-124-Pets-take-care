@@ -9,13 +9,15 @@ from typing import List
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     last_name: Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(
+        String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
@@ -23,52 +25,57 @@ class User(db.Model):
 
     pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user")
 
-
     def serialize(self):
-            return {
-                "id": self.id,
-                "name": self.name,
-                "last_name": self.last_name,
-                "email": self.email,
-                "phone": self.phone,
-                "address": self.address,
-                "is_active": self.is_active
-                # do not serialize the password, its a security breach
-            }
+        return {
+            "id": self.id,
+            "name": self.name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "phone": self.phone,
+            "address": self.address,
+            "is_active": self.is_active
+            # do not serialize the password, its a security breach
+        }
+
 
 class Sitter(db.Model):
     __tablename__ = "sitter"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name:Mapped[str] = mapped_column(String(120), nullable=False)
-    last_name:Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    last_name: Mapped[str] = mapped_column(String(120), nullable=False)
+    email: Mapped[str] = mapped_column(
+        String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
-    confirm_password:Mapped[str] = mapped_column(nullable=False)
+    confirm_password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     studies: Mapped[bool] = mapped_column(Boolean(), nullable=True)
     studies_comment: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=True)
 
-    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="sitter")
+    sitterpets: Mapped[List["SitterPet"]] = relationship(
+        back_populates="sitter")
 
+    def __repr__(self):
+        return f"<Sitter id={self.id} name={self.name}> email={self.email}>"
 
     def serialize(self):
-            return {
-                "id": self.id,
-                "name": self.name,
-                "last_name":self.last_name,
-                "email": self.email,
-                "phone": self.phone,
-                "studies": self.studies,
-                "studies_comment": self.studies_comment,
-                "address": self.address,
-                "is_active": self.is_active
+        return {
+            "id": self.id,
+            "name": self.name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "phone": self.phone,
+            "studies": self.studies,
+            "studies_comment": self.studies_comment,
+            "address": self.address,
+            "is_active": self.is_active
 
-                # do not serialize the password, its a security breach
-            }
-    
+            # do not serialize the password, its a security breach
+        }
+
+
 class Skill(db.Model):
     __tablename__ = "skill"
 
@@ -76,22 +83,22 @@ class Skill(db.Model):
     skill: Mapped[str] = mapped_column(String(120), nullable=False)
 
     def serialize(self):
-            return {
-                "id": self.id,
-                "skill": self.skill
-                # do not serialize the password, its a security breach
-            }
+        return {
+            "id": self.id,
+            "skill": self.skill
+            # do not serialize the password, its a security breach
+        }
 
 
 class Pet(db.Model):
     __tablename__ = "pet"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name:Mapped[str] = mapped_column(String(120), nullable=False)
-    species:Mapped[str] = mapped_column(String(120), nullable=False)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    species: Mapped[str] = mapped_column(String(120), nullable=False)
     race: Mapped[str] = mapped_column(String(120), nullable=True)
     gender: Mapped[str] = mapped_column(String(120), nullable=True)
-    color:Mapped[str] = mapped_column(String(120), nullable=True)
+    color: Mapped[str] = mapped_column(String(120), nullable=True)
     has_nie: Mapped[bool] = mapped_column(Boolean(), nullable=False)
     nie: Mapped[str] = mapped_column(String(120), nullable=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
@@ -102,14 +109,15 @@ class Pet(db.Model):
 
     sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="pet")
     user: Mapped["User"] = relationship("User", back_populates="pets")
-    
 
+    def __repr__(self):
+        return f"<Pet id={self.id} name={self.name} species={self.species}>"
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "species":self.species,
+            "species": self.species,
             "race": self.race,
             "gender": self.gender,
             "color": self.color,
@@ -122,18 +130,20 @@ class Pet(db.Model):
             # do not serialize the password, its a security breach
         }
 
+
 class SitterPet(db.Model):
-      __tablename__ = "sitterpet"
+    __tablename__ = "sitterpet"
 
-      id: Mapped[int] = mapped_column(primary_key=True)
-      sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
-      pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    sitter_id: Mapped[int] = mapped_column(
+        ForeignKey("sitter.id"), nullable=False)
+    pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
 
-      sitter: Mapped["Sitter"] = relationship(back_populates="sitterpets")
-      pet: Mapped["Pet"] = relationship(back_populates="sitterpets")
-      
-      def serialize(self):
-       
+    sitter: Mapped["Sitter"] = relationship(back_populates="sitterpets")
+    pet: Mapped["Pet"] = relationship(back_populates="sitterpets")
+
+    def serialize(self):
+
         return {
             "sitter_id": self.sitter_id,
             "pet_id": self.pet_id
