@@ -25,6 +25,9 @@ class User(db.Model):
 
     pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user")
 
+    def __repr__(self):
+        return f"<User id={self.id} name={self.name}> email={self.email}>"
+
     def serialize(self):
         return {
             "id": self.id,

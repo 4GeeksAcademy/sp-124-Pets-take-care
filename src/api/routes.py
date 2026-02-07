@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Sitter, Pet, Skill
+from api.models import db, User, Sitter, Pet, Skill, SitterPet
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
@@ -378,7 +378,7 @@ def put_pet(pet_id):
 
 
 @api.route('/pets/<int:pet_id>', methods=['DELETE'])
-def delete_pet(pet_id):
+def remove_pet(pet_id):
 
 
     pet = db.session.execute(
@@ -394,3 +394,57 @@ def delete_pet(pet_id):
 
 
     return jsonify({"msg": "pet deleted"}), 200
+
+
+@api.route("/sitter/<int:sitter_id>/pet/<int:pet_id>", methods=["POST"])
+def add_pet_to_sitter(sitter_id, pet_id):
+    
+    sitter = Sitter.query.get(sitter_id)
+    if not sitter:
+        return {"msg": "Sitter not found"}, 404
+    
+    pet = Pet.query.get(pet_id)
+    if not pet:
+        return {"msg": "Pet not found"}, 404
+    
+    already_exist = SitterPet.query.filter_by(
+        sitter_id=sitter_id,
+        pet_id=pet_id
+    ).first() 
+
+    if already_exist:
+        return {"msg": "this sitter already has this pet in their care"}, 400
+    
+    
+    care = SitterPet(
+                sitter_id= sitter_id,
+                pet_id= pet_id
+                ) 
+    
+    db.session.add(care)
+    db.session.commit() 
+    response_body = {
+        "msg": "Pet assigned to sitter"
+    }          
+      
+    return jsonify(response_body), 201
+
+
+@api.route("/sitter/<int:sitter_id>/pet/<int:pet_id>", methods=['DELETE'])
+def remove_pet_from_sitter(sitter_id, pet_id):
+
+    sitter_care_pet = SitterPet.query.filter_by(
+        sitter_id=sitter_id,
+        pet_id=pet_id
+    ).first() 
+
+    if not sitter_care_pet:
+        return {"msg": "this sitter doesn't take care of this pet"}, 400
+   
+    
+   
+    db.session.delete(sitter_care_pet)
+    db.session.commit()
+
+
+    return jsonify({"msg": "pet removed from sitter"}), 200
