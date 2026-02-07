@@ -1,11 +1,11 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
 
 	const { store, dispatch } = useGlobalReducer()
-
 	const loadMessage = async () => {
 		try {
 			const backendUrl = import.meta.env.VITE_BACKEND_URL
@@ -46,6 +46,7 @@ export const Home = () => {
 						Loading message from the backend (make sure your python 🐍 backend is running)...
 					</span>
 				)}
+
 			</div>
 		</div>
 	);
