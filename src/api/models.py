@@ -93,7 +93,7 @@ class Pet(db.Model):
             "birth_date": self.birth_date.isoformat() if self.birth_date else None,
             "type_food": self.type_food,
             "special_care": self.special_care,
-            "sterilized": self.sterilized,
-
-            # do not serialize the password, its a security breach
+            "sterilized": self.sterilized
+          
+          # do not serialize the password, its a security breach
         }
