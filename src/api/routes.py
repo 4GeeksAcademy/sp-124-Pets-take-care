@@ -446,6 +446,30 @@ def remove_pet_from_sitter(sitter_id, pet_id):
 
     return jsonify({"msg": "pet removed from sitter"}), 200
 
+@api.route("/sitterpet", methods=["GET"])
+def get_sitterpets():
+   
+    sitterpets = db.session.execute(select(SitterPet)).scalars().all()
+    
+
+    result = list(map(lambda sitterpet: sitterpet.serialize(), sitterpets))
+
+    return jsonify(result), 200
+
+
+@api.route('/sitter/<int:sitter_id>/pets', methods=['GET'])
+def get_pets_sitter(sitter_id):
+
+    
+    sitterpets = db.session.scalars(
+        select(SitterPet).where(
+            SitterPet.sitter_id == sitter_id)
+    ).all()
+    
+    result = [sp.serialize() for sp in sitterpets]
+
+    return jsonify(result), 200 
+
 
 @api.route("/services", methods=["POST"])
 def create_services():
