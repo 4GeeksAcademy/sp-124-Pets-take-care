@@ -23,6 +23,10 @@ import SkillsList from "./components/skills/SkillsList";
 import NewSkill from "./components/skills/NewSkill";
 import EditSkill from "./components/skills/EditSkills";
 import ViewSkills from "./components/skills/ViewSkill";
+import NewService from "./components/services/NewService";
+import ServiceList from "./components/services/ServiceList";
+import ViewService from "./components/services/ViewService";
+import EditService from "./components/services/EditService";
 
 
 export const router = createBrowserRouter(
@@ -56,6 +60,11 @@ export const router = createBrowserRouter(
         <Route path="/pets/:id" element={ <InfoPet />} />
         <Route path="/pets/create" element={ <CreatePet />} />
         <Route path="/pets/edit/:id" element={ <EditPet />} />
+
+        <Route path= "/newservices" element={<NewService />} />
+        <Route path= "/services" element={<ServiceList />} />
+        <Route path= "/viewservices/:id" element={<ViewService />} />
+        <Route path= "/editservices/:id" element={<EditService />} />
       </Route>
     )
 );
