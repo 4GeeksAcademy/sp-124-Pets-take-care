@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean
+from sqlalchemy import String, Boolean, Numeric
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date
 from sqlalchemy import Date
@@ -150,4 +150,21 @@ class SitterPet(db.Model):
         return {
             "sitter_id": self.sitter_id,
             "pet_id": self.pet_id
+        }
+    
+class Services(db.Model):
+    __tablename__ = "services"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    service_name: Mapped[str] = mapped_column(String(120), nullable=False)
+    duration_minutes: Mapped[int] = mapped_column(nullable=False)
+    cost: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "service_name": self.service_name,
+            "duration_minutes": self.duration_minutes,
+            "cost": float(self.cost)
+            # do not serialize the password, its a security breach
         }
