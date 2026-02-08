@@ -204,7 +204,7 @@ def put_client(client_id):
 
 
 @api.route('/clients/<int:client_id>', methods=['DELETE'])
-def delete_clien(client_id):
+def delete_client(client_id):
 
     user = db.session.execute(
         select(User)
@@ -475,16 +475,14 @@ def get_pets_sitter(sitter_id):
 def create_services():
 
     body = request.get_json()
-    print("BODY:", body)
+
     if not body:
         return jsonify({"msg": "Request body is required"}), 400
 
     service_name = body.get("service_name", None)
     duration_minutes = body.get("duration_minutes", None)
     cost = body.get("cost", None)
-    print("service_name:", service_name)
-    print("duration_minutes:", duration_minutes)
-    print("cost:", cost)
+
     if service_name is None or duration_minutes is None or cost is None:
         return jsonify({"msg": "All fields are required"}), 400
 
@@ -503,3 +501,53 @@ def create_services():
     }
 
     return jsonify(response_body), 201
+
+@api.route("/services", methods=["GET"])
+def get_services():
+    services = db.session.execute(select(Services)).scalars().all()
+
+    result = list(map(lambda service: service.serialize(), services))
+
+    return jsonify(result), 200
+
+
+@api.route('/services/<int:service_id>', methods=['GET'])
+def get_service(service_id):
+
+    service = db.session.get(Services, service_id)
+
+    if service is None:
+        return jsonify({"message": "Service not found"}), 404
+
+    return jsonify(service.serialize()), 200
+
+
+@api.route('/services/<int:service_id>', methods=['PUT'])
+def put_service(service_id):
+
+    body = request.get_json()
+    service = db.session.get(Services, service_id)
+    if service is None:
+        return jsonify({"message": "Service not found"}), 404
+
+    service.service_name = body.get("service_name", service.service_name)
+    service.duration_minutes = body.get("duration_minutes", service.duration_minutes)
+    service.cost = body.get("cost", service.cost)
+
+    db.session.commit()
+    return jsonify({"msg": "service updated successfully"}), 200
+
+
+@api.route('/services/<int:service_id>', methods=['DELETE'])
+def delete_service(service_id):
+
+    service = db.session.execute(
+        select(Services)
+        .where(Services.id == service_id,)).scalar_one_or_none()
+
+    if service is None:
+        return jsonify({"msg": "Service not found"}), 404
+
+    db.session.delete(service)
+    db.session.commit()
+    return jsonify({"msg": "Service deleted"}), 200
