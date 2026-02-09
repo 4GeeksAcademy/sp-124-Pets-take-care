@@ -57,8 +57,8 @@ class Sitter(db.Model):
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=True)
 
-    sitterpets: Mapped[List["SitterPet"]] = relationship(
-        back_populates="sitter")
+    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="sitter")
+    sitter_skills: Mapped[List["SitterSkills"]] = relationship(back_populates="sitter")
 
     def __repr__(self):
         return f"<Sitter id={self.id} name={self.name}> email={self.email}>"
@@ -84,6 +84,8 @@ class Skill(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     skill: Mapped[str] = mapped_column(String(120), nullable=False)
+
+    skills_sitter: Mapped[List["SitterSkills"]] = relationship(back_populates="skills")
 
     def serialize(self):
         return {
@@ -167,4 +169,21 @@ class Services(db.Model):
             "duration_minutes": self.duration_minutes,
             "cost": float(self.cost)
             # do not serialize the password, its a security breach
+        }
+    
+class SitterSkills(db.Model):
+    __tablename__ = "sitterskills"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
+    skill_id: Mapped[int] = mapped_column(ForeignKey("skill.id"), nullable=False)
+
+    sitter: Mapped["Sitter"] = relationship(back_populates="sitter_skills")
+    skills: Mapped["Skill"] = relationship(back_populates="skills_sitter")
+
+    def serialize(self):
+
+        return {
+            "sitter_name": self.sitter.name,
+            "skill_name": self.skills.skill
         }
