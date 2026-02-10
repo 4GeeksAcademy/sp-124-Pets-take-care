@@ -192,3 +192,7 @@ class SitterSkills(db.Model):
             "sitter_name": self.sitter.name,
             "skill_name": self.skills.skill
         }
+
+#como hacer una lista en un serialize, a una IA quiero que en esta lista se me agreguen las distintas skills del sitter
+#y se agrege en la misma lista, actualmente se genera una lista de arrays por cada skill, aunque las skills esrten asignadas a un mismo sitter
+#se generan distintos objetos dentro de un array.
