@@ -7,6 +7,7 @@ const CreatePet = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const [users, setUsers] = useState([])
 
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
@@ -15,8 +16,22 @@ const CreatePet = () => {
   const [sterilized, setSterilized] = useState(false);
 
 
+  useEffect(() => {
+  fetch(BACKEND_URL + "api/clients")
+    .then(r => r.json())
+    .then(data => setUsers(data))
+    .catch(err => console.log(err));
+}, []);
+
+  const getRandomUserId = () => {
+  if (users.length === 0) return null;
+  const random = users[Math.floor(Math.random() * users.length)];
+  return random.id;
+};
 
   const newPet = async () => {
+    const randomUserId = getRandomUserId(); 
+
     const response = await fetch(
       BACKEND_URL + "api/signup/pets",
       {
@@ -28,6 +43,7 @@ const CreatePet = () => {
           has_nie: hasNie,
           nie: nie,
           sterilized: sterilized,
+          user_id: randomUserId
         }),
       },
     );
