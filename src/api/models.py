@@ -40,15 +40,13 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
 
-
 class Sitter(db.Model):
     __tablename__ = "sitter"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     last_name: Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(
-        String(120), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     confirm_password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
@@ -58,10 +56,10 @@ class Sitter(db.Model):
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=True)
 
     sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="sitter")
-    sitter_skills: Mapped[List["SitterSkills"]] = relationship(back_populates="sitter")
+    sitter_skills: Mapped[List["SitterSkills"]] = relationship(back_populates="sitter", cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"<Sitter id={self.id} name={self.name}> email={self.email}>"
+        return f"<Sitter id={self.id} name={self.name} email={self.email}>"
 
     def serialize(self):
         return {
@@ -78,14 +76,13 @@ class Sitter(db.Model):
             # do not serialize the password, its a security breach
         }
 
-
 class Skill(db.Model):
     __tablename__ = "skill"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     skill: Mapped[str] = mapped_column(String(120), nullable=False)
 
-    skills_sitter: Mapped[List["SitterSkills"]] = relationship(back_populates="skills")
+    skills_sitter: Mapped[List["SitterSkills"]] = relationship(back_populates="skills", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
@@ -93,7 +90,6 @@ class Skill(db.Model):
             "skill": self.skill
             # do not serialize the password, its a security breach
         }
-
 
 class Pet(db.Model):
     __tablename__ = "pet"
@@ -135,7 +131,6 @@ class Pet(db.Model):
             # do not serialize the password, its a security breach
         }
 
-
 class SitterPet(db.Model):
     __tablename__ = "sitterpet"
 
@@ -175,6 +170,8 @@ class SitterSkills(db.Model):
     __tablename__ = "sitterskills"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+
+
     sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
     skill_id: Mapped[int] = mapped_column(ForeignKey("skill.id"), nullable=False)
 
