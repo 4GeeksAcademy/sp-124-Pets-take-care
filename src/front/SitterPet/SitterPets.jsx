@@ -5,22 +5,22 @@ import { BACKEND_URL } from "../main";
 
 
 
-const Sitters = () => {
+const SitterPets = () => {
 
-    const [sitters, setSitters] = useState([])
+    const [sitterPets, setSitterPets] = useState([])
     const { id } = useParams();
 
     const navigate = useNavigate();
 
     useEffect(() => {
 
-        readSitters()
+        readSitterPets()
 
     }, [])
 
 
-    const readSitters = () => {
-        fetch( BACKEND_URL + "api/sitters")
+    const readSitterPets = () => {
+        fetch( BACKEND_URL + "api/sitterpets")
             .then(resp => {
                 if (!resp.ok) {
                     throw new Error("something went wrong")
@@ -29,56 +29,54 @@ const Sitters = () => {
             })
 
             .then(data =>
-                setSitters(data)
+                setSitterPets(data)
             )
             .catch(err => console.log(err))
     }
 
-    const deleteSitter = async (id) => {
+    const deleteSitterPet = async (sitter_id, pet_id) => {
   
     const response = await fetch(
-      BACKEND_URL +  `api/sitters/${id}`,
+      BACKEND_URL + `api/sitters/${sitter_id}/pets/${pet_id}`,
       {
         method: "DELETE"
       }
     );
 
     if (!response.ok) {
-      throw new Error("Error deleting sitter");
+      throw new Error("Error deleting pet from sitter");
     }
 
-    if(response.ok) {
-        alert("Sitter Deleted")
-        window.location.reload();
-    }
 
+    setSitterPets(prev =>
+    prev.filter(el => !(el.sitter_id === sitter_id && el.pet_id === pet_id))
+    );
 };
 
     
 
     return (
         <div className="container">
-            <h1>Get Sitter</h1>
-            {sitters.map(el => (
+            <h1>Get relation sitter & pet</h1>
+            {sitterPets.map(el => (
                 <div
                     key={el.id}
                     className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center">
-                    <span>{el.name}</span>
+                    <span>
+                        👤{el.sitter_name}➤{el.pet_name}🐾
+                        </span>
                     <div>
-                    <button className="btn btn-primary" onClick={() => navigate(`/sitters/${el.id}`)}>info
+                    <button className="btn btn-primary" onClick={() => navigate(`/sitters/${el.id}/pets`)}>info
                     </button>
-                    <button className="btn btn-warning ms-2" onClick={() => navigate(`/sitters/edit/${el.id}`)}>Edit
+                    <button className="btn btn-warning ms-2" onClick={() => navigate(`/sitters/edit/${el.id}`)}>add pet
                     </button>
-                    <button className="btn btn-danger ms-2"  onClick={() => deleteSitter(el.id)}>Delete
+                    <button className="btn btn-danger ms-2"  onClick={() => deleteSitterPet(el.sitter_id, el.pet_id)}>Delete
                     </button>
                     </div>
                 </div>
             ))}
-            <div className="container">
-                <button className="btn btn-primary mt-5" onClick={() => navigate("/sitters/create")}>Go Create Sitter</button>
-            </div>
         </div>
 
     )
 }
-export default Sitters
+export default SitterPets

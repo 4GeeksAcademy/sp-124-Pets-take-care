@@ -150,8 +150,11 @@ class SitterPet(db.Model):
     def serialize(self):
 
         return {
-            "sitter_name": self.sitter.name,
-            "pet_name": self.pet.name
+           "id": self.id,
+           "sitter_id": self.sitter_id,
+           "pet_id": self.pet_id,
+           "sitter_name": self.sitter.name,
+           "pet_name": self.pet.name
         }
     
 class Services(db.Model):

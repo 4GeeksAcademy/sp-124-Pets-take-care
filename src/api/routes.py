@@ -397,7 +397,7 @@ def remove_pet(pet_id):
     return jsonify({"msg": "pet deleted"}), 200
 
 
-@api.route("/sitter/<int:sitter_id>/pet/<int:pet_id>", methods=["POST"])
+@api.route("/sitters/<int:sitter_id>/pets/<int:pet_id>", methods=["POST"])
 def add_pet_to_sitter(sitter_id, pet_id):
 
     sitter = Sitter.query.get(sitter_id)
@@ -430,7 +430,7 @@ def add_pet_to_sitter(sitter_id, pet_id):
     return jsonify(response_body), 201
 
 
-@api.route("/sitter/<int:sitter_id>/pet/<int:pet_id>", methods=['DELETE'])
+@api.route("/sitters/<int:sitter_id>/pets/<int:pet_id>", methods=['DELETE'])
 def remove_pet_from_sitter(sitter_id, pet_id):
 
     sitter_care_pet = SitterPet.query.filter_by(
@@ -446,7 +446,7 @@ def remove_pet_from_sitter(sitter_id, pet_id):
 
     return jsonify({"msg": "pet removed from sitter"}), 200
 
-@api.route("/sitterpet", methods=["GET"])
+@api.route("/sitterpets", methods=["GET"])
 def get_sitterpets():
    
     sitterpets = db.session.execute(select(SitterPet)).scalars().all()
@@ -457,7 +457,7 @@ def get_sitterpets():
     return jsonify(result), 200
 
 
-@api.route('/sitter/<int:sitter_id>/pets', methods=['GET'])
+@api.route('/sitters/<int:sitter_id>/pets', methods=['GET'])
 def get_pets_sitter(sitter_id):
 
     
