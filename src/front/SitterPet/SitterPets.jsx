@@ -8,18 +8,26 @@ import { BACKEND_URL } from "../main";
 const SitterPets = () => {
 
     const [sitterPets, setSitterPets] = useState([])
-    const { id } = useParams();
+    
+    const [sitters, setSitters] = useState([]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
 
-        readSitterPets()
+        ReadSitterPets()
+        ReadSitters()
 
     }, [])
 
 
-    const readSitterPets = () => {
+    const ReadSitters = () => {
+        fetch(BACKEND_URL + "api/sitters")
+            .then(r => r.json())
+            .then(data => setSitters(data));
+    }
+
+    const ReadSitterPets = () => {
         fetch(BACKEND_URL + "api/sitterpets")
             .then(resp => {
                 if (!resp.ok) {
@@ -55,54 +63,61 @@ const SitterPets = () => {
 
     const petsList = {};
 
-    sitterPets.forEach(el => {
-        if (!petsList[el.sitter_id]) {
-            petsList[el.sitter_id] = {
-                sitter_name: el.sitter_name,
-                pets: []
-            };
-        }
-
-        petsList[el.sitter_id].pets.push({
-            pet_name: el.pet_name,
-            pet_id: el.pet_id
-        });
+    sitters.forEach(sitter => {
+        petsList[sitter.id] = {
+            sitter_name: sitter.name,
+            pets: []
+        };
     });
 
-    return (
-        <div className="container">
-            <h1>Get relation sitter & pet</h1>
+   sitterPets.forEach(rel => {
+    if (petsList[rel.sitter_id]) {
+        petsList[rel.sitter_id].pets.push({
+            pet_name: rel.pet_name,
+            pet_id: rel.pet_id
+        });
+    }
+});
 
-            {Object.entries(petsList).map(([sitterId, sitter]) => (
-                <div
-                    key={sitterId}
-                    className="container border p-2 bg-secondary-subtle mb-3"
-                >
-                    <h4>👤 {sitter.sitter_name}</h4>
+return (
+    <div className="container">
+        <h1>Get relation sitter & pet</h1>
 
-                    <ul>
-                        {sitter.pets.map(pet => (
-                            <li key={pet.pet_id}>
-                                {pet.pet_name}
-                                <button
-                                    className="btn btn-danger ms-5 btn-sm"
-                                    onClick={() => deleteSitterPet(sitterId, pet.pet_id)}
-                                >
-                                    delete
-                                </button>
+        {Object.entries(petsList).map(([sitterId, sitter]) => (
+            <div
+                key={sitterId}
+                className="container border p-2 bg-secondary-subtle mb-3"
+            >
+                <h4>👤 {sitter.sitter_name}</h4>
 
-                            </li>
-                        ))}
-                    </ul>
+                {sitter.pets.length === 0 && (
+            <p className="text-muted">No pets assigned</p>
+        )}
+
+        <ul>
+            {sitter.pets.map(pet => (
+                <li key={pet.pet_id}>
+                    {pet.pet_name}
+
                     <button
-                        className="btn btn-primary ms-5 btn-sm"
-                        onClick={() => navigate(`/addpet/${id}`)}
+                        className="btn btn-danger ms-5 btn-sm"
+                        onClick={() => deleteSitterPet(sitterId, pet.pet_id)}
                     >
-                        add pet
+                        delete
                     </button>
-                </div>
+                </li>
             ))}
-        </div>
-    );
+        </ul>
+
+        <button
+            className="btn btn-primary ms-5 btn-sm"
+            onClick={() => navigate(`/sitters/${sitterId}/add-pet`)}
+        >
+            add pet
+        </button>
+    </div>
+        ))}
+    </div>
+);
 }
 export default SitterPets
