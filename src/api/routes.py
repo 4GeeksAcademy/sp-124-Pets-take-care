@@ -545,3 +545,76 @@ def delete_service(service_id):
     db.session.delete(service)
     db.session.commit()
     return jsonify({"msg": "Service deleted"}), 200
+
+@api.route("/sitters/<int:sitter_id>/skills/<int:skill_id>", methods=["POST"])
+def add_skill_to_sitter(sitter_id, skill_id):
+
+    sitter = Sitter.query.get(sitter_id)
+    if not sitter:
+        return {"msg": "Sitter not found"}, 404
+
+    skill = Skill.query.get(skill_id)
+    if not skill:
+        return {"msg": "Skill not found"}, 404
+
+    already_exist = SitterSkills.query.filter_by(
+        sitter_id=sitter_id,
+        skill_id=skill_id
+    ).first()
+
+    if already_exist:
+        return {"msg": "this sitter already has this skill in their habilities"}, 400
+
+    hability = SitterSkills(
+        sitter_id=sitter_id,
+        skill_id=skill_id
+    )
+
+    db.session.add(hability)
+    db.session.commit()
+    response_body = {
+        "msg": "Skill assigned to sitter"
+    }
+
+    return jsonify(response_body), 201
+
+
+@api.route("/sitters/<int:sitter_id>/skills/<int:skill_id>", methods=['DELETE'])
+def remove_skill_from_sitter(sitter_id, skill_id):
+
+    sitterskills = SitterSkills.query.filter_by(
+        sitter_id=sitter_id,
+        skill_id=skill_id
+    ).first()
+
+    if not sitterskills:
+        return {"msg": "this sitter doesn't have those habilities"}, 400
+
+    db.session.delete(sitterskills)
+    db.session.commit()
+
+    return jsonify({"msg": "Skill removed from sitter"}), 200
+
+@api.route("/sitterskills", methods=["GET"])
+def get_sitterskills():
+   
+    sitterskills= db.session.execute(select(SitterSkills)).scalars().all()
+    
+
+    result = list(map(lambda sitterskill: sitterskill.serialize(), sitterskills))
+
+    return jsonify(result), 200
+
+
+@api.route('/sitters/<int:sitter_id>/skills', methods=['GET'])
+def get_skills_sitter(sitter_id):
+
+    
+    sitterskills = db.session.scalars(
+        select(SitterSkills).where(
+            SitterSkills.sitter_id == sitter_id)
+    ).all()
+    
+    result = [ss.serialize() for ss in sitterskills]
+
+    return jsonify(result), 200
