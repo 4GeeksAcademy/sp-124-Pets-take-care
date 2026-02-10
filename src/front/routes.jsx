@@ -24,6 +24,7 @@ import ServiceList from "./components/services/ServiceList";
 import ViewService from "./components/services/ViewService";
 import EditService from "./components/services/EditService";
 import SitterPets from "./SitterPet/SitterPets";
+import AddSitterPets from "./SitterPet/AddSitterPets";
 
 
 export const router = createBrowserRouter(
@@ -63,6 +64,8 @@ export const router = createBrowserRouter(
         <Route path= "/editservices/:id" element={<EditService />} />
         
         <Route path= "/sitterpets" element={<SitterPets />} />
+        <Route path= "/sitters/:id/add-pet" element={<AddSitterPets />} />
+
 
 
       </Route>
