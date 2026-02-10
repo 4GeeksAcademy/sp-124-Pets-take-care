@@ -320,38 +320,31 @@ def add_pet():
     if not body:
         return jsonify({"msg": "Request body is required"}), 400
 
-    name = body.get("name", None)
-    species = body.get("species", None)
-    race = body.get("race", None)
-    gender = body.get("gender", None)
-    color = body.get("color", None)
-    nie = body.get("nie", None)
-    birth_date = body.get("birth_date", None)
-    type_food = body.get("type_food", None)
-    special_care = body.get("special_care", None)
-    sterilized = body.get("sterilized", None)
+    name = body.get("name")
+    species = body.get("species")
+    has_nie = body.get("has_nie", False)
+    nie = body.get("nie")
+    sterilized = body.get("sterilized", False)
+    user_id = body.get("user_id")
 
     if not name or not species:
         return jsonify({"msg": "name and species fields are required"}), 400
 
-    pet = db.session.execute(select(Pet).where(
-        Pet.nie == nie)).scalar_one_or_none()
-    if pet:
-        return jsonify({"msg": "pet already exist"}), 409
-
-    pet = Pet(name=body["name"],
-              species=body["species"],
-              has_nie=body["has_nie"],
-              sterilized=body["sterilized"]
-              )
+    pet = Pet(
+        name=name,
+        species=species,
+        has_nie=has_nie,
+        nie=nie,
+        sterilized=sterilized,
+        user_id=user_id
+    )
 
     db.session.add(pet)
     db.session.commit()
-    response_body = {
-        "msg": "Pet added"
-    }
 
-    return jsonify(response_body), 201
+    return jsonify({
+        "msg": "Pet added"
+    }), 201
 
 
 @api.route('/pets/<int:pet_id>', methods=['PUT'])
@@ -446,11 +439,11 @@ def remove_pet_from_sitter(sitter_id, pet_id):
 
     return jsonify({"msg": "pet removed from sitter"}), 200
 
+
 @api.route("/sitterpets", methods=["GET"])
 def get_sitterpets():
-   
+
     sitterpets = db.session.execute(select(SitterPet)).scalars().all()
-    
 
     result = list(map(lambda sitterpet: sitterpet.serialize(), sitterpets))
 
@@ -460,15 +453,14 @@ def get_sitterpets():
 @api.route('/sitters/<int:sitter_id>/pets', methods=['GET'])
 def get_pets_sitter(sitter_id):
 
-    
     sitterpets = db.session.scalars(
         select(SitterPet).where(
             SitterPet.sitter_id == sitter_id)
     ).all()
-    
+
     result = [sp.serialize() for sp in sitterpets]
 
-    return jsonify(result), 200 
+    return jsonify(result), 200
 
 
 @api.route("/services", methods=["POST"])
@@ -491,8 +483,8 @@ def create_services():
     if services:
         return jsonify({"msg": "service already exist"}), 401
     services = Services(service_name=body["service_name"],
-                duration_minutes=body["duration_minutes"],
-                cost=body["cost"])
+                        duration_minutes=body["duration_minutes"],
+                        cost=body["cost"])
 
     db.session.add(services)
     db.session.commit()
@@ -501,6 +493,7 @@ def create_services():
     }
 
     return jsonify(response_body), 201
+
 
 @api.route("/services", methods=["GET"])
 def get_services():
@@ -531,7 +524,8 @@ def put_service(service_id):
         return jsonify({"message": "Service not found"}), 404
 
     service.service_name = body.get("service_name", service.service_name)
-    service.duration_minutes = body.get("duration_minutes", service.duration_minutes)
+    service.duration_minutes = body.get(
+        "duration_minutes", service.duration_minutes)
     service.cost = body.get("cost", service.cost)
 
     db.session.commit()
