@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
 
 export const Navbar = () => {
-
-	const navigate = useNavigate();
 
 	return (
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
-				<Link to="/" className="navbar-brand mb-0 h1">Home</Link>
+				<Link to="/">
+					<span className="navbar-brand mb-0 h1">Home</span>
+				</Link>
 				<button className="btn btn-primary" onClick={()=>navigate("/sitters")}>Go Sitters</button>
 				<button className="btn btn-primary" onClick={()=>navigate("/pets")}>Go Pets</button>
 				<button className="btn btn-primary" onClick={()=>navigate("/sitterpets")}>Go sitters&pets</button>
