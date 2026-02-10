@@ -112,7 +112,7 @@ const CreatePet = () => {
           <label htmlFor="sterilized-no">No</label>
         </div>
 
-        <button type="button" onClick={newPet}>
+        <button type="button" className="btn btn-primary mt-4" onClick={newPet}>
           New Pet
         </button>
       </form>
