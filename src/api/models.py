@@ -107,10 +107,14 @@ class Pet(db.Model):
     birth_date: Mapped[date] = mapped_column(Date, nullable=True)
     type_food: Mapped[str] = mapped_column(String(120), nullable=True)
     sterilized: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    about_pet: Mapped[str] = mapped_column(String(300), nullable=True)
 
     sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="pet")
+    
     user: Mapped["User"] = relationship("User", back_populates="pets")
-
+    
+    
+    
     def __repr__(self):
         return f"<Pet id={self.id} name={self.name} species={self.species}>"
 
@@ -127,6 +131,7 @@ class Pet(db.Model):
             "type_food": self.type_food,
             "special_care": self.special_care,
             "sterilized": self.sterilized,
+            "about_pet": self.about_pet
 
             # do not serialize the password, its a security breach
         }
