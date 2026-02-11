@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from sqlalchemy import select
 
 api = Blueprint('api', __name__)
 
