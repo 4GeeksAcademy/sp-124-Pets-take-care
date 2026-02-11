@@ -56,9 +56,13 @@ const SitterPets = () => {
         }
 
 
-        setSitterPets(prev =>
-            prev.filter(el => !(el.sitter_id === sitter_id && el.pet_id === pet_id))
-        );
+        // setSitterPets(prev =>
+        //     prev.filter(el => !(el.sitter_id === sitter_id && el.pet_id === pet_id))
+        // );
+
+        ReadSitterPets()
+        ReadSitters()
+         
     };
 
     const petsList = {};

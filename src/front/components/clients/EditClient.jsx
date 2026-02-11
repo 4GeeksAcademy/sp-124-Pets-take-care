@@ -74,27 +74,33 @@ const EditClient = () => {
             <form onSubmit={editClient}>
                 <div className="mb-3">
                     <label className="form-label">Name</label>
-                    <input type="text" className="form-control" value={editarName} onChange={e => setEditarName(e.target.value)} />
+                    <input type="text" className="form-control" value={editarName} onChange={e => setEditarName(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Last Name</label>
-                    <input type="text" className="form-control" value={editarLastName} onChange={e => setEditarLastName(e.target.value)} />
+                    <input type="text" className="form-control" value={editarLastName} onChange={e => setEditarLastName(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Email</label>
-                    <input type="text" className="form-control" value={editarEmail} onChange={e => setEditarEmail(e.target.value)} />
+                    <input type="text" className="form-control" value={editarEmail} onChange={e => setEditarEmail(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Password</label>
-                    <input type="password" className="form-control" value={editarPassword} onChange={e => setEditarPassword(e.target.value)} />
+                    <input type="password" className="form-control" value={editarPassword} onChange={e => setEditarPassword(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Phone</label>
-                    <input type="text" className="form-control" value={editarPhone} onChange={e => setEditarPhone(e.target.value)} />
+                    <input type="text" className="form-control" value={editarPhone} onChange={e => setEditarPhone(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Address</label>
-                    <input type="text" className="form-control" value={editarAddress} onChange={e => setEditarAddress(e.target.value)} />
+                    <input type="text" className="form-control" value={editarAddress} onChange={e => setEditarAddress(e.target.value)}
+                    required />
                 </div>
 
                 <h5>is_active</h5>

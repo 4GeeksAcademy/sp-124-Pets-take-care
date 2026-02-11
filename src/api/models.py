@@ -23,10 +23,10 @@ class User(db.Model):
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
-    pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user")
+    pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"<User id={self.id} name={self.name}> email={self.email}>"
+        return f"<User id={self.id} name={self.name} email={self.email}>"
 
     def serialize(self):
         return {

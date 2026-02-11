@@ -65,8 +65,9 @@ const ClientList = () => {
                                     <h4 className="card-text">{el.name} {el.last_name}</h4>
                                     <ul className="list-unlisted">
                                         <li className="mb-2"><i className="fa-solid fa-envelope me-2"></i>{el.email}</li>
-                                        <li className="mb-2"><i className="fa-solid fa-phone me-2"></i>{el.phone}</li>
-                                        <li className="mb-2"><i className="fa-solid fa-location-dot me-2"></i>{el.address}</li>
+                                        
+                                        <li className="mb-2"><i className="fa-solid fa-phone me-2"></i>{el.phone || "unavailable"}</li>
+                                        <li className="mb-2"><i className="fa-solid fa-location-dot me-2"></i>{el.address || "unavailable"}</li>
                                     </ul>
                                 </div>
                                 <div className="card-footer col-lg-3 border-top-0 bg-transparent">
