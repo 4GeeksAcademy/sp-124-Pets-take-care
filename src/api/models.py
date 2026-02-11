@@ -109,7 +109,7 @@ class Pet(db.Model):
     sterilized: Mapped[bool] = mapped_column(Boolean(), nullable=False)
     about_pet: Mapped[str] = mapped_column(String(300), nullable=True)
 
-    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="pet")
+    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="pet", cascade="all, delete-orphan")
     
     user: Mapped["User"] = relationship("User", back_populates="pets")
     
