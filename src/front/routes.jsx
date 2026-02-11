@@ -25,6 +25,8 @@ import ViewService from "./components/services/ViewService";
 import EditService from "./components/services/EditService";
 import SitterPets from "./SitterPet/SitterPets";
 import AddSitterPets from "./SitterPet/AddSitterPets";
+import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
+import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 
 
 export const router = createBrowserRouter(
@@ -66,7 +68,8 @@ export const router = createBrowserRouter(
         <Route path= "/sitterpets" element={<SitterPets />} />
         <Route path= "/sitters/:id/add-pet" element={<AddSitterPets />} />
 
-
+        <Route path= "/newsitter/:id/newskills" element={<NewSitterSkills />} />
+        <Route path= "/sitterskills" element={<SitterSkillsList />} />
 
       </Route>
     )

@@ -649,7 +649,7 @@ def login_sitter():
     access_token = create_access_token(identity=sitter.id)
 
     return jsonify({"access_token": access_token,
-                   "sitter": sitter.serialize()}), 200 
+                   "sitter": sitter.serialize()}), 200
 
    
      ## =======================##LOGING SITTER##============================##
