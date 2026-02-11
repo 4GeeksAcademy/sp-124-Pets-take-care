@@ -38,13 +38,13 @@ const NewService = () => {
 
             <form>
                 <div className="container">
-                    <input placeholder="name" value={serviceName} onChange={e => setServiceName(e.target.value)} />
+                    <input placeholder="Service" value={serviceName} onChange={e => setServiceName(e.target.value)} />
                 </div>
                 <div className="container">
-                    <input placeholder="last name" value={durationMinutes} onChange={e => setDurationMinutes(e.target.value)} />
+                    <input placeholder="Duration" value={durationMinutes} onChange={e => setDurationMinutes(e.target.value)} />
                 </div>
                 <div className="container">
-                    <input placeholder="email" value={cost} onChange={e => setCost(e.target.value)} />
+                    <input placeholder="Cost" value={cost} onChange={e => setCost(e.target.value)} />
                 </div>
                 <button type="button" onClick={postService}>
                     New Service
