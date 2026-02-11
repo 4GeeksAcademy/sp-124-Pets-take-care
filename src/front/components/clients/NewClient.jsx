@@ -30,7 +30,7 @@ const NewClient = () => {
         );
 
         if (!response.ok) {
-            throw new Error("Error creating client");
+            throw new Error("Error creating client"); 
         }
 
         navigate("/clients");

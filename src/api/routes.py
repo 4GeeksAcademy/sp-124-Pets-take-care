@@ -650,3 +650,7 @@ def login_sitter():
 
     return jsonify({"access_token": access_token,
                    "sitter": sitter.serialize()}), 200 
+
+   
+     ## =======================##LOGING SITTER##============================##
+     ## ====================================================================##
