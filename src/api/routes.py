@@ -6,6 +6,10 @@ from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 
 api = Blueprint('api', __name__)
 
@@ -546,6 +550,7 @@ def delete_service(service_id):
     db.session.commit()
     return jsonify({"msg": "Service deleted"}), 200
 
+
 @api.route("/sitters/<int:sitter_id>/skills/<int:skill_id>", methods=["POST"])
 def add_skill_to_sitter(sitter_id, skill_id):
 
@@ -595,13 +600,14 @@ def remove_skill_from_sitter(sitter_id, skill_id):
 
     return jsonify({"msg": "Skill removed from sitter"}), 200
 
+
 @api.route("/sitterskills", methods=["GET"])
 def get_sitterskills():
-   
-    sitterskills= db.session.execute(select(SitterSkills)).scalars().all()
-    
 
-    result = list(map(lambda sitterskill: sitterskill.serialize(), sitterskills))
+    sitterskills = db.session.execute(select(SitterSkills)).scalars().all()
+
+    result = list(
+        map(lambda sitterskill: sitterskill.serialize(), sitterskills))
 
     return jsonify(result), 200
 
@@ -609,12 +615,38 @@ def get_sitterskills():
 @api.route('/sitters/<int:sitter_id>/skills', methods=['GET'])
 def get_skills_sitter(sitter_id):
 
-    
     sitterskills = db.session.scalars(
         select(SitterSkills).where(
             SitterSkills.sitter_id == sitter_id)
     ).all()
-    
+
     result = [ss.serialize() for ss in sitterskills]
 
     return jsonify(result), 200
+
+    ## ====================================================================##
+    ## =======================##LOGING SITTER##============================##
+
+
+@api.route("/sitters/login", methods=["POST"])
+def login_sitter():
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    if not email or not password:
+        return jsonify({"msg": "Missing credentials"}), 400 
+    
+    sitter = db.session.execute(
+        select(Sitter).where(
+            Sitter.email == email)).scalar_one_or_none()
+    
+    if sitter is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    if password != sitter.password:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    access_token = create_access_token(identity=sitter.id)
+
+    return jsonify({"access_token": access_token,
+                   "sitter": sitter.serialize()}), 200 
