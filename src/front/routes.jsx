@@ -25,6 +25,7 @@ import ViewService from "./components/services/ViewService";
 import EditService from "./components/services/EditService";
 import SitterPets from "./SitterPet/SitterPets";
 import AddSitterPets from "./SitterPet/AddSitterPets";
+import SitterLogin from "./Sitter-login/SitterLogin";
 
 
 export const router = createBrowserRouter(
@@ -65,8 +66,8 @@ export const router = createBrowserRouter(
         
         <Route path= "/sitterpets" element={<SitterPets />} />
         <Route path= "/sitters/:id/add-pet" element={<AddSitterPets />} />
-
-
+{/* ==================================LOGIN SITTER=================================== */}
+        <Route path= "/sitters/login" element={<SitterLogin />} />
 
       </Route>
     )
