@@ -55,7 +55,7 @@ class Sitter(db.Model):
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=True)
 
-    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="sitter")
+    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="sitter", cascade="all, delete-orphan")
     sitter_skills: Mapped[List["SitterSkills"]] = relationship(back_populates="sitter", cascade="all, delete-orphan")
 
     def __repr__(self):
@@ -82,7 +82,7 @@ class Skill(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     skill: Mapped[str] = mapped_column(String(120), nullable=False)
 
-    skills_sitter: Mapped[List["SitterSkills"]] = relationship(back_populates="skills", cascade="all, delete-orphan")
+    skills_sitter: Mapped[List["SitterSkills"]] = relationship(back_populates="skill", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
@@ -184,13 +184,15 @@ class SitterSkills(db.Model):
     skill_id: Mapped[int] = mapped_column(ForeignKey("skill.id"), nullable=False)
 
     sitter: Mapped["Sitter"] = relationship(back_populates="sitter_skills")
-    skills: Mapped["Skill"] = relationship(back_populates="skills_sitter")
+    skill: Mapped["Skill"] = relationship(back_populates="skills_sitter")
 
     def serialize(self):
 
         return {
+            "sitter_id": self.sitter_id,
             "sitter_name": self.sitter.name,
-            "skill_name": self.skills.skill
+            "skill_id": self.skill_id,
+            "skill_name": self.skill.skill
         }
 
 #como hacer una lista en un serialize, a una IA quiero que en esta lista se me agreguen las distintas skills del sitter

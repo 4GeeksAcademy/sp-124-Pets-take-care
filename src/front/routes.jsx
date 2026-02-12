@@ -26,6 +26,8 @@ import EditService from "./components/services/EditService";
 import SitterPets from "./SitterPet/SitterPets";
 import AddSitterPets from "./SitterPet/AddSitterPets";
 import SitterLogin from "./Sitter-login/SitterLogin";
+import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
+import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 
 
 export const router = createBrowserRouter(
@@ -68,6 +70,9 @@ export const router = createBrowserRouter(
         <Route path= "/sitters/:id/add-pet" element={<AddSitterPets />} />
 {/* ==================================LOGIN SITTER=================================== */}
         <Route path= "/sitters/login" element={<SitterLogin />} />
+
+        <Route path= "/newsitter/:id/newskills" element={<NewSitterSkills />} />
+        <Route path= "/sitterskills" element={<SitterSkillsList />} />
 
       </Route>
     )
