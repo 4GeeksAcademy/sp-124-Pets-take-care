@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
 
 const EditClient = () => {
 
@@ -16,7 +17,7 @@ const EditClient = () => {
     const [editarActive, setEditarActive] = useState(false);
 
     useEffect(() => {
-        fetch(`https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients/${id}`)
+        fetch(BACKEND_URL+`api/clients/${id}`)
             .then(res => res.json())
             .then(data => {
                 setEditarName(data.name);
@@ -31,7 +32,7 @@ const EditClient = () => {
     const editClient = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(`https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients/${id}`,
+            const response = await fetch(BACKEND_URL+`api/clients/${id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -73,27 +74,33 @@ const EditClient = () => {
             <form onSubmit={editClient}>
                 <div className="mb-3">
                     <label className="form-label">Name</label>
-                    <input type="text" className="form-control" value={editarName} onChange={e => setEditarName(e.target.value)} />
+                    <input type="text" className="form-control" value={editarName} onChange={e => setEditarName(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Last Name</label>
-                    <input type="text" className="form-control" value={editarLastName} onChange={e => setEditarLastName(e.target.value)} />
+                    <input type="text" className="form-control" value={editarLastName} onChange={e => setEditarLastName(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Email</label>
-                    <input type="text" className="form-control" value={editarEmail} onChange={e => setEditarEmail(e.target.value)} />
+                    <input type="text" className="form-control" value={editarEmail} onChange={e => setEditarEmail(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Password</label>
-                    <input type="password" className="form-control" value={editarPassword} onChange={e => setEditarPassword(e.target.value)} />
+                    <input type="password" className="form-control" value={editarPassword} onChange={e => setEditarPassword(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Phone</label>
-                    <input type="text" className="form-control" value={editarPhone} onChange={e => setEditarPhone(e.target.value)} />
+                    <input type="text" className="form-control" value={editarPhone} onChange={e => setEditarPhone(e.target.value)}
+                    required />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Address</label>
-                    <input type="text" className="form-control" value={editarAddress} onChange={e => setEditarAddress(e.target.value)} />
+                    <input type="text" className="form-control" value={editarAddress} onChange={e => setEditarAddress(e.target.value)}
+                    required />
                 </div>
 
                 <h5>is_active</h5>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { BACKEND_URL } from "../main";
 
 const CreatePet = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const [users, setUsers] = useState([])
 
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
@@ -14,10 +16,24 @@ const CreatePet = () => {
   const [sterilized, setSterilized] = useState(false);
 
 
+  useEffect(() => {
+  fetch(BACKEND_URL + "api/clients")
+    .then(r => r.json())
+    .then(data => setUsers(data))
+    .catch(err => console.log(err));
+}, []);
+
+  const getRandomUserId = () => {
+  if (users.length === 0) return null;
+  const random = users[Math.floor(Math.random() * users.length)];
+  return random.id;
+};
 
   const newPet = async () => {
+    const randomUserId = getRandomUserId(); 
+
     const response = await fetch(
-      "https://fluffy-enigma-7vxq7xrwxw552p976-3001.app.github.dev/api/signup/pets",
+      BACKEND_URL + "api/signup/pets",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -27,6 +43,7 @@ const CreatePet = () => {
           has_nie: hasNie,
           nie: nie,
           sterilized: sterilized,
+          user_id: randomUserId
         }),
       },
     );
@@ -111,7 +128,7 @@ const CreatePet = () => {
           <label htmlFor="sterilized-no">No</label>
         </div>
 
-        <button type="button" onClick={newPet}>
+        <button type="button" className="btn btn-primary mt-4" onClick={newPet}>
           New Pet
         </button>
       </form>

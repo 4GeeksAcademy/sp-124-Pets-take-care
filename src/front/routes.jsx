@@ -1,8 +1,4 @@
-import {
-    createBrowserRouter,
-    createRoutesFromElements,
-    Route,
-} from "react-router-dom";
+import {createBrowserRouter,createRoutesFromElements,Route,} from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
@@ -19,6 +15,19 @@ import ClientList from "./components/clients/ClientList";
 import ViewClient from "./components/clients/ViewClient";
 import EditClient from "./components/clients/EditClient";
 import NewClient from "./components/clients/NewClient";
+import SkillsList from "./components/skills/SkillsList";
+import NewSkill from "./components/skills/NewSkill";
+import EditSkill from "./components/skills/EditSkills";
+import ViewSkills from "./components/skills/ViewSkill";
+import NewService from "./components/services/NewService";
+import ServiceList from "./components/services/ServiceList";
+import ViewService from "./components/services/ViewService";
+import EditService from "./components/services/EditService";
+import SitterPets from "./SitterPet/SitterPets";
+import AddSitterPets from "./SitterPet/AddSitterPets";
+import SitterLogin from "./Sitter-login/SitterLogin";
+import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
+import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 
 
 export const router = createBrowserRouter(
@@ -39,6 +48,11 @@ export const router = createBrowserRouter(
         <Route path= "/viewclients/:id" element={<ViewClient />} />
         <Route path= "/editclients/:id" element={<EditClient />} />
 
+        <Route path= "/newskills" element={<NewSkill />} />
+        <Route path= "/skills" element={<SkillsList />} />
+        <Route path= "/viewskills/:id" element={<ViewSkills />} />
+        <Route path= "/editskills/:id" element={<EditSkill />} />
+
         <Route path="/single/:theId" element={ <Single />} />
         <Route path="/demo" element={<Demo />} />
           
@@ -46,6 +60,20 @@ export const router = createBrowserRouter(
         <Route path="/pets/:id" element={ <InfoPet />} />
         <Route path="/pets/create" element={ <CreatePet />} />
         <Route path="/pets/edit/:id" element={ <EditPet />} />
+
+        <Route path= "/newservices" element={<NewService />} />
+        <Route path= "/services" element={<ServiceList />} />
+        <Route path= "/viewservices/:id" element={<ViewService />} />
+        <Route path= "/editservices/:id" element={<EditService />} />
+        
+        <Route path= "/sitterpets" element={<SitterPets />} />
+        <Route path= "/sitters/:id/add-pet" element={<AddSitterPets />} />
+{/* ==================================LOGIN SITTER=================================== */}
+        <Route path= "/sitters/login" element={<SitterLogin />} />
+
+        <Route path= "/newsitter/:id/newskills" element={<NewSitterSkills />} />
+        <Route path= "/sitterskills" element={<SitterSkillsList />} />
+
       </Route>
     )
 );

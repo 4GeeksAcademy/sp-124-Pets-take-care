@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
 
 
 
@@ -14,7 +15,7 @@ const ClientList = () => {
     }, [])
 
     const getClients = () => {
-        fetch("https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients")
+        fetch(BACKEND_URL+"api/clients")
             .then(resp => {
                 if (!resp.ok) {
                     throw new Error("something went wrong")
@@ -29,7 +30,7 @@ const ClientList = () => {
     const deleteClients = async (id) => {
 
         const response = await fetch(
-            `https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients/${id}`,
+            BACKEND_URL+`api/clients/${id}`,
             {
                 method: "DELETE"
             }
@@ -50,6 +51,9 @@ const ClientList = () => {
     return (
         <div className="container">
             <div className="row">
+                <div className="d-flex justify-content-end my-3">
+                    <Link to="/newclients" className="btn btn-primary">Create Client</Link>
+                </div>
                 {
                     client?.map(el =>
                         <div className="col-lg-12" key={el.id}>
@@ -61,8 +65,9 @@ const ClientList = () => {
                                     <h4 className="card-text">{el.name} {el.last_name}</h4>
                                     <ul className="list-unlisted">
                                         <li className="mb-2"><i className="fa-solid fa-envelope me-2"></i>{el.email}</li>
-                                        <li className="mb-2"><i className="fa-solid fa-phone me-2"></i>{el.phone}</li>
-                                        <li className="mb-2"><i className="fa-solid fa-location-dot me-2"></i>{el.address}</li>
+                                        
+                                        <li className="mb-2"><i className="fa-solid fa-phone me-2"></i>{el.phone || "unavailable"}</li>
+                                        <li className="mb-2"><i className="fa-solid fa-location-dot me-2"></i>{el.address || "unavailable"}</li>
                                     </ul>
                                 </div>
                                 <div className="card-footer col-lg-3 border-top-0 bg-transparent">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
 
 
 const ViewClient = () => {
@@ -15,7 +16,7 @@ const ViewClient = () => {
 
     const getClient = () => {
         fetch(
-            `https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients/${id}`
+            BACKEND_URL+`api/clients/${id}`
         )
             .then(resp => {
                 if (!resp.ok) {

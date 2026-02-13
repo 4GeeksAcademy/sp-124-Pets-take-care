@@ -2,9 +2,14 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Sitter, Pet, Skill
+from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from sqlalchemy import select
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 
 api = Blueprint('api', __name__)
 
@@ -54,45 +59,6 @@ def signup_sitter():
     db.session.commit()
     response_body = {
         "msg": "Created sitter"}
-    return jsonify(response_body), 201
-
-
-@api.route("/clients", methods=["POST"])
-def create_clients():
-
-    body = request.get_json()
-    if not body:
-        return jsonify({"msg": "Request body is required"}), 400
-
-    name = body.get("name", None)
-    last_name = body.get("last_name", None)
-    email = body.get("email", None)
-    password = body.get("password", None)
-    phone = body.get("phone", None)
-    address = body.get("address", None)
-    is_active = body.get("is_active", None)
-    if not email or not password or not name or not last_name or not is_active:
-        return jsonify({"msg": "All fields are required"}), 400
-
-    user = db.session.execute(select(User).where(
-        User.email == email)).scalar_one_or_none()
-    if user:
-        return jsonify({"msg": "user already exist"}), 401
-
-    user = User(name=body["name"],
-                last_name=body["last_name"],
-                email=body["email"],
-                password=body["password"],
-                phone=phone,
-                address=address,
-                is_active=body["is_active"])
-
-    db.session.add(user)
-    db.session.commit()
-    response_body = {
-        "msg": "Created user"
-    }
-
     return jsonify(response_body), 201
 
 
@@ -162,6 +128,45 @@ def delete_sitter(sitter_id):
     return jsonify({"msg": "Sitter deleted"}), 200
 
 
+@api.route("/clients", methods=["POST"])
+def create_clients():
+
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    name = body.get("name", None)
+    last_name = body.get("last_name", None)
+    email = body.get("email", None)
+    password = body.get("password", None)
+    phone = body.get("phone", None)
+    address = body.get("address", None)
+    is_active = body.get("is_active", None)
+    if not email or not password or not name or not last_name or not is_active:
+        return jsonify({"msg": "All fields are required"}), 400
+
+    user = db.session.execute(select(User).where(
+        User.email == email)).scalar_one_or_none()
+    if user:
+        return jsonify({"msg": "user already exist"}), 401
+
+    user = User(name=body["name"],
+                last_name=body["last_name"],
+                email=body["email"],
+                password=body["password"],
+                phone=phone,
+                address=address,
+                is_active=body["is_active"])
+
+    db.session.add(user)
+    db.session.commit()
+    response_body = {
+        "msg": "Created user"
+    }
+
+    return jsonify(response_body), 201
+
+
 @api.route("/clients", methods=["GET"])
 def get_clients():
     users = db.session.execute(select(User)).scalars().all()
@@ -203,7 +208,7 @@ def put_client(client_id):
 
 
 @api.route('/clients/<int:client_id>', methods=['DELETE'])
-def delete_clien(client_id):
+def delete_client(client_id):
 
     user = db.session.execute(
         select(User)
@@ -215,6 +220,82 @@ def delete_clien(client_id):
     db.session.delete(user)
     db.session.commit()
     return jsonify({"msg": "Client deleted"}), 200
+
+
+@api.route("/skills", methods=["POST"])
+def create_skills():
+
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    skill = body.get("skill", None)
+    if not skill:
+        return jsonify({"msg": "All fields are required"}), 400
+
+    skill = db.session.execute(select(Skill).where(
+        Skill.skill == skill)).scalar_one_or_none()
+    if skill:
+        return jsonify({"msg": "Skill already exist"}), 401
+
+    skill = Skill(skill=body["skill"])
+
+    db.session.add(skill)
+    db.session.commit()
+    response_body = {
+        "msg": "Created skill"
+    }
+
+    return jsonify(response_body), 201
+
+
+@api.route("/skills", methods=["GET"])
+def get_skills():
+    skills = db.session.execute(select(Skill)).scalars().all()
+
+    result = list(map(lambda skill: skill.serialize(), skills))
+
+    return jsonify(result), 200
+
+
+@api.route('/skills/<int:skill_id>', methods=['GET'])
+def get_skill(skill_id):
+
+    skill = db.session.get(Skill, skill_id)
+
+    if skill is None:
+        return jsonify({"message": "Skill not found"}), 404
+
+    return jsonify(skill.serialize()), 200
+
+
+@api.route('/skills/<int:skill_id>', methods=['PUT'])
+def put_skill(skill_id):
+
+    body = request.get_json()
+    skill = db.session.get(Skill, skill_id)
+    if skill is None:
+        return jsonify({"message": "Skill not found"}), 404
+
+    skill.skill = body.get("skill", skill.skill)
+    db.session.commit()
+    return jsonify({"msg": "Skill updated successfully"}), 200
+
+
+@api.route('/skills/<int:skills_id>', methods=['DELETE'])
+def delete_skill(skills_id):
+
+    skill = db.session.execute(
+        select(Skill)
+        .where(Skill.id == skills_id,)).scalar_one_or_none()
+
+    if skill is None:
+        return jsonify({"msg": "Skill not found"}), 404
+
+    db.session.delete(skill)
+    db.session.commit()
+    return jsonify({"msg": "Skill deleted"}), 200
+
 
 @api.route('/pets', methods=['GET'])
 def get_pets():
@@ -229,52 +310,46 @@ def get_pets():
 @api.route('/pets/<int:pet_id>', methods=['GET'])
 def get_pet(pet_id):
 
-    pet = db.session.get(Pet, pet_id )
+    pet = db.session.get(Pet, pet_id)
 
     if pet is None:
-       return jsonify({"message": "Pet not found"}), 404
+        return jsonify({"message": "Pet not found"}), 404
 
     return jsonify(pet.serialize()), 200
+
 
 @api.route("/signup/pets", methods=["POST"])
 def add_pet():
     body = request.get_json()
     if not body:
         return jsonify({"msg": "Request body is required"}), 400
-    
-    name = body.get("name", None)
-    species = body.get("species", None)
-    race = body.get("race", None)
-    gender = body.get("gender", None)
-    color = body.get("color", None)
-    nie =  body.get("nie", None)
-    birth_date =  body.get("birth_date", None)
-    type_food =  body.get("type_food", None)
-    special_care = body.get("special_care", None)
-    sterilized = body.get("sterilized", None)
-    
 
-    
+    name = body.get("name")
+    species = body.get("species")
+    has_nie = body.get("has_nie", False)
+    nie = body.get("nie")
+    sterilized = body.get("sterilized", False)
+    user_id = body.get("user_id")
+
     if not name or not species:
         return jsonify({"msg": "name and species fields are required"}), 400
-    
-    pet = db.session.execute(select(Pet).where(Pet.nie == nie)).scalar_one_or_none()
-    if pet:
-        return jsonify({"msg": "pet already exist"}), 409
-    
-    pet = Pet(name=body["name"],
-                  species=body["species"],
-                  has_nie=body["has_nie"],
-                  sterilized=body["sterilized"]
-                ) 
-    
+
+    pet = Pet(
+        name=name,
+        species=species,
+        has_nie=has_nie,
+        nie=nie,
+        sterilized=sterilized,
+        user_id=user_id
+    )
+
     db.session.add(pet)
-    db.session.commit() 
-    response_body = {
+    db.session.commit()
+
+    return jsonify({
         "msg": "Pet added"
-    }          
-      
-    return jsonify(response_body), 201
+    }), 201
+
 
 @api.route('/pets/<int:pet_id>', methods=['PUT'])
 def put_pet(pet_id):
@@ -282,12 +357,10 @@ def put_pet(pet_id):
     body = request.get_json()
     if body is None:
         return jsonify({"message": "Request body is required"}), 400
-    
+
     pet = db.session.get(Pet, pet_id)
     if pet is None:
-       return jsonify({"message": "Pet not found"}), 404
-    
-   
+        return jsonify({"message": "Pet not found"}), 404
 
     pet.name = body.get("name", pet.name)
     pet.species = body.get("species", pet.species)
@@ -306,19 +379,301 @@ def put_pet(pet_id):
 
 
 @api.route('/pets/<int:pet_id>', methods=['DELETE'])
-def delete_pet(pet_id):
-
+def remove_pet(pet_id):
 
     pet = db.session.execute(
         select(Pet)
-        .where( Pet.id == pet_id,)).scalar_one_or_none()
-   
-    if pet is None:
-     return jsonify({"msg": "Pet not found"}), 404
+        .where(Pet.id == pet_id,)).scalar_one_or_none()
 
-   
+    if pet is None:
+        return jsonify({"msg": "Pet not found"}), 404
+
     db.session.delete(pet)
     db.session.commit()
 
-
     return jsonify({"msg": "pet deleted"}), 200
+
+
+@api.route("/sitters/<int:sitter_id>/pets/<int:pet_id>", methods=["POST"])
+def add_pet_to_sitter(sitter_id, pet_id):
+
+    sitter = Sitter.query.get(sitter_id)
+    if not sitter:
+        return {"msg": "Sitter not found"}, 404
+
+    pet = Pet.query.get(pet_id)
+    if not pet:
+        return {"msg": "Pet not found"}, 404
+
+    already_exist = SitterPet.query.filter_by(
+        sitter_id=sitter_id,
+        pet_id=pet_id
+    ).first()
+
+    if already_exist:
+        return {"msg": "this sitter already has this pet in their care"}, 400
+
+    care = SitterPet(
+        sitter_id=sitter_id,
+        pet_id=pet_id
+    )
+
+    db.session.add(care)
+    db.session.commit()
+    response_body = {
+        "msg": "Pet assigned to sitter"
+    }
+
+    return jsonify(response_body), 201
+
+
+@api.route("/sitters/<int:sitter_id>/pets/<int:pet_id>", methods=['DELETE'])
+def remove_pet_from_sitter(sitter_id, pet_id):
+
+    sitter_care_pet = SitterPet.query.filter_by(
+        sitter_id=sitter_id,
+        pet_id=pet_id
+    ).first()
+
+    if not sitter_care_pet:
+        return {"msg": "this sitter doesn't take care of this pet"}, 400
+
+    db.session.delete(sitter_care_pet)
+    db.session.commit()
+
+    return jsonify({"msg": "pet removed from sitter"}), 200
+
+
+@api.route("/sitterpets", methods=["GET"])
+def get_sitterpets():
+
+    sitterpets = db.session.execute(select(SitterPet)).scalars().all()
+
+    result = list(map(lambda sitterpet: sitterpet.serialize(), sitterpets))
+
+    return jsonify(result), 200
+
+
+@api.route('/sitters/<int:sitter_id>/pets', methods=['GET'])
+def get_pets_sitter(sitter_id):
+
+    sitterpets = db.session.scalars(
+        select(SitterPet).where(
+            SitterPet.sitter_id == sitter_id)
+    ).all()
+
+    result = [sp.serialize() for sp in sitterpets]
+
+    return jsonify(result), 200
+
+
+@api.route("/services", methods=["POST"])
+def create_services():
+
+    body = request.get_json()
+
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    service_name = body.get("service_name", None)
+    duration_minutes = body.get("duration_minutes", None)
+    cost = body.get("cost", None)
+
+    if service_name is None or duration_minutes is None or cost is None:
+        return jsonify({"msg": "All fields are required"}), 400
+
+    services = db.session.execute(select(Services).where(
+        Services.service_name == service_name)).scalar_one_or_none()
+    if services:
+        return jsonify({"msg": "service already exist"}), 401
+    services = Services(service_name=body["service_name"],
+                        duration_minutes=body["duration_minutes"],
+                        cost=body["cost"])
+
+    db.session.add(services)
+    db.session.commit()
+    response_body = {
+        "msg": "Created service"
+    }
+
+    return jsonify(response_body), 201
+
+
+@api.route("/services", methods=["GET"])
+def get_services():
+    services = db.session.execute(select(Services)).scalars().all()
+
+    result = list(map(lambda service: service.serialize(), services))
+
+    return jsonify(result), 200
+
+
+@api.route('/services/<int:service_id>', methods=['GET'])
+def get_service(service_id):
+
+    service = db.session.get(Services, service_id)
+
+    if service is None:
+        return jsonify({"message": "Service not found"}), 404
+
+    return jsonify(service.serialize()), 200
+
+
+@api.route('/services/<int:service_id>', methods=['PUT'])
+def put_service(service_id):
+
+    body = request.get_json()
+    service = db.session.get(Services, service_id)
+    if service is None:
+        return jsonify({"message": "Service not found"}), 404
+
+    service.service_name = body.get("service_name", service.service_name)
+    service.duration_minutes = body.get(
+        "duration_minutes", service.duration_minutes)
+    service.cost = body.get("cost", service.cost)
+
+    db.session.commit()
+    return jsonify({"msg": "service updated successfully"}), 200
+
+
+@api.route('/services/<int:service_id>', methods=['DELETE'])
+def delete_service(service_id):
+
+    service = db.session.execute(
+        select(Services)
+        .where(Services.id == service_id,)).scalar_one_or_none()
+
+    if service is None:
+        return jsonify({"msg": "Service not found"}), 404
+
+    db.session.delete(service)
+    db.session.commit()
+    return jsonify({"msg": "Service deleted"}), 200
+
+
+@api.route("/sitters/<int:sitter_id>/skills/<int:skill_id>", methods=["POST"])
+def add_skill_to_sitter(sitter_id, skill_id):
+
+    sitter = Sitter.query.get(sitter_id)
+    if not sitter:
+        return {"msg": "Sitter not found"}, 404
+
+    skill = Skill.query.get(skill_id)
+    if not skill:
+        return {"msg": "Skill not found"}, 404
+
+    already_exist = SitterSkills.query.filter_by(
+        sitter_id=sitter_id,
+        skill_id=skill_id
+    ).first()
+
+    if already_exist:
+        return {"msg": "this sitter already has this skill in their habilities"}, 400
+
+    hability = SitterSkills(
+        sitter_id=sitter_id,
+        skill_id=skill_id
+    )
+
+    db.session.add(hability)
+    db.session.commit()
+    response_body = {
+        "msg": "Skill assigned to sitter"
+    }
+
+    return jsonify(response_body), 201
+
+
+@api.route("/sitters/<int:sitter_id>/skills/<int:skill_id>", methods=['DELETE'])
+def remove_skill_from_sitter(sitter_id, skill_id):
+
+    sitterskills = SitterSkills.query.filter_by(
+        sitter_id=sitter_id,
+        skill_id=skill_id
+    ).first()
+
+    if not sitterskills:
+        return {"msg": "this sitter doesn't have those habilities"}, 400
+
+    db.session.delete(sitterskills)
+    db.session.commit()
+
+    return jsonify({"msg": "Skill removed from sitter"}), 200
+
+
+@api.route("/sitterskills", methods=["GET"])
+def get_sitterskills():
+
+    sitterskills = db.session.execute(select(SitterSkills)).scalars().all()
+
+    result = list(
+        map(lambda sitterskill: sitterskill.serialize(), sitterskills))
+
+    return jsonify(result), 200
+
+
+@api.route('/sitters/<int:sitter_id>/skills', methods=['GET'])
+def get_skills_sitter(sitter_id):
+
+    sitterskills = db.session.scalars(
+        select(SitterSkills).where(
+            SitterSkills.sitter_id == sitter_id)
+    ).all()
+
+    result = [ss.serialize() for ss in sitterskills]
+
+    return jsonify(result), 200
+
+    ## ====================================================================##
+    ## =======================##LOGING SITTER##============================##
+
+
+@api.route("/sitters/login", methods=["POST"])
+def login_sitter():
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    if not email or not password:
+        return jsonify({"msg": "Missing credentials"}), 400 
+    
+    sitter = db.session.execute(
+        select(Sitter).where(
+            Sitter.email == email)).scalar_one_or_none()
+    
+    if sitter is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    if password != sitter.password:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    access_token = create_access_token(identity=sitter.id)
+
+    return jsonify({"access_token": access_token,
+                   "sitter": sitter.serialize()}), 200
+
+   
+     ## =======================##LOGING SITTER##============================##
+     ## ====================================================================##
+
+@api.route("/client/login", methods=["POST"])
+def login_client():
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    if not email or not password:
+        return jsonify({"msg": "Missing credentials"}), 400
+    
+    client = db.session.execute(
+        select(User).where(
+            User.email == email)).scalar_one_or_none()
+    
+    if client is None:
+        return jsonify({"msg": "Client not found"}), 404
+    
+    if password != client.password:
+        return jsonify({"msg": "Wrong password"}), 401
+    
+    access_token = create_access_token(identity=client.id)
+    print(access_token)
+
+    return jsonify({"client_token": access_token}), 200

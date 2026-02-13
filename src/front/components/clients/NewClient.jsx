@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
 
 const NewClient = () => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const NewClient = () => {
     const postClient = async () => {
 
         const response = await fetch(
-            "https://curly-space-spork-wrjvvvxxg66qc6jw-3001.app.github.dev/api/clients",
+            BACKEND_URL+"api/clients",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -29,7 +30,7 @@ const NewClient = () => {
         );
 
         if (!response.ok) {
-            throw new Error("Error creating client");
+            throw new Error("Error creating client"); 
         }
 
         navigate("/clients");
@@ -53,7 +54,7 @@ const NewClient = () => {
                     <input placeholder="email" value={email} onChange={e => setEmail(e.target.value)} />
                 </div>
                 <div className="container">
-                    <input placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    <input type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
                 </div>
                
                 <div className="container">
