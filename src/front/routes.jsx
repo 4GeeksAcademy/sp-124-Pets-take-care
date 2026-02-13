@@ -29,6 +29,8 @@ import SitterLogin from "./Sitter-login/SitterLogin";
 import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 import HomeSitter from "./HomeSitter/HomeSitter";
+import ClientLogin from "./components/loginclient/ClientLogin";
+import ClientHome from "./HomeSitter/HomeSitter";
 
 
 export const router = createBrowserRouter(
@@ -71,12 +73,14 @@ export const router = createBrowserRouter(
         <Route path= "/sitters/:id/add-pet" element={<AddSitterPets />} />
 {/* ==================================LOGIN SITTER=================================== */}
         <Route path= "/sitters/login" element={<SitterLogin />} />
+        <Route path= "/clients/login" element={<ClientLogin />} />
 
         <Route path= "/newsitter/:id/newskills" element={<NewSitterSkills />} />
         <Route path= "/sitterskills" element={<SitterSkillsList />} />
 
 {/* ==================================SITTER LOGGED=================================== */}
         <Route path= "/sitters/home" element={<HomeSitter />} />
+        <Route path= "/clients/home" element={<ClientHome />} />
 
 
 
