@@ -654,3 +654,25 @@ def login_sitter():
    
      ## =======================##LOGING SITTER##============================##
      ## ====================================================================##
+
+@api.route("/client/login", methods=["POST"])
+def login_client():
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    if not email or not password:
+        return jsonify({"msg": "Missing credentials"}), 400
+    
+    client = db.session.execute(
+        select(User).where(
+            User.email == email)).scalar_one_or_none()
+    
+    if client is None:
+        return jsonify({"msg": "Client not found"}), 404
+    
+    if password != client.password:
+        return jsonify({"msg": "Wrong password"}), 401
+    
+    access_token = create_access_token(identity=client.id)
+
+    return jsonify({"client_token": access_token}), 200
