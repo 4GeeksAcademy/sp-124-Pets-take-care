@@ -197,7 +197,6 @@ def put_client(client_id):
     user.password = body.get("password", user.password)
     user.phone = body.get("phone", user.phone)
     user.address = body.get("address", user.address)
-    user.is_active = body.get("is_active", user.is_active)
 
     db.session.commit()
     return jsonify({"msg": "user updated successfully"}), 200
