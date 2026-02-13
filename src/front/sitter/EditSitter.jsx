@@ -14,7 +14,6 @@ const EditSitter = () => {
     const [editarPhone, setEditarPhone] = useState("")
     const [editarEmail, setEditarEmail] = useState("")
     const [editarPassword, setEditarPassword] = useState("")
-    const [editarConfirmPassword, setEditarConfirmPassword] = useState("")
     const [editarStudies, setEditarStudies] = useState(false);
     const [editarStudiesComment, setEditarStudiesComment] = useState("");
     const [editarActive, setEditarActive] = useState(false);
@@ -83,9 +82,6 @@ const EditSitter = () => {
     const createPassword = (e) => {
         setEditarPassword(e.target.value)
     }
-    const createConfirmPassword = (e) => {
-        setEditarConfirmPassword(e.target.value)
-    }
     const createPhone = (e) => {
         setEditarPhone(e.target.value)
     }
@@ -115,9 +111,6 @@ const EditSitter = () => {
                 </div>
                 <div className="container">
                     <input type="text" placeholder="password" onChange={createPassword} value={editarPassword} />
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="confirm_password" onChange={createConfirmPassword} value={editarConfirmPassword} />
                 </div>
                 <div className="container">
                     <input type="text" placeholder="phone" onChange={createPhone} value={editarPhone} />

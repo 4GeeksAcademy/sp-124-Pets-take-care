@@ -48,7 +48,6 @@ class Sitter(db.Model):
     last_name: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
-    confirm_password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     studies: Mapped[bool] = mapped_column(Boolean(), nullable=True)
     studies_comment: Mapped[str] = mapped_column(String(120), nullable=True)

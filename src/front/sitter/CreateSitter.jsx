@@ -9,7 +9,7 @@ const CreateSitter = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+
 
 
   const newSitter = async () => {
@@ -19,7 +19,6 @@ const CreateSitter = () => {
           "last_name": lastName,
           "email": email,
           "password": password,
-          "confirm_password": confirmPassword,
 
         }
         console.log(prueba)
@@ -34,8 +33,6 @@ const CreateSitter = () => {
           "last_name": lastName,
           "email": email,
           "password": password,
-          "confirm_password": confirmPassword,
-
         })
       }
     );
@@ -65,9 +62,6 @@ const CreateSitter = () => {
         </div>
         <div className="container">
           <input placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
-        </div>
-        <div className="container">
-          <input placeholder="confirm password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
         </div>
 
         <button type="button" onClick={newSitter}>
