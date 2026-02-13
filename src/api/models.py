@@ -20,7 +20,7 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
-    is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False, default=True, server_default="true")
 
     pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user", cascade="all, delete-orphan")
     appointments = relationship("Appointment", back_populates="user", cascade="all, delete-orphan")
@@ -217,7 +217,6 @@ class Appointment(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
     service_id: Mapped[int] = mapped_column(ForeignKey("services.id"), nullable=False)
-
     user: Mapped["User"] = relationship(back_populates="appointments")
     pet: Mapped["Pet"] = relationship(back_populates="appointments")
     services: Mapped["Services"] = relationship(back_populates="appointments")

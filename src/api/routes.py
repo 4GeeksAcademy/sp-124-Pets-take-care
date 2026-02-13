@@ -138,8 +138,7 @@ def create_clients():
     password = body.get("password", None)
     phone = body.get("phone", None)
     address = body.get("address", None)
-    is_active = body.get("is_active", None)
-    if not email or not password or not name or not last_name or not is_active:
+    if not email or not password or not name or not last_name:
         return jsonify({"msg": "All fields are required"}), 400
 
     user = db.session.execute(select(User).where(
@@ -152,8 +151,8 @@ def create_clients():
                 email=body["email"],
                 password=body["password"],
                 phone=phone,
-                address=address,
-                is_active=body["is_active"])
+                address=address
+                )
 
     db.session.add(user)
     db.session.commit()
