@@ -674,6 +674,5 @@ def login_client():
         return jsonify({"msg": "Wrong password"}), 401
     
     access_token = create_access_token(identity=client.id)
-    print(access_token)
 
     return jsonify({"client_token": access_token}), 200
