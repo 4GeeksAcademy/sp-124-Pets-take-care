@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, Numeric
+from sqlalchemy import String, Boolean, Numeric, Time
 from sqlalchemy.orm import Mapped, mapped_column
-from datetime import date
+from datetime import date, time
 from sqlalchemy import Date
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
@@ -16,15 +16,14 @@ class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     last_name: Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(
-        String(120), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
     pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user", cascade="all, delete-orphan")
-
+    appointments = relationship("Appointment", back_populates="user", cascade="all, delete-orphan")
     def __repr__(self):
         return f"<User id={self.id} name={self.name} email={self.email}>"
 
@@ -109,7 +108,8 @@ class Pet(db.Model):
     about_pet: Mapped[str] = mapped_column(String(300), nullable=True)
 
     sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="pet", cascade="all, delete-orphan")
-    
+    appointments = relationship("Appointment", back_populates="pet", cascade="all, delete-orphan")
+
     user: Mapped["User"] = relationship("User", back_populates="pets")
     
     
@@ -146,6 +146,8 @@ class SitterPet(db.Model):
     sitter: Mapped["Sitter"] = relationship(back_populates="sitterpets")
     pet: Mapped["Pet"] = relationship(back_populates="sitterpets")
 
+    __table_args__ = (db.UniqueConstraint("sitter_id", "pet_id"),)
+
     def serialize(self):
 
         return {
@@ -163,6 +165,9 @@ class Services(db.Model):
     service_name: Mapped[str] = mapped_column(String(120), nullable=False)
     duration_minutes: Mapped[int] = mapped_column(nullable=False)
     cost: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+
+    appointments = relationship("Appointment", back_populates="services", cascade="all, delete-orphan") 
+
 
     def serialize(self):
         return {
@@ -185,6 +190,8 @@ class SitterSkills(db.Model):
     sitter: Mapped["Sitter"] = relationship(back_populates="sitter_skills")
     skill: Mapped["Skill"] = relationship(back_populates="skills_sitter")
 
+    __table_args__ = (db.UniqueConstraint("sitter_id", "skill_id"),)
+
     def serialize(self):
 
         return {
@@ -197,3 +204,33 @@ class SitterSkills(db.Model):
 #como hacer una lista en un serialize, a una IA quiero que en esta lista se me agreguen las distintas skills del sitter
 #y se agrege en la misma lista, actualmente se genera una lista de arrays por cada skill, aunque las skills esrten asignadas a un mismo sitter
 #se generan distintos objetos dentro de un array.
+
+class Appointment(db.Model):
+
+
+    __tablename__ = "appointment"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    appointment_date: Mapped[date] = mapped_column(Date, nullable=False)
+    appointment_time: Mapped[time] = mapped_column(Time, nullable=False)
+    state: Mapped[str] = mapped_column(String(50), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
+    service_id: Mapped[int] = mapped_column(ForeignKey("services.id"), nullable=False)
+
+    user: Mapped["User"] = relationship(back_populates="appointments")
+    pet: Mapped["Pet"] = relationship(back_populates="appointments")
+    services: Mapped["Services"] = relationship(back_populates="appointments")
+
+
+    def serialize(self):
+
+
+        return {
+        "id": self.id,
+        "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
+        "appointment_time": self.appointment_time.isoformat() if self.appointment_time else None,
+        "state": self.state,
+        "pet_id": self.pet_id,
+        "service_id": self.service_id 
+        }
