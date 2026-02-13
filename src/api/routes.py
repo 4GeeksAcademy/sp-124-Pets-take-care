@@ -655,7 +655,7 @@ def login_sitter():
      ## =======================##LOGING SITTER##============================##
      ## ====================================================================##
 
-@api.route("/client/login", methods=["POST"])
+@api.route("/clients/login", methods=["POST"])
 def login_client():
     email = request.json.get("email")
     password = request.json.get("password")
