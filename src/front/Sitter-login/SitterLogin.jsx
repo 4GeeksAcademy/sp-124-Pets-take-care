@@ -1,9 +1,13 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BACKEND_URL } from "../main";
+import useGlobalReducer, { StoreProvider } from "../hooks/useGlobalReducer";
+import { useNavigate } from "react-router-dom";
 
 const SitterLogin = () => {
 
+    const navigate = useNavigate()
+    const {store, dispatch } = useGlobalReducer(); 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -30,10 +34,17 @@ const SitterLogin = () => {
 
         const data = await response.json() 
         localStorage.setItem("sitterToken", data.access_token)
-        console.log(data)
+        
+        dispatch ({
+            type:"set_auth",
+            payload: true
+        })
 
+        
+        navigate("/sitters/home")
     }
 
+    
 
     return (
         <div className="container">
