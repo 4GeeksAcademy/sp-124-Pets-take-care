@@ -28,6 +28,7 @@ import AddSitterPets from "./SitterPet/AddSitterPets";
 import SitterLogin from "./Sitter-login/SitterLogin";
 import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
+import HomeSitter from "./HomeSitter/HomeSitter";
 
 
 export const router = createBrowserRouter(
@@ -73,6 +74,11 @@ export const router = createBrowserRouter(
 
         <Route path= "/newsitter/:id/newskills" element={<NewSitterSkills />} />
         <Route path= "/sitterskills" element={<SitterSkillsList />} />
+
+{/* ==================================SITTER LOGGED=================================== */}
+        <Route path= "/sitters/home" element={<HomeSitter />} />
+
+
 
       </Route>
     )
