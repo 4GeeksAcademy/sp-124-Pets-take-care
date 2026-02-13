@@ -2,8 +2,11 @@ import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+
+	const navigate = useNavigate(); 
 
 	const { store, dispatch } = useGlobalReducer()
 	const loadMessage = async () => {
@@ -38,6 +41,7 @@ export const Home = () => {
 			<p className="lead">
 				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
 			</p>
+			<button className="btn btn-primary">Go sitter login</button>
 			<div className="alert alert-info">
 				{store.message ? (
 					<span>{store.message}</span>
