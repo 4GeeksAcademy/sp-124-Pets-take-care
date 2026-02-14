@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills
+from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills, UserAdmin
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
@@ -671,3 +671,25 @@ def login_client():
     access_token = create_access_token(identity=client.id)
 
     return jsonify({"client_token": access_token}), 200
+
+@api.route("/admin/login", methods=["POST"])
+def login_admin():
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    if not email or not password:
+        return jsonify({"msg": "Missing credentials"}), 400
+    
+    admin = db.session.execute(
+        select(UserAdmin).where(
+            UserAdmin.email == email)).scalar_one_or_none
+    
+    if admin is None:
+        return jsonify({"msg": "Admin not found"}),404
+    
+    if password != admin.password:
+        return jsonify({"msg": "Wrong password"}), 401
+    
+    access_token = create_access_token(identity=admin.id)
+
+    return jsonify({"admin_token": access_token}), 200

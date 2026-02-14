@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const ClientHome = () => { 
+const HomeSitter = () => { 
 
 
 
@@ -11,4 +11,4 @@ const ClientHome = () => {
     )
 }
 
-export default ClientHome 
+export default HomeSitter 
