@@ -30,8 +30,8 @@ import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 import HomeSitter from "./HomeSitter/HomeSitter";
 import ClientLogin from "./components/loginclient/ClientLogin";
-import AdminLogin from "./components/clients/loginadmin/AdminLogin";
-import AdminHome from "./components/clients/loginadmin/AdminHome";
+import AdminLogin from "./components/loginadmin/AdminLogin";
+import AdminHome from "./components/loginadmin/AdminHome";
 import ClientHome from "./components/loginclient/ClientHome";
 
 
