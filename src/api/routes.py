@@ -38,9 +38,9 @@ def signup_sitter():
     last_name = body.get("last_name", None)
     email = body.get("email", None)
     password = body.get("password", None)
-    confirm_password = body.get("confirm_password", None)
+    
 
-    if not email or not password or not name or not last_name or not confirm_password:
+    if not email or not password or not name or not last_name:
         return jsonify({"msg": "All fields are required"}), 400
 
     sitter = db.session.execute(select(Sitter).where(
@@ -52,7 +52,6 @@ def signup_sitter():
                     last_name=body["last_name"],
                     email=body["email"],
                     password=body["password"],
-                    confirm_password=body["confirm_password"],
                     )
 
     db.session.add(sitter)
@@ -98,8 +97,6 @@ def put_sitter(sitter_id):
     sitter.last_name = body.get("last_name", sitter.last_name)
     sitter.email = body.get("email", sitter.email)
     sitter.password = body.get("password", sitter.password)
-    sitter.confirm_password = body.get(
-        "confirm_password", sitter.confirm_password)
     sitter.phone = body.get("phone", sitter.phone)
     sitter.studies = body.get("studies", sitter.studies)
     sitter.studies_comment = body.get(
@@ -141,8 +138,7 @@ def create_clients():
     password = body.get("password", None)
     phone = body.get("phone", None)
     address = body.get("address", None)
-    is_active = body.get("is_active", None)
-    if not email or not password or not name or not last_name or not is_active:
+    if not email or not password or not name or not last_name:
         return jsonify({"msg": "All fields are required"}), 400
 
     user = db.session.execute(select(User).where(
@@ -155,8 +151,8 @@ def create_clients():
                 email=body["email"],
                 password=body["password"],
                 phone=phone,
-                address=address,
-                is_active=body["is_active"])
+                address=address
+                )
 
     db.session.add(user)
     db.session.commit()
@@ -201,7 +197,6 @@ def put_client(client_id):
     user.password = body.get("password", user.password)
     user.phone = body.get("phone", user.phone)
     user.address = body.get("address", user.address)
-    user.is_active = body.get("is_active", user.is_active)
 
     db.session.commit()
     return jsonify({"msg": "user updated successfully"}), 200
