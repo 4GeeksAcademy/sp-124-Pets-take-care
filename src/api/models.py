@@ -198,3 +198,20 @@ class SitterSkills(db.Model):
 #como hacer una lista en un serialize, a una IA quiero que en esta lista se me agreguen las distintas skills del sitter
 #y se agrege en la misma lista, actualmente se genera una lista de arrays por cada skill, aunque las skills esrten asignadas a un mismo sitter
 #se generan distintos objetos dentro de un array.
+
+class UserAdmin(db.Model):
+    __tablename__ = "useradmin"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(nullable=False)
+
+    def __repr__(self):
+        return f"<User id={self.id} email={self.email}>"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            # do not serialize the password, its a security breach
+        }
