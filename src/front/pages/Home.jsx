@@ -41,7 +41,7 @@ export const Home = () => {
 			<p className="lead">
 				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
 			</p>
-			<button className="btn btn-primary">Go sitter login</button>
+			<button className="btn btn-primary" onClick={()=>navigate("/appointments")}>Go appointments</button>
 			<div className="alert alert-info">
 				{store.message ? (
 					<span>{store.message}</span>
