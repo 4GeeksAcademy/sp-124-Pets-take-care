@@ -30,6 +30,10 @@ import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 import HomeSitter from "./HomeSitter/HomeSitter";
 import ClientLogin from "./components/loginclient/ClientLogin";
+import ClientHome from "./HomeSitter/HomeSitter";
+import Appointments from "./appointmment/appointments";
+import InfoAppointment from "./appointmment/infoAppointment";
+import PostAppointment from "./appointmment/PostAppointment";
 import AdminLogin from "./components/loginadmin/AdminLogin";
 import AdminHome from "./components/loginadmin/AdminHome";
 import ClientHome from "./components/loginclient/ClientHome";
@@ -85,6 +89,16 @@ export const router = createBrowserRouter(
         <Route path= "/sitters/home" element={<HomeSitter />} />
         <Route path= "/clients/home" element={<ClientHome />} />
         <Route path= "/admin/home" element={<AdminHome />} />
+
+
+
+        <Route path= "/appointments" element={<Appointments />} />
+        <Route path= "/appointments/:id" element={<InfoAppointment />} />
+        <Route path= "/appointments/new" element={<PostAppointment />} />
+
+        
+
+
 
 
 

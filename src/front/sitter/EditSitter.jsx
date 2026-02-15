@@ -20,17 +20,17 @@ const EditSitter = () => {
 
     useEffect(() => {
         fetch(
-            BACKEND_URL + `sitters/${id}`)
+            BACKEND_URL + `api/sitters/${id}`)
             .then(res => res.json())
             .then(data => {
-                setEditarName(data.name);
-                setEditarLastName(data.last_name);
-                setEditarEmail(data.email);
-                setEditarPhone(data.phone);
-                setEditarAddress(data.address);
-                setEditarStudies(data.studies);
-                setEditarStudiesComment(data.studies_comment);
-                setEditarActive(data.is_active);
+                setEditarName(data.name || "");
+                setEditarLastName(data.last_name || "");
+                setEditarEmail(data.email || "");
+                setEditarPhone(data.phone || "");
+                setEditarAddress(data.address || "");
+                setEditarStudies(data.studies ?? false);
+                setEditarStudiesComment(data.studies_comment || "");
+                setEditarActive(data.is_active ?? false);
             });
     }, [id]);
 
@@ -66,7 +66,7 @@ const EditSitter = () => {
             console.error(error);
             alert("Could not update sitter");
         }
-        
+
     };
 
 

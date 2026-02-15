@@ -185,6 +185,9 @@ class Services(db.Model):
     appointments = relationship(
         "Appointment", back_populates="services", cascade="all, delete-orphan")
 
+    def __repr__(self):
+        return f"<name={self.service_name}>"
+    
     def serialize(self):
         return {
             "id": self.id,
@@ -250,8 +253,9 @@ class Appointment(db.Model):
     state: Mapped[str] = mapped_column(String(50), nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
-    service_id: Mapped[int] = mapped_column(
-        ForeignKey("services.id"), nullable=False)
+    service_id: Mapped[int] = mapped_column(ForeignKey("services.id"), nullable=False)
+
+    
     user: Mapped["User"] = relationship(back_populates="appointments")
     pet: Mapped["Pet"] = relationship(back_populates="appointments")
     services: Mapped["Services"] = relationship(back_populates="appointments")
@@ -263,6 +267,7 @@ class Appointment(db.Model):
             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
             "appointment_time": self.appointment_time.isoformat() if self.appointment_time else None,
             "state": self.state,
-            "pet_id": self.pet_id,
-            "service_id": self.service_id
+            "pet_name": self.pet.name,
+            "service_name": self.services.service_name,
+            "user_name": self.user.name
         }

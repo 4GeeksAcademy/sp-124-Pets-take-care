@@ -31,6 +31,7 @@ export const Navbar = () => {
 				</Link>
 				<button className="btn btn-primary" onClick={()=>navigate("/sitters")}>Go Sitters</button>
 				<button className="btn btn-primary" onClick={()=>navigate("/pets")}>Go Pets</button>
+				<button className="btn btn-danger" onClick={()=>navigate("/sitters/login")}>Go sitters login</button>
 				<button className="btn btn-primary" onClick={()=>navigate("/sitterpets")}>Go sitters&pets</button>
 				{store.auth ? 
 				 <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
