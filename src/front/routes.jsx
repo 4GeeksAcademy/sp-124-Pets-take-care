@@ -34,6 +34,9 @@ import ClientHome from "./HomeSitter/HomeSitter";
 import Appointments from "./appointmment/appointments";
 import InfoAppointment from "./appointmment/infoAppointment";
 import PostAppointment from "./appointmment/PostAppointment";
+import AdminLogin from "./components/loginadmin/AdminLogin";
+import AdminHome from "./components/loginadmin/AdminHome";
+import ClientHome from "./components/loginclient/ClientHome";
 
 
 export const router = createBrowserRouter(
@@ -77,6 +80,7 @@ export const router = createBrowserRouter(
 {/* ==================================LOGIN SITTER=================================== */}
         <Route path= "/sitters/login" element={<SitterLogin />} />
         <Route path= "/clients/login" element={<ClientLogin />} />
+        <Route path= "/admin/login" element={<AdminLogin />} />
 
         <Route path= "/newsitter/:id/newskills" element={<NewSitterSkills />} />
         <Route path= "/sitterskills" element={<SitterSkillsList />} />
@@ -84,6 +88,7 @@ export const router = createBrowserRouter(
 {/* ==================================SITTER LOGGED=================================== */}
         <Route path= "/sitters/home" element={<HomeSitter />} />
         <Route path= "/clients/home" element={<ClientHome />} />
+        <Route path= "/admin/home" element={<AdminHome />} />
 
 
 
