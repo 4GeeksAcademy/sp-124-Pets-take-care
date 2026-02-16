@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../../../main";
-import useGlobalReducer from "../../../hooks/useGlobalReducer";
+import { BACKEND_URL } from "../../main";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 
 const AdminLogin = () => {
 
