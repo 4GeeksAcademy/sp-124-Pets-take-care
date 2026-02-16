@@ -812,7 +812,7 @@ def login_admin():
     
     admin = db.session.execute(
         select(UserAdmin).where(
-            UserAdmin.email == email)).scalar_one_or_none
+            UserAdmin.email == email)).scalar_one_or_none()
     
     if admin is None:
         return jsonify({"msg": "Admin not found"}),404
