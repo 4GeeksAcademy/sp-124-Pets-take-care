@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills, Appointment, UserAdmin
+from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills, Appointment, UserAdmin, AppointmentSitter
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
@@ -823,3 +823,115 @@ def login_admin():
     access_token = create_access_token(identity=admin.id)
 
     return jsonify({"admin_token": access_token}), 200
+
+@api.route("/appointments/<int:appointment_id>/sitters", methods=["POST"])
+def apply_to_appointment(appointment_id):
+
+    data = request.get_json()
+    sitter_id = data.get("sitter_id")
+
+    if not sitter_id:
+        return {"msg": "sitter_id is required"}, 400
+
+    appointment = Appointment.query.get(appointment_id)
+    if not appointment:
+        return {"msg": "Appointment not found"}, 404
+
+    sitter = Sitter.query.get(sitter_id)
+    if not sitter:
+        return {"msg": "Sitter not found"}, 404
+
+    existing = AppointmentSitter.query.filter_by(
+        appointment_id=appointment_id,
+        sitter_id=sitter_id
+    ).first()
+
+    if existing:
+        return {"msg": "Sitter already applied"}, 400
+
+    new_application = AppointmentSitter(
+        appointment_id=appointment_id,
+        sitter_id=sitter_id,
+        status="applied"
+    )
+
+    db.session.add(new_application)
+    db.session.commit()
+
+    return new_application.serialize(), 201
+
+@api.route("/appointments/<int:appointment_id>/sitters", methods=["GET"])
+def get_appointment_sitters(appointment_id):
+
+    appointment = Appointment.query.get(appointment_id)
+    if not appointment:
+        return {"msg": "Appointment not found"}, 404
+
+    applications = AppointmentSitter.query.filter_by(
+        appointment_id=appointment_id
+    ).all()
+
+    return [app.serialize() for app in applications], 200
+
+@api.route("/appointments/<int:appointment_id>/sitters/<int:sitter_id>", methods=["GET"])
+def get_single_application(appointment_id, sitter_id):
+
+    application = AppointmentSitter.query.filter_by(
+        appointment_id=appointment_id,
+        sitter_id=sitter_id
+    ).first()
+
+    if not application:
+        return {"msg": "Application not found"}, 404
+
+    return application.serialize(), 200
+
+@api.route("/appointments/<int:appointment_id>/sitters/<int:sitter_id>", methods=["PATCH"])
+def update_application_status(appointment_id, sitter_id):
+
+    data = request.get_json()
+    new_status = data.get("status")
+
+    valid_statuses = ["applied", "selected", "rejected", "withdrawn"]
+
+    if new_status not in valid_statuses:
+        return {"msg": "Invalid status"}, 400
+
+    application = AppointmentSitter.query.filter_by(
+        appointment_id=appointment_id,
+        sitter_id=sitter_id
+    ).first()
+
+    if not application:
+        return {"msg": "Application not found"}, 404
+
+    if new_status == "selected":
+
+        already_selected = AppointmentSitter.query.filter_by(
+            appointment_id=appointment_id,
+            status="selected"
+        ).first()
+
+        if already_selected and already_selected.sitter_id != sitter_id:
+            return {"msg": "Another sitter is already selected"}, 400
+
+    application.status = new_status
+    db.session.commit()
+
+    return application.serialize(), 200
+
+@api.route("/appointments/<int:appointment_id>/sitters/<int:sitter_id>", methods=["DELETE"])
+def delete_application(appointment_id, sitter_id):
+
+    application = AppointmentSitter.query.filter_by(
+        appointment_id=appointment_id,
+        sitter_id=sitter_id
+    ).first()
+
+    if not application:
+        return {"msg": "Application not found"}, 404
+
+    db.session.delete(application)
+    db.session.commit()
+
+    return {"msg": "Application deleted"}, 200
