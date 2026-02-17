@@ -11,6 +11,8 @@ const InfoAppointment = () => {
     const { id } = useParams();
     const [appointment, setAppointment] = useState({})
 
+    const [pets, setPets] = useState({})
+
     useEffect(() => {
 
         readAppointment()
@@ -18,6 +20,25 @@ const InfoAppointment = () => {
     }, [id])
 
     
+    const readPet = (id_pet) => {
+        fetch(
+             BACKEND_URL + `api/pets/${id_pet}`
+        )
+            .then(resp => {
+                if (!resp.ok) {
+                    throw new Error("something went wrong")
+                }
+                return resp.json()
+            })
+
+            .then(data =>
+                setPets(data)
+            )
+            .catch(err => console.log(err))      
+    }
+
+
+
     const readAppointment = () => {
         fetch(
              BACKEND_URL + `api/appointments/${id}`
@@ -29,12 +50,11 @@ const InfoAppointment = () => {
                 return resp.json()
             })
 
-            .then(data =>
-                setAppointment(data)
-            )
-            .catch(err => console.log(err))
-
-            
+            .then(data => {
+                            setAppointment(data)
+                            readPet(data.pet_id) 
+                           })
+            .catch(err => console.log(err))      
     }
     if (!appointment) {
         return <p>Loading appointment...</p>;}
@@ -47,7 +67,7 @@ const InfoAppointment = () => {
             <p><strong>appointment id:</strong> {appointment.id}</p>
             <p><strong>Client name:</strong> {appointment.user_name}</p>
             <p><strong>Pet name:</strong> {appointment.pet_name}</p>
-            <p><strong>Species:</strong> {appointment.pet_species}</p>
+            <p><strong>Species:</strong> {pets.species}</p>
             <p><strong>Date:</strong> {appointment.appointment_date}</p>
             <p><strong>Time:</strong> {appointment.appointment_time}</p>
             <p><strong>Service:</strong> {appointment.service_name}</p>

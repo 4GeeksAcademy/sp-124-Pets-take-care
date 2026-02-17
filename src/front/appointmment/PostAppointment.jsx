@@ -38,9 +38,12 @@ const PostAppointment = () => {
         }
         return resp.json()
       })
-      .then(data => setServices(data))
+      .then(data => {
+                      setServices(data)
+                      setService(data[0].id)                   
+                    })
       .catch(err => console.log(err))
-
+      
   }
 
   const readPets = async () => {
@@ -53,9 +56,12 @@ const PostAppointment = () => {
         }
         return resp.json()
       })
-      .then(data => setPets(data))
+      .then(data => {
+                      setPets(data)
+                      setPet(data[0].id)
+                    })
       .catch(err => console.log(err))
-
+      
   }
 
   const readUsers = async () => {
@@ -68,9 +74,12 @@ const PostAppointment = () => {
         }
         return resp.json()
       })
-      .then(data => setUsers(data))
+      .then(data => {
+                     setUsers(data)
+                     setUser(data[0].id)             
+                    })
       .catch(err => console.log(err))
-
+      
   }
 
   const newAppointment = async (e) => {

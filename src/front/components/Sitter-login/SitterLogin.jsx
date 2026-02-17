@@ -1,13 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { BACKEND_URL } from "../main";
-import useGlobalReducer, { StoreProvider } from "../hooks/useGlobalReducer";
+import { BACKEND_URL } from "../../main";
+import useGlobalReducer, { StoreProvider } from "../../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
 
 const SitterLogin = () => {
 
     const navigate = useNavigate()
-    const {store, dispatch } = useGlobalReducer(); 
+    const { store, dispatch } = useGlobalReducer();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -32,19 +32,19 @@ const SitterLogin = () => {
             throw new Error("bad username or password");
         }
 
-        const data = await response.json() 
+        const data = await response.json()
         localStorage.setItem("sitterToken", data.access_token)
-        
-        dispatch ({
-            type:"set_auth",
+
+        dispatch({
+            type: "set_auth",
             payload: true
         })
 
-        
+
         navigate("/sitters/home")
     }
 
-    
+
 
     return (
         <div className="container">
