@@ -84,9 +84,9 @@ const Appointments = () => {
                     <div className="container mt-3">
                     <button className="btn btn-primary" onClick={() => navigate(`/appointments/${el.id}`)}>info
                     </button>
-                    <button className="btn btn-warning ms-2" onClick={() => navigate(`/pets/edit/${el.id}`)}>Edit
+                    <button className="btn btn-warning ms-2" onClick={() => navigate(`/appointments/edit/${el.id}`)}>Edit
                     </button>
-                    <button className="btn btn-danger ms-2"  onClick={() => deletePet(el.id)}>Delete
+                    <button className="btn btn-danger ms-2"  onClick={() => deleteAppointment(el.id)}>Delete
                     </button>
                     </div>
                 </div>

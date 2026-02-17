@@ -269,5 +269,6 @@ class Appointment(db.Model):
             "state": self.state,
             "pet_name": self.pet.name,
             "service_name": self.services.service_name,
-            "user_name": self.user.name
+            "user_name": self.user.name,
+            "pet_id": self.pet_id
         }
