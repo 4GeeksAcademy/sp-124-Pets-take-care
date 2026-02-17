@@ -66,7 +66,7 @@ const Appointments = () => {
                             <div className="row">
                             <div className="container"> 
                                 <h5>Nombre cliente</h5>
-                    <span>{el.user_name}</span> 
+                    <span>{el.user_name}</span>
                     </div>
                          <div className="container"> 
                             <h5>Fecha y a que hora</h5>
