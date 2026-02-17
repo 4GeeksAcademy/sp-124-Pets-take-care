@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, Numeric
+from sqlalchemy import String, Boolean, Numeric, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
-from datetime import date
+from datetime import date, time
 from sqlalchemy import Date
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
@@ -21,9 +21,15 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
-    is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean(),
+                                            nullable=False,
+                                            default=True,
+                                            server_default="true")
 
-    pets: Mapped[List["Pet"]] = relationship("Pet", back_populates="user", cascade="all, delete-orphan")
+    pets: Mapped[List["Pet"]] = relationship(
+        "Pet", back_populates="user", cascade="all, delete-orphan")
+    appointments = relationship(
+        "Appointment", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User id={self.id} name={self.name} email={self.email}>"
@@ -40,24 +46,27 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
 
+
 class Sitter(db.Model):
     __tablename__ = "sitter"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     last_name: Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(
+        String(120), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
-    confirm_password: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(String(120), nullable=True)
     studies: Mapped[bool] = mapped_column(Boolean(), nullable=True)
     studies_comment: Mapped[str] = mapped_column(String(120), nullable=True)
     address: Mapped[str] = mapped_column(String(120), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=True)
 
-    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="sitter", cascade="all, delete-orphan")
-    sitter_skills: Mapped[List["SitterSkills"]] = relationship(back_populates="sitter", cascade="all, delete-orphan")
-
+    sitterpets: Mapped[List["SitterPet"]] = relationship(
+        back_populates="sitter", cascade="all, delete-orphan")
+    sitter_skills: Mapped[List["SitterSkills"]] = relationship(
+        back_populates="sitter", cascade="all, delete-orphan")
+    application: Mapped[List["AppointmentSitter"]] = relationship("AppointmentSitter", back_populates="sitter", cascade="all, delete-orphan")
     def __repr__(self):
         return f"<Sitter id={self.id} name={self.name} email={self.email}>"
 
@@ -76,13 +85,15 @@ class Sitter(db.Model):
             # do not serialize the password, its a security breach
         }
 
+
 class Skill(db.Model):
     __tablename__ = "skill"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     skill: Mapped[str] = mapped_column(String(120), nullable=False)
 
-    skills_sitter: Mapped[List["SitterSkills"]] = relationship(back_populates="skill", cascade="all, delete-orphan")
+    skills_sitter: Mapped[List["SitterSkills"]] = relationship(
+        back_populates="skill", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
@@ -90,6 +101,7 @@ class Skill(db.Model):
             "skill": self.skill
             # do not serialize the password, its a security breach
         }
+
 
 class Pet(db.Model):
     __tablename__ = "pet"
@@ -109,12 +121,13 @@ class Pet(db.Model):
     sterilized: Mapped[bool] = mapped_column(Boolean(), nullable=False)
     about_pet: Mapped[str] = mapped_column(String(300), nullable=True)
 
-    sitterpets: Mapped[List["SitterPet"]] = relationship(back_populates="pet", cascade="all, delete-orphan")
-    
+    sitterpets: Mapped[List["SitterPet"]] = relationship(
+        back_populates="pet", cascade="all, delete-orphan")
+    appointments = relationship(
+        "Appointment", back_populates="pet", cascade="all, delete-orphan")
+
     user: Mapped["User"] = relationship("User", back_populates="pets")
-    
-    
-    
+
     def __repr__(self):
         return f"<Pet id={self.id} name={self.name} species={self.species}>"
 
@@ -136,6 +149,7 @@ class Pet(db.Model):
             # do not serialize the password, its a security breach
         }
 
+
 class SitterPet(db.Model):
     __tablename__ = "sitterpet"
 
@@ -147,16 +161,19 @@ class SitterPet(db.Model):
     sitter: Mapped["Sitter"] = relationship(back_populates="sitterpets")
     pet: Mapped["Pet"] = relationship(back_populates="sitterpets")
 
+    __table_args__ = (db.UniqueConstraint("sitter_id", "pet_id"),)
+
     def serialize(self):
 
         return {
-           "id": self.id,
-           "sitter_id": self.sitter_id,
-           "pet_id": self.pet_id,
-           "sitter_name": self.sitter.name,
-           "pet_name": self.pet.name
+            "id": self.id,
+            "sitter_id": self.sitter_id,
+            "pet_id": self.pet_id,
+            "sitter_name": self.sitter.name,
+            "pet_name": self.pet.name
         }
-    
+
+
 class Services(db.Model):
     __tablename__ = "services"
 
@@ -165,6 +182,11 @@ class Services(db.Model):
     duration_minutes: Mapped[int] = mapped_column(nullable=False)
     cost: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
 
+    appointments: Mapped[List["Appointment"]] = relationship("Appointment", back_populates="service", cascade="all, delete-orphan")
+
+    def __repr__(self):
+        return f"<name={self.service_name}>"
+    
     def serialize(self):
         return {
             "id": self.id,
@@ -173,18 +195,22 @@ class Services(db.Model):
             "cost": float(self.cost)
             # do not serialize the password, its a security breach
         }
-    
+
+
 class SitterSkills(db.Model):
     __tablename__ = "sitterskills"
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-
-    sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
-    skill_id: Mapped[int] = mapped_column(ForeignKey("skill.id"), nullable=False)
+    sitter_id: Mapped[int] = mapped_column(
+        ForeignKey("sitter.id"), nullable=False)
+    skill_id: Mapped[int] = mapped_column(
+        ForeignKey("skill.id"), nullable=False)
 
     sitter: Mapped["Sitter"] = relationship(back_populates="sitter_skills")
     skill: Mapped["Skill"] = relationship(back_populates="skills_sitter")
+
+    __table_args__ = (db.UniqueConstraint("sitter_id", "skill_id"),)
 
     def serialize(self):
 
@@ -198,3 +224,81 @@ class SitterSkills(db.Model):
 #como hacer una lista en un serialize, a una IA quiero que en esta lista se me agreguen las distintas skills del sitter
 #y se agrege en la misma lista, actualmente se genera una lista de arrays por cada skill, aunque las skills esrten asignadas a un mismo sitter
 #se generan distintos objetos dentro de un array.
+
+class UserAdmin(db.Model):
+    __tablename__ = "useradmin"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str] = mapped_column(String(120), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(nullable=False)
+
+    def __repr__(self):
+        return f"<User id={self.id} email={self.email}>"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            # do not serialize the password, its a security breach
+        }
+
+class Appointment(db.Model):
+
+    __tablename__ = "appointment"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    appointment_date: Mapped[date] = mapped_column(Date, nullable=False)
+    appointment_time: Mapped[time] = mapped_column(Time, nullable=False)
+    state: Mapped[str] = mapped_column(String(50), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
+    pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
+    service_id: Mapped[int] = mapped_column(
+        ForeignKey("services.id"), nullable=False)
+    user: Mapped["User"] = relationship(back_populates="appointments")
+    pet: Mapped["Pet"] = relationship(back_populates="appointments")
+    service: Mapped["Services"] = relationship(back_populates="appointments")
+
+    appointment_sitters: Mapped[List["AppointmentSitter"]] = relationship(back_populates="appointment", cascade="all, delete-orphan")
+
+    def serialize(self):
+
+        return {
+
+            "id": self.id,
+            "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
+            "appointment_time": self.appointment_time.isoformat() if self.appointment_time else None,
+            "state": self.state,
+            "pet_id": self.pet_id,
+            "service_id": self.service_id,
+            "service_name": self.service.service_name,
+            "pet_name": self.pet.name,
+            "user_name": self.user.name
+
+        }
+
+class AppointmentSitter(db.Model):
+
+    __tablename__ = "appointment_sitter"
+
+    __table_args__ = (
+        UniqueConstraint("appointment_id", "sitter_id", name="unique_application"),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    status: Mapped[str] = mapped_column(String(50), default="applied")
+    #applied, selected, rejected, withdrawn
+
+    appointment_id: Mapped[int] = mapped_column(ForeignKey("appointment.id"), nullable=False)
+    sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
+    
+    appointment: Mapped["Appointment"] = relationship(back_populates="appointment_sitters")
+    sitter: Mapped["Sitter"] = relationship(back_populates="application")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "appointment_id": self.appointment_id,
+            "sitter_id": self.sitter_id,
+            "status": self.status
+        }

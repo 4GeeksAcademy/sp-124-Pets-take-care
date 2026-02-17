@@ -9,7 +9,6 @@ const NewClient = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isActive, setIsActive] = useState(false);
 
 
     const postClient = async () => {
@@ -23,8 +22,7 @@ const NewClient = () => {
                     "name": name,
                     "last_name": lastName,
                     "email": email,
-                    "password": password,
-                    "is_active": isActive,
+                    "password": password
                 })
             }
         );
@@ -56,18 +54,6 @@ const NewClient = () => {
                 <div className="container">
                     <input type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
                 </div>
-               
-                <div className="container">
-                    <input type="radio" id="active-yes" name="active" checked={isActive === true}
-                        onChange={() => setIsActive(true)} />
-                    <label htmlFor="active-yes">Yes</label>
-                </div>
-                <div className="container">
-                    <input type="radio" id="active-no" name="active" checked={isActive === false}
-                        onChange={() => setIsActive(false)} />
-                    <label htmlFor="active-no">No</label>
-                </div>
-
                 <button type="button" onClick={postClient}>
                     New Client
                 </button>

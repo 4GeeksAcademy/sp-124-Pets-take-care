@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills
+from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills, Appointment, UserAdmin
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
@@ -10,6 +10,7 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+from datetime import datetime
 
 api = Blueprint('api', __name__)
 
@@ -38,9 +39,9 @@ def signup_sitter():
     last_name = body.get("last_name", None)
     email = body.get("email", None)
     password = body.get("password", None)
-    confirm_password = body.get("confirm_password", None)
+    
 
-    if not email or not password or not name or not last_name or not confirm_password:
+    if not email or not password or not name or not last_name:
         return jsonify({"msg": "All fields are required"}), 400
 
     sitter = db.session.execute(select(Sitter).where(
@@ -52,7 +53,6 @@ def signup_sitter():
                     last_name=body["last_name"],
                     email=body["email"],
                     password=body["password"],
-                    confirm_password=body["confirm_password"],
                     )
 
     db.session.add(sitter)
@@ -98,8 +98,6 @@ def put_sitter(sitter_id):
     sitter.last_name = body.get("last_name", sitter.last_name)
     sitter.email = body.get("email", sitter.email)
     sitter.password = body.get("password", sitter.password)
-    sitter.confirm_password = body.get(
-        "confirm_password", sitter.confirm_password)
     sitter.phone = body.get("phone", sitter.phone)
     sitter.studies = body.get("studies", sitter.studies)
     sitter.studies_comment = body.get(
@@ -141,8 +139,7 @@ def create_clients():
     password = body.get("password", None)
     phone = body.get("phone", None)
     address = body.get("address", None)
-    is_active = body.get("is_active", None)
-    if not email or not password or not name or not last_name or not is_active:
+    if not email or not password or not name or not last_name:
         return jsonify({"msg": "All fields are required"}), 400
 
     user = db.session.execute(select(User).where(
@@ -155,8 +152,8 @@ def create_clients():
                 email=body["email"],
                 password=body["password"],
                 phone=phone,
-                address=address,
-                is_active=body["is_active"])
+                address=address
+                )
 
     db.session.add(user)
     db.session.commit()
@@ -201,7 +198,6 @@ def put_client(client_id):
     user.password = body.get("password", user.password)
     user.phone = body.get("phone", user.phone)
     user.address = body.get("address", user.address)
-    user.is_active = body.get("is_active", user.is_active)
 
     db.session.commit()
     return jsonify({"msg": "user updated successfully"}), 200
@@ -655,7 +651,7 @@ def login_sitter():
      ## =======================##LOGING SITTER##============================##
      ## ====================================================================##
 
-@api.route("/client/login", methods=["POST"])
+@api.route("/clients/login", methods=["POST"])
 def login_client():
     email = request.json.get("email")
     password = request.json.get("password")
@@ -674,6 +670,156 @@ def login_client():
         return jsonify({"msg": "Wrong password"}), 401
     
     access_token = create_access_token(identity=client.id)
-    print(access_token)
 
     return jsonify({"client_token": access_token}), 200
+
+## ====================================================================##
+    ## =======================##APPOINTMETS##============================##
+
+@api.route('/appointments', methods=['GET'])
+def get_appointmenst():
+
+    appointments = db.session.execute(select(Appointment)).scalars().all()
+
+    results_appointments = list(map(lambda appointmen: appointmen.serialize(), appointments))
+
+    return jsonify(results_appointments), 200
+
+@api.route('/appointments/<int:id>', methods=['GET'])
+def get_appointment(id):
+
+    appointment = db.session.get(Appointment, id)
+
+    if appointment is None:
+        return jsonify({"message": "appointment not found"}), 404
+
+    return jsonify(appointment.serialize()), 200
+
+
+
+@api.route("/appointments", methods=["POST"])
+def add_appointment():
+
+    body = request.get_json()
+
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    user_id = body.get("user_id")
+    pet_id = body.get("pet_id")
+    service_id = body.get("service_id")
+    state = body.get("state")
+    date_str = body.get("appointment_date")
+    time_str = body.get("appointment_time")
+
+    if not all([user_id, pet_id, service_id, state, date_str, time_str]):
+        return jsonify({"msg": "All fields are required"}), 400
+
+    try:
+        appointment_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        appointment_time = datetime.strptime(time_str, "%H:%M").time()
+    except ValueError:
+        return jsonify({"msg": "Invalid date or time format"}), 400
+
+    new_appointment = Appointment(
+        user_id=user_id,
+        pet_id=pet_id,
+        service_id=service_id,
+        appointment_date=appointment_date,
+        appointment_time=appointment_time,
+        state=state
+    )
+
+    db.session.add(new_appointment)
+    db.session.commit()
+
+    return jsonify({"msg": "New appointment created"}), 201
+
+@api.route('/appointments/<int:id>', methods=['DELETE'])
+def delete_appointment(id):
+
+    appointment = db.session.get(Appointment, id)
+
+    if not appointment:
+        return jsonify({"message": "appointment not found"}), 404
+    
+    db.session.delete(appointment)
+    db.session.commit()
+    
+
+
+    return jsonify({"msg": "appointment deleted"}), 200
+
+
+
+@api.route('/appointments/<int:id>', methods=['PUT'])
+def update_appointment(id):
+
+    appointment = db.session.get(Appointment, id)
+
+    if not appointment:
+        return jsonify({"message": "appointment not found"}), 404
+    
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "no data provided"}), 400
+
+    if "state" in body:
+         appointment.state = body["state"] 
+
+    if "pet_id" in body:
+         pet = db.session.get(Pet, body["pet_id"])
+         if not pet:
+           return jsonify({"msg": "pet not found"}), 400
+         appointment.pet_id = body["pet_id"]
+
+    if "service_id" in body:
+         service = db.session.get(Services, body["service_id"])
+         if not service:
+           return jsonify({"msg": "service not found"}), 400
+         appointment.service = body["service_id"] 
+    
+    if "appointment_date" in body: 
+         try:
+              date_obj = datetime.strptime(body["appointment_date"], "%Y-%m-%d").date()
+              appointment.appointment_date = date_obj 
+         except:
+             return jsonify({"msg": "incorrect date"}), 400
+    
+    if "appointment_time" in body:
+        try: 
+              time_obj = datetime.strptime(body["appointment_time"], "%H:%M").time()   
+              appointment.appointment_time = time_obj
+
+        except:
+             return jsonify({"msg": "incorrect time"}), 400
+        
+    db.session.commit()    
+
+    return jsonify({"msg": "appointment updated"}), 200
+
+## ====================================================================##
+    ## =======================##APPOINTMETS##============================##
+
+
+@api.route("/admin/login", methods=["POST"])
+def login_admin():
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    if not email or not password:
+        return jsonify({"msg": "Missing credentials"}), 400
+    
+    admin = db.session.execute(
+        select(UserAdmin).where(
+            UserAdmin.email == email)).scalar_one_or_none()
+    
+    if admin is None:
+        return jsonify({"msg": "Admin not found"}),404
+    
+    if password != admin.password:
+        return jsonify({"msg": "Wrong password"}), 401
+    
+    access_token = create_access_token(identity=admin.id)
+
+    return jsonify({"admin_token": access_token}), 200

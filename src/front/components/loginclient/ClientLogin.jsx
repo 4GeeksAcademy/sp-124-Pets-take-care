@@ -1,9 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import { BACKEND_URL } from "../main";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../main";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 
-const SitterLogin = () => {
+const ClientLogin = () => {
 
+    const navigate = useNavigate()
+    const {store, dispatch } = useGlobalReducer(); 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -13,7 +17,7 @@ const SitterLogin = () => {
         console.log(email, password)
 
         const response = await fetch(
-            BACKEND_URL + "api/sitters/login",
+            BACKEND_URL + "api/clients/login",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -29,11 +33,18 @@ const SitterLogin = () => {
         }
 
         const data = await response.json() 
-        localStorage.setItem("sitterToken", data.access_token)
-        console.log(data)
+        localStorage.setItem("clientToken", data.access_token)
+        
+        dispatch ({
+            type:"set_auth",
+            payload: true
+        })
 
+        
+        navigate("/clients/home")
     }
 
+    
 
     return (
         <div className="container">
@@ -61,4 +72,4 @@ const SitterLogin = () => {
 }
 
 
-export default SitterLogin 
+export default ClientLogin 

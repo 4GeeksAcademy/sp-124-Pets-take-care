@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { BACKEND_URL } from "../main";
+import { BACKEND_URL } from "../../main";
 
 const EditSitter = () => {
 
@@ -14,24 +14,23 @@ const EditSitter = () => {
     const [editarPhone, setEditarPhone] = useState("")
     const [editarEmail, setEditarEmail] = useState("")
     const [editarPassword, setEditarPassword] = useState("")
-    const [editarConfirmPassword, setEditarConfirmPassword] = useState("")
     const [editarStudies, setEditarStudies] = useState(false);
     const [editarStudiesComment, setEditarStudiesComment] = useState("");
     const [editarActive, setEditarActive] = useState(false);
 
     useEffect(() => {
         fetch(
-            BACKEND_URL + `sitters/${id}`)
+            BACKEND_URL + `api/sitters/${id}`)
             .then(res => res.json())
             .then(data => {
-                setEditarName(data.name);
-                setEditarLastName(data.last_name);
-                setEditarEmail(data.email);
-                setEditarPhone(data.phone);
-                setEditarAddress(data.address);
-                setEditarStudies(data.studies);
-                setEditarStudiesComment(data.studies_comment);
-                setEditarActive(data.is_active);
+                setEditarName(data.name || "");
+                setEditarLastName(data.last_name || "");
+                setEditarEmail(data.email || "");
+                setEditarPhone(data.phone || "");
+                setEditarAddress(data.address || "");
+                setEditarStudies(data.studies ?? false);
+                setEditarStudiesComment(data.studies_comment || "");
+                setEditarActive(data.is_active ?? false);
             });
     }, [id]);
 
@@ -67,7 +66,7 @@ const EditSitter = () => {
             console.error(error);
             alert("Could not update sitter");
         }
-        
+
     };
 
 
@@ -82,9 +81,6 @@ const EditSitter = () => {
     }
     const createPassword = (e) => {
         setEditarPassword(e.target.value)
-    }
-    const createConfirmPassword = (e) => {
-        setEditarConfirmPassword(e.target.value)
     }
     const createPhone = (e) => {
         setEditarPhone(e.target.value)
@@ -115,9 +111,6 @@ const EditSitter = () => {
                 </div>
                 <div className="container">
                     <input type="text" placeholder="password" onChange={createPassword} value={editarPassword} />
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="confirm_password" onChange={createConfirmPassword} value={editarConfirmPassword} />
                 </div>
                 <div className="container">
                     <input type="text" placeholder="phone" onChange={createPhone} value={editarPhone} />

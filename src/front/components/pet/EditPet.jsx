@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { BACKEND_URL } from "../main";
+import { BACKEND_URL } from "../../main";
 
 const EditPet = () => {
 
@@ -11,7 +11,7 @@ const EditPet = () => {
     const [editarName, setEditarName] = useState("")
     const [editarSpecies, setEditarSpecies] = useState("")
     const [editarRace, setEditarRace] = useState("")
-    const [editarGender, setEditarGender] = useState(false)
+    const [editarGender, setEditarGender] = useState("")
     const [editarColor, setEditarColor] = useState("")
     const [editarHasNie, setEditarHasNie] = useState(false);
     const [editarNie, setEditarNie] = useState("")
@@ -24,16 +24,17 @@ const EditPet = () => {
         fetch( BACKEND_URL + `api/pets/${id}`)
             .then(res => res.json())
             .then(data => {
-                setEditarName(data.name);
-                setEditarSpecies(data.species);
-                setEditarRace(data.race);
+                setEditarName(data.name || "");
+                setEditarSpecies(data.species || "");
+                setEditarRace(data.race || "");
                 setEditarGender(data.gender);
-                setEditarColor(data.color);
-                setEditarNie(data.nie);
-                setEditarBirthDate(data.birth_date);
-                setEditarTypeFood(data.type_food);
-                setEditarSpecialCare(data.special_care);
-                setEditarSterilized(data.sterilized);
+                setEditarColor(data.color || "");
+                setEditarNie(data.nie || "");
+                setEditarBirthDate(data.birth_date || "");
+                setEditarTypeFood(data.type_food || "");
+                setEditarSpecialCare(data.special_care ?? false);
+                setEditarSterilized(data.sterilized ?? false);
+                setEditarHasNie(data.has_nie ?? false);
             });
     }, [id]);
 
@@ -115,14 +116,14 @@ const EditPet = () => {
                 </div>
                 <h5>Gender</h5>
                 <div className="container">
-                    <input type="radio" id="masc" name="gender" checked={editarGender === true}
-                        onChange={() => setEditarGender(true)} />
+                    <input type="radio" id="masc" name="gender" checked={editarGender === "male"}
+                        onChange={() => setEditarGender("male")} />
                     <label htmlFor="masc">boy</label>
                 </div>
 
                 <div className="container">
-                    <input type="radio" id="fem" name="gender" checked={editarGender === false}
-                        onChange={() => setEditarGender(false)} />
+                    <input type="radio" id="fem" name="gender" checked={editarGender === "female"}
+                        onChange={() => setEditarGender("female")} />
                     <label htmlFor="fem">girl</label>
                 </div>
                 <div className="container">
@@ -182,7 +183,7 @@ const EditPet = () => {
                 </div>
             </form>
             <button type="button" className="btn btn-success me-5 mt-5" onClick={updatePet}>Save changes</button>
-            <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/pets")}>go back</button>
+            <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/sitters/login")}>go back</button>
         </div>
     )
 }
