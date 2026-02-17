@@ -263,12 +263,17 @@ class Appointment(db.Model):
     def serialize(self):
 
         return {
+
             "id": self.id,
             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
             "appointment_time": self.appointment_time.isoformat() if self.appointment_time else None,
             "state": self.state,
             "pet_id": self.pet_id,
-            "service_id": self.service_id
+            "service_id": self.service_id,
+            "service_name": self.service.service_name,
+            "pet_name": self.pet.name,
+            "user_name": self.user.name
+
         }
 
 class AppointmentSitter(db.Model):
