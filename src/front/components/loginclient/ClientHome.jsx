@@ -11,4 +11,4 @@ const ClientHome = () => {
     )
 }
 
-export default ClientHome 
+export default ClientHome

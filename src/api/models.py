@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, Numeric, Time
+from sqlalchemy import String, Boolean, Numeric, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date, time
 from sqlalchemy import Date
@@ -66,7 +66,7 @@ class Sitter(db.Model):
         back_populates="sitter", cascade="all, delete-orphan")
     sitter_skills: Mapped[List["SitterSkills"]] = relationship(
         back_populates="sitter", cascade="all, delete-orphan")
-
+    application: Mapped[List["AppointmentSitter"]] = relationship("AppointmentSitter", back_populates="sitter", cascade="all, delete-orphan")
     def __repr__(self):
         return f"<Sitter id={self.id} name={self.name} email={self.email}>"
 
@@ -182,8 +182,7 @@ class Services(db.Model):
     duration_minutes: Mapped[int] = mapped_column(nullable=False)
     cost: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
 
-    appointments = relationship(
-        "Appointment", back_populates="services", cascade="all, delete-orphan")
+    appointments: Mapped[List["Appointment"]] = relationship("Appointment", back_populates="service", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<name={self.service_name}>"
@@ -253,12 +252,13 @@ class Appointment(db.Model):
     state: Mapped[str] = mapped_column(String(50), nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
-    service_id: Mapped[int] = mapped_column(ForeignKey("services.id"), nullable=False)
-
-    
+    service_id: Mapped[int] = mapped_column(
+        ForeignKey("services.id"), nullable=False)
     user: Mapped["User"] = relationship(back_populates="appointments")
     pet: Mapped["Pet"] = relationship(back_populates="appointments")
-    services: Mapped["Services"] = relationship(back_populates="appointments")
+    service: Mapped["Services"] = relationship(back_populates="appointments")
+
+    appointment_sitters: Mapped[List["AppointmentSitter"]] = relationship(back_populates="appointment", cascade="all, delete-orphan")
 
     def serialize(self):
 
@@ -267,8 +267,33 @@ class Appointment(db.Model):
             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
             "appointment_time": self.appointment_time.isoformat() if self.appointment_time else None,
             "state": self.state,
-            "pet_name": self.pet.name,
-            "service_name": self.services.service_name,
-            "user_name": self.user.name,
-            "pet_id": self.pet_id
+            "pet_id": self.pet_id,
+            "service_id": self.service_id
+        }
+
+class AppointmentSitter(db.Model):
+
+    __tablename__ = "appointment_sitter"
+
+    __table_args__ = (
+        UniqueConstraint("appointment_id", "sitter_id", name="unique_application"),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    status: Mapped[str] = mapped_column(String(50), default="applied")
+    #applied, selected, rejected, withdrawn
+
+    appointment_id: Mapped[int] = mapped_column(ForeignKey("appointment.id"), nullable=False)
+    sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
+    
+    appointment: Mapped["Appointment"] = relationship(back_populates="appointment_sitters")
+    sitter: Mapped["Sitter"] = relationship(back_populates="application")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "appointment_id": self.appointment_id,
+            "sitter_id": self.sitter_id,
+            "status": self.status
         }
