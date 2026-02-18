@@ -29,14 +29,14 @@ import SitterLogin from "./components/Sitter-login/SitterLogin";
 import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 import HomeSitter from "./components/Sitter-login/HomeSitter";
-import ClientLogin from "./components/loginclient/ClientLogin";
+import ClientLogin from "./components/Flujo-client/ClientLogin";
 import Appointments from "./appointmment/appointments";
 import InfoAppointment from "./appointmment/infoAppointment";
 import PostAppointment from "./appointmment/PostAppointment";
 import AdminLogin from "./components/loginadmin/AdminLogin";
 import AdminHome from "./components/loginadmin/AdminHome";
 import PutAppointment from "./appointmment/PutAppointments";
-import ClientHome from "./components/loginclient/ClientHome";
+import ClientHome from "./components/Flujo-client/ClientHome";
 
 
 
