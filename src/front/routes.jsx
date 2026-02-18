@@ -37,6 +37,10 @@ import AdminLogin from "./components/loginadmin/AdminLogin";
 import AdminHome from "./components/loginadmin/AdminHome";
 import PutAppointment from "./appointmment/PutAppointments";
 import ClientHome from "./components/loginclient/ClientHome";
+import AppointmentSitterList from "./components/appointmentsitter/AppointmentSitterList";
+import ViewAppointmentSitter from "./components/appointmentsitter/ViewAppointmentSitter";
+import NewAppointmentSitter from "./components/appointmentsitter/NewAppointmentSitter";
+import EditAppointmentSitter from "./components/appointmentsitter/EditAppointmentSitter";
 
 
 
@@ -92,17 +96,15 @@ export const router = createBrowserRouter(
       <Route path="/admin/home" element={<AdminHome />} />
 
 
-
       <Route path="/appointments" element={<Appointments />} />
       <Route path="/appointments/:id" element={<InfoAppointment />} />
       <Route path="/appointments/new" element={<PostAppointment />} />
       <Route path="/appointments/edit/:id" element={<PutAppointment />} />
 
-
-
-
-
-
+      <Route path="/appointments/sitters" element={<AppointmentSitterList />} />
+      <Route path="/appointments/:id/sitters/" element={<ViewAppointmentSitter />} />
+      <Route path="/appointments/sitters" element={<NewAppointmentSitter />} />
+      <Route path="/appointments/:id/sitters/:id" element={<EditAppointmentSitter />} />
 
     </Route>
   )

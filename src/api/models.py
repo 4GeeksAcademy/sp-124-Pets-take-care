@@ -302,7 +302,7 @@ class AppointmentSitter(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "appointment_id": self.appointment_id,
-            "sitter_id": self.sitter_id,
-            "status": self.status
+            "appointment": self.appointment.serialize(),
+            "status": self.status,
+            "sitter": self.sitter.serialize()
         }

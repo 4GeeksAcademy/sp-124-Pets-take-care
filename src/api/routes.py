@@ -824,114 +824,21 @@ def login_admin():
 
     return jsonify({"admin_token": access_token}), 200
 
-@api.route("/appointments/<int:appointment_id>/sitters", methods=["POST"])
-def apply_to_appointment(appointment_id):
+@api.route('/appointments/sitters', methods=['GET'])
+def get_appointments_sitters():
 
-    data = request.get_json()
-    sitter_id = data.get("sitter_id")
+    application = db.session.execute(select(AppointmentSitter)).scalars().all()
 
-    if not sitter_id:
-        return {"msg": "sitter_id is required"}, 400
+    results_application = list(map(lambda appointmenSitter: appointmenSitter.serialize(), application))
 
-    appointment = Appointment.query.get(appointment_id)
-    if not appointment:
-        return {"msg": "Appointment not found"}, 404
+    return jsonify(results_application), 200
 
-    sitter = Sitter.query.get(sitter_id)
-    if not sitter:
-        return {"msg": "Sitter not found"}, 404
+@api.route('/appointments/<int:id>/sitters', methods=['GET'])
+def get_appointment_sitters(id):
 
-    existing = AppointmentSitter.query.filter_by(
-        appointment_id=appointment_id,
-        sitter_id=sitter_id
-    ).first()
+    application = db.session.get(AppointmentSitter, id)
 
-    if existing:
-        return {"msg": "Sitter already applied"}, 400
+    if application is None:
+        return jsonify({"message": "appointment not found"}), 404
 
-    new_application = AppointmentSitter(
-        appointment_id=appointment_id,
-        sitter_id=sitter_id,
-        status="applied"
-    )
-
-    db.session.add(new_application)
-    db.session.commit()
-
-    return new_application.serialize(), 201
-
-@api.route("/appointments/<int:appointment_id>/sitters", methods=["GET"])
-def get_appointment_sitters(appointment_id):
-
-    appointment = Appointment.query.get(appointment_id)
-    if not appointment:
-        return {"msg": "Appointment not found"}, 404
-
-    applications = AppointmentSitter.query.filter_by(
-        appointment_id=appointment_id
-    ).all()
-
-    return [app.serialize() for app in applications], 200
-
-@api.route("/appointments/<int:appointment_id>/sitters/<int:sitter_id>", methods=["GET"])
-def get_single_application(appointment_id, sitter_id):
-
-    application = AppointmentSitter.query.filter_by(
-        appointment_id=appointment_id,
-        sitter_id=sitter_id
-    ).first()
-
-    if not application:
-        return {"msg": "Application not found"}, 404
-
-    return application.serialize(), 200
-
-@api.route("/appointments/<int:appointment_id>/sitters/<int:sitter_id>", methods=["PATCH"])
-def update_application_status(appointment_id, sitter_id):
-
-    data = request.get_json()
-    new_status = data.get("status")
-
-    valid_statuses = ["applied", "selected", "rejected", "withdrawn"]
-
-    if new_status not in valid_statuses:
-        return {"msg": "Invalid status"}, 400
-
-    application = AppointmentSitter.query.filter_by(
-        appointment_id=appointment_id,
-        sitter_id=sitter_id
-    ).first()
-
-    if not application:
-        return {"msg": "Application not found"}, 404
-
-    if new_status == "selected":
-
-        already_selected = AppointmentSitter.query.filter_by(
-            appointment_id=appointment_id,
-            status="selected"
-        ).first()
-
-        if already_selected and already_selected.sitter_id != sitter_id:
-            return {"msg": "Another sitter is already selected"}, 400
-
-    application.status = new_status
-    db.session.commit()
-
-    return application.serialize(), 200
-
-@api.route("/appointments/<int:appointment_id>/sitters/<int:sitter_id>", methods=["DELETE"])
-def delete_application(appointment_id, sitter_id):
-
-    application = AppointmentSitter.query.filter_by(
-        appointment_id=appointment_id,
-        sitter_id=sitter_id
-    ).first()
-
-    if not application:
-        return {"msg": "Application not found"}, 404
-
-    db.session.delete(application)
-    db.session.commit()
-
-    return {"msg": "Application deleted"}, 200
+    return jsonify(application.serialize()), 200
