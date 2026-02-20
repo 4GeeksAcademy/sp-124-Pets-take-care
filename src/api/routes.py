@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills, Appointment, UserAdmin
+from api.models import db, User, Sitter, Pet, Skill, SitterPet, Services, SitterSkills, Appointment, UserAdmin, AppointmentSitter
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from sqlalchemy import select
@@ -746,11 +746,7 @@ def delete_appointment(id):
     db.session.delete(appointment)
     db.session.commit()
     
-
-
     return jsonify({"msg": "appointment deleted"}), 200
-
-
 
 @api.route('/appointments/<int:id>', methods=['PUT'])
 def update_appointment(id):
@@ -801,7 +797,6 @@ def update_appointment(id):
 ## ====================================================================##
     ## =======================##APPOINTMETS##============================##
 
-
 @api.route("/admin/login", methods=["POST"])
 def login_admin():
     email = request.json.get("email")
@@ -824,6 +819,102 @@ def login_admin():
 
     return jsonify({"admin_token": access_token}), 200
 
+## ====================================================================##
+
+#get todos los appointment sitters
+
+@api.route('/appointments/sitters', methods=['GET'])
+def get_appointments_sitters():
+
+    appointments = db.session.execute(select(AppointmentSitter)).scalars().all()
+
+    appointments_serialized = [appointment.serialize() for appointment in appointments]
+
+    return jsonify({"appointments": appointments_serialized}), 200
+
+
+#get de un appointment sitter
+
+@api.route('/appointments/sitters/<int:id>', methods=['GET'])
+def get_appointment_sitters(id):
+
+    application = db.session.get(AppointmentSitter, id)
+
+    if application is None:
+        return jsonify({"message": "appointment not found"}), 404
+
+    return jsonify(application.serialize()), 200
+
+
+#post de un nuevo appointment sitter
+
+@api.route("/appointments/sitters/new", methods=["POST"])
+def add_appointment_sitter():
+
+    body = request.get_json()
+
+    appointment_id = body.get("appointment_id")
+    sitter_id = body.get("sitter_id")
+
+    if not appointment_id or not sitter_id:
+        return jsonify({"msg": "appointment_id and sitter_id are required"}),400
+
+    appointment_sitter = AppointmentSitter(
+    appointment_id=appointment_id,
+    sitter_id=sitter_id)
+
+    db.session.add(appointment_sitter)
+    db.session.commit()
+
+    return jsonify({"msg": "Appointment Sitter created"}),200
+
+
+#put editar un appointment sitter
+
+@api.route("/appointments/sitters/edit/<int:id>", methods=["PUT"])
+def update_appointment_sitter(id):
+
+    appointment_sitter = db.session.get(AppointmentSitter, id)
+
+    if appointment_sitter is None:
+        return jsonify({"msg": "Application not found"}), 404
+
+    body = request.get_json()
+
+    new_status = body.get("status")
+
+    if not new_status:
+        return jsonify({"msg": "status is required"}), 400
+
+    allowed_status = ["applied", "selected", "rejected", "withdrawn"]
+
+    if new_status not in allowed_status:
+        return jsonify({"msg": "Invalid status"}), 400
+
+    appointment_sitter.status = new_status
+
+    db.session.commit()
+
+    return jsonify({
+        "msg": "Application updated",
+        "application": appointment_sitter.serialize()
+    }), 200
+
+
+#delete eliminar un appointment sitter
+
+@api.route('/appointments/sitters/<int:id>', methods=['DELETE'])
+def delete_appointment_sitter(id):
+
+    appointment_sitter = db.session.get(AppointmentSitter, id)
+
+    if not appointment_sitter:
+        return jsonify({"message": "appointment not found"}), 404
+    
+    db.session.delete(appointment_sitter)
+    db.session.commit()
+    
+    return jsonify({"msg": "sitter's appointment deleted"}), 200
     ##=========================CLIENT LOGGED===========================##
 @api.route("/clients/pets", methods=["GET"])
 @jwt_required()

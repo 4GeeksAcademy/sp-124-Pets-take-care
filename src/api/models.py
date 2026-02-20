@@ -6,7 +6,7 @@ from sqlalchemy import Date
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from typing import List
-
+import sqlalchemy as sa
 db = SQLAlchemy()
 
 
@@ -66,7 +66,8 @@ class Sitter(db.Model):
         back_populates="sitter", cascade="all, delete-orphan")
     sitter_skills: Mapped[List["SitterSkills"]] = relationship(
         back_populates="sitter", cascade="all, delete-orphan")
-    application: Mapped[List["AppointmentSitter"]] = relationship("AppointmentSitter", back_populates="sitter", cascade="all, delete-orphan")
+    appointment_applications: Mapped[List["AppointmentSitter"]] = relationship("AppointmentSitter", back_populates="sitter", cascade="all, delete-orphan")
+    
     def __repr__(self):
         return f"<Sitter id={self.id} name={self.name} email={self.email}>"
 
@@ -273,7 +274,6 @@ class Appointment(db.Model):
             "service_name": self.service.service_name,
             "pet_name": self.pet.name,
             "user_name": self.user.name
-
         }
 
 class AppointmentSitter(db.Model):
@@ -286,19 +286,23 @@ class AppointmentSitter(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    status: Mapped[str] = mapped_column(String(50), default="applied")
+    status: Mapped[str] = mapped_column(
+        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_status"),
+        default="applied",
+        nullable=False
+    )
     #applied, selected, rejected, withdrawn
 
     appointment_id: Mapped[int] = mapped_column(ForeignKey("appointment.id"), nullable=False)
     sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
     
     appointment: Mapped["Appointment"] = relationship(back_populates="appointment_sitters")
-    sitter: Mapped["Sitter"] = relationship(back_populates="application")
+    sitter: Mapped["Sitter"] = relationship(back_populates="appointment_applications")
 
     def serialize(self):
         return {
             "id": self.id,
-            "appointment_id": self.appointment_id,
-            "sitter_id": self.sitter_id,
+            "appointment": self.appointment.serialize(),
             "status": self.status,
+            "sitter": self.sitter.serialize()
         }

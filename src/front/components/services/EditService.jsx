@@ -59,18 +59,18 @@ const EditService = () => {
 
     return (
         <div className="container">
-            <h2>Edit Client</h2>
+            <h2>Edit Service</h2>
             <form onSubmit={editService}>
                 <div className="mb-3">
-                    <label className="form-label">Name</label>
+                    <label className="form-label">Service Name</label>
                     <input type="text" className="form-control" value={editarServiceName} onChange={e => setEditarServiceName(e.target.value)} />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Last Name</label>
+                    <label className="form-label">Duration</label>
                     <input type="text" className="form-control" value={editarDurationMinutes} onChange={e => setEditarDurationMinutes(e.target.value)} />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Email</label>
+                    <label className="form-label">Cost</label>
                     <input type="text" className="form-control" value={editarCost} onChange={e => setEditarCost(e.target.value)} />
                 </div>
                 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BACKEND_URL } from "../../main";
 
 
@@ -7,6 +7,7 @@ const ViewSkills = () => {
 
     const { id } = useParams();
     const [skill, setSkill] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         getSkill()
@@ -40,6 +41,7 @@ const ViewSkills = () => {
             <h1>Skill detail</h1>
 
             <p><strong>Skill:</strong> {skill.skill}</p>
+            <button className="btn btn-primary" onClick={()=>navigate(-1)} >Go Back</button>
         </div>
     );
 }

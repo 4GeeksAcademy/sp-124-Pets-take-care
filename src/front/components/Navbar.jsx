@@ -73,6 +73,7 @@ export const Navbar = () => {
 					<Link to="/clients" className="btn btn-primary me-3">Client's List</Link>
 					<Link to="/skills" className="btn btn-primary me-3">Skill's List</Link>
 					<Link to="/services" className="btn btn-primary me-3">Services's List</Link>
+					<Link to="/appointments/sitters" className="btn btn-primary me-3">Appointment Sitter's List</Link>
 				</div>
 
 			</div>

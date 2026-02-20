@@ -46,8 +46,6 @@ const ClientList = () => {
         }
     }
 
-    console.log(client);
-
     return (
         <div className="container">
             <div className="row">

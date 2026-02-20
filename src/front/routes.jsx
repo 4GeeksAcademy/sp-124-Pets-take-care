@@ -36,6 +36,12 @@ import PostAppointment from "./appointmment/PostAppointment";
 import AdminLogin from "./components/loginadmin/AdminLogin";
 import AdminHome from "./components/loginadmin/AdminHome";
 import PutAppointment from "./appointmment/PutAppointments";
+
+import AppointmentSitterList from "./components/appointmentsitter/AppointmentSitterList";
+import ViewAppointmentSitter from "./components/appointmentsitter/ViewAppointmentSitter";
+import NewAppointmentSitter from "./components/appointmentsitter/NewAppointmentSitter";
+import EditAppointmentSitter from "./components/appointmentsitter/EditAppointmentSitter";
+
 import ClientHome from "./components/Flujo-client/ClientHome";
 import ClientsPets from "./components/Flujo-client/ClientsPets";
 import ClientNewPets from "./components/Flujo-client/ClientNewPets";
@@ -94,14 +100,18 @@ export const router = createBrowserRouter(
       <Route path="/admin/home" element={<AdminHome />} />
 
 
-
       <Route path="/appointments" element={<Appointments />} />
       <Route path="/appointments/:id" element={<InfoAppointment />} />
       <Route path="/appointments/new" element={<PostAppointment />} />
       <Route path="/appointments/edit/:id" element={<PutAppointment />} />
 
+      <Route path="/appointments/sitters" element={<AppointmentSitterList />} />
+      <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
+      <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
+      <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
+      
       <Route path="/clients/pets" element={<ClientsPets />} />
-       <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
+      <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
 
 
 
