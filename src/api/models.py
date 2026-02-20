@@ -67,6 +67,7 @@ class Sitter(db.Model):
     sitter_skills: Mapped[List["SitterSkills"]] = relationship(
         back_populates="sitter", cascade="all, delete-orphan")
     appointment_applications: Mapped[List["AppointmentSitter"]] = relationship("AppointmentSitter", back_populates="sitter", cascade="all, delete-orphan")
+    
     def __repr__(self):
         return f"<Sitter id={self.id} name={self.name} email={self.email}>"
 
@@ -273,7 +274,6 @@ class Appointment(db.Model):
             "service_name": self.service.service_name,
             "pet_name": self.pet.name,
             "user_name": self.user.name
-
         }
 
 class AppointmentSitter(db.Model):

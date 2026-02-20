@@ -102,9 +102,9 @@ export const router = createBrowserRouter(
       <Route path="/appointments/edit/:id" element={<PutAppointment />} />
 
       <Route path="/appointments/sitters" element={<AppointmentSitterList />} />
-      <Route path="/appointments/:id/sitters/" element={<ViewAppointmentSitter />} />
-      <Route path="/appointments/sitters" element={<NewAppointmentSitter />} />
-      <Route path="/appointments/:id/sitters/:id" element={<EditAppointmentSitter />} />
+      <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
+      <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
+      <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
 
     </Route>
   )
