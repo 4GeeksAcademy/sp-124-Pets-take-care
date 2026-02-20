@@ -31,7 +31,7 @@ const NewClient = () => {
             throw new Error("Error creating client"); 
         }
 
-        navigate("/clients");
+        navigate("/clients/login");
 
     }
 

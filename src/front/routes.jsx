@@ -37,6 +37,8 @@ import AdminLogin from "./components/loginadmin/AdminLogin";
 import AdminHome from "./components/loginadmin/AdminHome";
 import PutAppointment from "./appointmment/PutAppointments";
 import ClientHome from "./components/Flujo-client/ClientHome";
+import ClientsPets from "./components/Flujo-client/ClientsPets";
+import ClientNewPets from "./components/Flujo-client/ClientNewPets";
 
 
 
@@ -98,6 +100,8 @@ export const router = createBrowserRouter(
       <Route path="/appointments/new" element={<PostAppointment />} />
       <Route path="/appointments/edit/:id" element={<PutAppointment />} />
 
+      <Route path="/clients/pets" element={<ClientsPets />} />
+       <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
 
 
 
