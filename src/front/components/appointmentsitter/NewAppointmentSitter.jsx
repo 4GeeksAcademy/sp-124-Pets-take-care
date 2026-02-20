@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../../main"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 const NewAppointmentSitter = () => {
 
@@ -9,6 +9,7 @@ const NewAppointmentSitter = () => {
     const [appointmentEscogido, setAppointmentEscogido] = useState()
     const [sitterEscogido, setSitterEscogido] = useState()
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const getAppointments = () => {
         fetch(BACKEND_URL + "api/appointments")
@@ -49,7 +50,9 @@ const NewAppointmentSitter = () => {
             }
             return resp.json()
         } )
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data)
+            navigate(-1)})
         .catch(err => console.log(err))
     }
 

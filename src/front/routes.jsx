@@ -36,17 +36,15 @@ import PostAppointment from "./appointmment/PostAppointment";
 import AdminLogin from "./components/loginadmin/AdminLogin";
 import AdminHome from "./components/loginadmin/AdminHome";
 import PutAppointment from "./appointmment/PutAppointments";
-<<<<<<< HEAD
-import ClientHome from "./components/loginclient/ClientHome";
+
 import AppointmentSitterList from "./components/appointmentsitter/AppointmentSitterList";
 import ViewAppointmentSitter from "./components/appointmentsitter/ViewAppointmentSitter";
 import NewAppointmentSitter from "./components/appointmentsitter/NewAppointmentSitter";
 import EditAppointmentSitter from "./components/appointmentsitter/EditAppointmentSitter";
-=======
+
 import ClientHome from "./components/Flujo-client/ClientHome";
 import ClientsPets from "./components/Flujo-client/ClientsPets";
 import ClientNewPets from "./components/Flujo-client/ClientNewPets";
->>>>>>> 0dac5e82ea9a6e91a1f96f07724b690b40c4379c
 
 
 
