@@ -300,5 +300,5 @@ class AppointmentSitter(db.Model):
             "id": self.id,
             "appointment_id": self.appointment_id,
             "sitter_id": self.sitter_id,
-            "status": self.status
+            "status": self.status,
         }

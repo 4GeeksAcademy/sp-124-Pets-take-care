@@ -14,23 +14,23 @@ const CreatePet = () => {
   const [hasNie, setHasNie] = useState(false);
   const [nie, setNie] = useState("");
   const [sterilized, setSterilized] = useState(false);
+  const [userId, setUserId] = useState(null);
 
 
   useEffect(() => {
-  fetch(BACKEND_URL + "api/clients")
-    .then(r => r.json())
-    .then(data => setUsers(data))
-    .catch(err => console.log(err));
-}, []);
+    fetch(BACKEND_URL + "api/clients")
+      .then(r => r.json())
+      .then(data => {
+        setUsers(data)
+        if (data.length > 0) {
+          setUserId(data[0].id)
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
-  const getRandomUserId = () => {
-  if (users.length === 0) return null;
-  const random = users[Math.floor(Math.random() * users.length)];
-  return random.id;
-};
 
   const newPet = async () => {
-    const randomUserId = getRandomUserId(); 
 
     const response = await fetch(
       BACKEND_URL + "api/signup/pets",
@@ -43,7 +43,7 @@ const CreatePet = () => {
           has_nie: hasNie,
           nie: nie,
           sterilized: sterilized,
-          user_id: randomUserId
+          user_id: userId
         }),
       },
     );
@@ -51,24 +51,42 @@ const CreatePet = () => {
     if (!response.ok) {
       throw new Error("Error creating pet");
     }
-
     navigate("/pets");
   };
 
   return (
     <div className="container">
       <h1>Post new Pet 🐾</h1>
-
       <form>
-        <div className="container">
+        <div>
+          <h5>owner</h5>
+          <select name="users" value={userId} onChange={(e) => 
+            setUserId(Number(e.target.value))
+          }>
+            {
+              users.map(el =>
+                <option
+                  key={el.id}
+                  value={el.id}>
+                  {el.name}
+                </option>
+              )
+            }
+          </select>
+
+        </div>
+        <div>
+          <h5>pet name</h5>
           <input
+            type="text"
             placeholder="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="container">
-          <input
+        <div>
+          <h5>especies</h5>
+          <input type="text"
             placeholder="species"
             value={species}
             onChange={(e) => setSpecies(e.target.value)}
