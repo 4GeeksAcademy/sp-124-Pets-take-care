@@ -35,11 +35,8 @@ const SitterLogin = () => {
         const data = await response.json()
         localStorage.setItem("sitterToken", data.access_token)
 
-        dispatch({
-            type: "set_auth",
-            payload: true
-        })
 
+        localStorage.removeItem("sitterToken"); 
 
         navigate("/sitters/home")
     }

@@ -29,18 +29,24 @@ import SitterLogin from "./components/Sitter-login/SitterLogin";
 import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
 import HomeSitter from "./components/Sitter-login/HomeSitter";
-import ClientLogin from "./components/loginclient/ClientLogin";
+import ClientLogin from "./components/Flujo-client/ClientLogin";
 import Appointments from "./appointmment/appointments";
 import InfoAppointment from "./appointmment/infoAppointment";
 import PostAppointment from "./appointmment/PostAppointment";
 import AdminLogin from "./components/loginadmin/AdminLogin";
 import AdminHome from "./components/loginadmin/AdminHome";
 import PutAppointment from "./appointmment/PutAppointments";
+<<<<<<< HEAD
 import ClientHome from "./components/loginclient/ClientHome";
 import AppointmentSitterList from "./components/appointmentsitter/AppointmentSitterList";
 import ViewAppointmentSitter from "./components/appointmentsitter/ViewAppointmentSitter";
 import NewAppointmentSitter from "./components/appointmentsitter/NewAppointmentSitter";
 import EditAppointmentSitter from "./components/appointmentsitter/EditAppointmentSitter";
+=======
+import ClientHome from "./components/Flujo-client/ClientHome";
+import ClientsPets from "./components/Flujo-client/ClientsPets";
+import ClientNewPets from "./components/Flujo-client/ClientNewPets";
+>>>>>>> 0dac5e82ea9a6e91a1f96f07724b690b40c4379c
 
 
 
@@ -105,6 +111,14 @@ export const router = createBrowserRouter(
       <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
       <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
       <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
+      
+      <Route path="/clients/pets" element={<ClientsPets />} />
+      <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
+
+
+
+
+
 
     </Route>
   )

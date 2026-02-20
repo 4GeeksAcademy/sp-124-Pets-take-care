@@ -346,7 +346,6 @@ def add_pet():
         "msg": "Pet added"
     }), 201
 
-
 @api.route('/pets/<int:pet_id>', methods=['PUT'])
 def put_pet(pet_id):
 
@@ -669,7 +668,8 @@ def login_client():
     if password != client.password:
         return jsonify({"msg": "Wrong password"}), 401
     
-    access_token = create_access_token(identity=client.id)
+    access_token = create_access_token(identity=str(client.id))
+    
 
     return jsonify({"client_token": access_token}), 200
 
@@ -915,3 +915,51 @@ def delete_appointment_sitter(id):
     db.session.commit()
     
     return jsonify({"msg": "sitter's appointment deleted"}), 200
+    ##=========================CLIENT LOGGED===========================##
+@api.route("/clients/pets", methods=["GET"])
+@jwt_required()
+
+def get_pets_by_id():
+    client_id = (get_jwt_identity())
+      
+    pets_client = db.session.execute(select(Pet).where(Pet.user_id == client_id)).scalars().all()
+
+    serialized = [pet.serialize() for pet in pets_client]
+
+    return jsonify(serialized), 200 
+
+
+@api.route("/clients/pets/newpet", methods=['POST'])
+@jwt_required() 
+
+def new_pet_by_id():
+    client_id = (get_jwt_identity())
+    
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400 
+    
+    name = body.get("name")
+    species = body.get("species")
+    has_nie = body.get("has_nie", False)
+    nie = body.get("nie")
+    sterilized = body.get("sterilized", False)
+    
+
+    if not name or not species:
+        return jsonify({"msg": "name and species fields are required"}), 400
+
+    pet = Pet(
+        name=name,
+        species=species,
+        has_nie=has_nie,
+        nie=nie,
+        sterilized=sterilized,
+        user_id=client_id
+    )   
+
+    db.session.add(pet)
+    db.session.commit()
+
+    return jsonify(pet.serialize()), 201
+    ##=========================CLIENT LOGGED===========================##
