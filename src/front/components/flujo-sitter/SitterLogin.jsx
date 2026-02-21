@@ -33,30 +33,34 @@ const SitterLogin = () => {
         }
 
         const data = await response.json()
-        localStorage.setItem("sitterToken", data.access_token)
+        localStorage.setItem("sitterToken", data.sitter_token)
 
 
-        localStorage.removeItem("sitterToken"); 
+        localStorage.removeItem("clientToken"); 
 
         navigate("/sitters/home")
     }
 
 
-
     return (
-        <div className="container">
+        <div className="container w-50">
             <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                <label className="form-label">Email Address</label>
                 <input type="text"
                     className="form-control"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                />
-
+                    />
+                    </div>
+                <div className="mb-3">
+                <label className="form-label">Password</label>
                 <input type="password"
                     className="form-control"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                />
+                    />
+                    </div>
 
                 <button type="submit"
                     className="btn btn-success">
