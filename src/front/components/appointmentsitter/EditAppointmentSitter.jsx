@@ -23,7 +23,7 @@ const EditAppointmentSitter = () => {
             })
             .then(data => {
                 setIndividualAS(data)
-                setStatusSelected(data.status)
+                setStatusSelected(data.state)
             })
             .catch(err => console.log(err))
     }
@@ -33,7 +33,7 @@ const EditAppointmentSitter = () => {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                "status": statusSelected,
+                "state": statusSelected,
             }),
             redirect: "follow"
         })
@@ -54,7 +54,7 @@ const EditAppointmentSitter = () => {
     return (
         <div className="d-flex flex-column align-items-center my-5">
             <h2>Edit {individualAS?.sitter?.name }'s Application</h2>
-            <p>Current status: <strong>{individualAS.status}</strong></p>
+            <p>Current status: <strong>{individualAS.state}</strong></p>
 
             <select className="form-select w-50"
                 value={statusSelected}
@@ -69,7 +69,7 @@ const EditAppointmentSitter = () => {
             <br /><br />
 
             <button onClick={putAS}>
-                Update Status
+                Update State
             </button>
         </div>
         

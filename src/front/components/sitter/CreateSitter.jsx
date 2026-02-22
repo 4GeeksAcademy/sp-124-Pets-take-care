@@ -52,19 +52,22 @@ const CreateSitter = () => {
 
       <form>
         <div className="container">
-          <input placeholder="name" value={name} onChange={e => setName(e.target.value)} />
+          <label className="form-label mt-3">Name</label>
+          <input className="form-control" placeholder="name" value={name} onChange={e => setName(e.target.value)} />
         </div>
         <div className="container">
-          <input placeholder="last name" value={lastName} onChange={e => setLastName(e.target.value)} />
+          <label className="form-label mt-3">Last Name</label>
+          <input className="form-control" placeholder="last name" value={lastName} onChange={e => setLastName(e.target.value)} />
         </div>
         <div className="container">
-          <input placeholder="email" value={email} onChange={e => setEmail(e.target.value)} />
+          <label className="form-label mt-3">Email</label>
+          <input className="form-control" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="container">
-          <input placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
+          <label className="form-label mt-3">Password</label>
+          <input className="form-control" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
         </div>
-
-        <button type="button" onClick={newSitter}>
+        <button className="btn btn-primary mt-3" type="button" onClick={newSitter}>
           New Sitter
         </button>
       </form>

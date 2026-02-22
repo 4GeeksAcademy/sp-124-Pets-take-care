@@ -10,7 +10,7 @@ const PostAppointment = () => {
   const [appointmentTime, setAppointmentTime] = useState("");
   const [pet, setPet] = useState("");
   const [service, setService] = useState("");
-  const [state, setEstate] = useState("pendant");
+  const [state, setEstate] = useState("pending");
   const [user, setUser] = useState("");
   
   const [pets, setPets] = useState([]);

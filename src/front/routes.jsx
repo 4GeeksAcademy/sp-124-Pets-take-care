@@ -25,10 +25,10 @@ import ViewService from "./components/services/ViewService";
 import EditService from "./components/services/EditService";
 import SitterPets from "./components/SitterPet/SitterPets";
 import AddSitterPets from "./components/SitterPet/AddSitterPets";
-import SitterLogin from "./components/Sitter-login/SitterLogin";
+import SitterLogin from "./components/flujo-sitter/SitterLogin";
 import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
-import HomeSitter from "./components/Sitter-login/HomeSitter";
+import HomeSitter from "./components/flujo-sitter/HomeSitter";
 import ClientLogin from "./components/Flujo-client/ClientLogin";
 import Appointments from "./appointmment/appointments";
 import InfoAppointment from "./appointmment/infoAppointment";
@@ -45,6 +45,9 @@ import EditAppointmentSitter from "./components/appointmentsitter/EditAppointmen
 import ClientHome from "./components/Flujo-client/ClientHome";
 import ClientsPets from "./components/Flujo-client/ClientsPets";
 import ClientNewPets from "./components/Flujo-client/ClientNewPets";
+import Welcome from "./components/flujo-sin-usuario/Welcome";
+import NewSitterAccount from "./components/flujo-sitter/NewSitterAccount";
+import AppointmentList from "./components/flujo-sitter/AppointmentList";
 
 
 
@@ -87,7 +90,7 @@ export const router = createBrowserRouter(
       <Route path="/sitterpets" element={<SitterPets />} />
       <Route path="/sitters/:id/add-pet" element={<AddSitterPets />} />
       {/* ==================================LOGIN SITTER=================================== */}
-      <Route path="/sitters/login" element={<SitterLogin />} />
+      
       <Route path="/clients/login" element={<ClientLogin />} />
       <Route path="/admin/login" element={<AdminLogin />} />
 
@@ -112,8 +115,11 @@ export const router = createBrowserRouter(
       
       <Route path="/clients/pets" element={<ClientsPets />} />
       <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
-
-
+      
+      <Route path="/welcome" element={<Welcome />} />
+      <Route path="/sitters/login" element={<SitterLogin />} />
+      <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
+      <Route path="/appointments/list" element={<AppointmentList />} />
 
 
 

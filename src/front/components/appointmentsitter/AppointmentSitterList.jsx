@@ -59,7 +59,7 @@ const AppointmentSitterList = () => {
                                         <li className="mb-2">Date: {el.appointment.appointment_date || "unavailable"}</li>
                                         <li className="mb-2">Pick up: {el.appointment.appointment_time || "unavailable"}</li>
                                         <li className="mb-2">Pet: {el.appointment.pet_name || "unavailable"}</li>
-                                        <li className="mb-2">Status: {el.status || "unavailable"}</li>
+                                        <li className="mb-2">Status: {el.state || "unavailable"}</li>
                                     </ul>
                                 </div>
                                 <div className="card-footer col-lg-3 border-top-0 bg-transparent">
