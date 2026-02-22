@@ -10,7 +10,7 @@ const NewAppointmentSitter = () => {
     const [sitterEscogido, setSitterEscogido] = useState()
     const { id } = useParams()
     const navigate = useNavigate()
-
+    
     const getAppointments = () => {
         fetch(BACKEND_URL + "api/appointments")
             .then(resp => {

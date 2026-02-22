@@ -33,41 +33,52 @@ const SitterLogin = () => {
         }
 
         const data = await response.json()
-        localStorage.setItem("sitterToken", data.sitter_token)
+        localStorage.setItem("sitterToken", data.access_token)
 
 
         localStorage.removeItem("clientToken"); 
 
         navigate("/sitters/home")
     }
+    
 
 
     return (
-        <div className="container w-50">
+        <div className="container bg-secondary-subtle p-5 mt-5">
+            <h1 className="text-center mb-3">Loggin</h1>
             <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                <label className="form-label">Email Address</label>
-                <input type="text"
-                    className="form-control"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    />
+                <div className="container">
+                    <div className="row d-grid gap-0 row-gap-3">
+                        <div className="col-12">
+                            <input type="text"
+                                className="form-control text-center"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Email"
+                            />
+                        </div>
+                        <div className="col-12">
+                            <input type="password"
+                                className="form-control text-center"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Password"
+                            />
+                        </div>
+                        <button type="submit"
+                            className="btn btn-success ">
+                            Login
+                        </button>
+                        <a className="icon-link icon-link-hover" onClick={()=> navigate("/sitters/newaccount")}>
+                            Signup
+                            <svg xmlns="http://www.w3.org/2000/svg" className="bi" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                            </svg>
+                        </a>
                     </div>
-                <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input type="password"
-                    className="form-control"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    />
-                    </div>
-
-                <button type="submit"
-                    className="btn btn-success">
-                    Login
-                </button>
-
+                </div>
             </form>
+
         </div>
     )
 }

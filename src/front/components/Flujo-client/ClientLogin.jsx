@@ -49,7 +49,7 @@ const ClientLogin = () => {
 
     return (
         <div className="container bg-secondary-subtle p-5 mt-5">
-            <h1 className="text-center mb-3">Loggin </h1>
+            <h1 className="text-center mb-3">Loggin</h1>
             <form onSubmit={handleSubmit}>
                 <div className="container">
                     <div className="row d-grid gap-0 row-gap-3">

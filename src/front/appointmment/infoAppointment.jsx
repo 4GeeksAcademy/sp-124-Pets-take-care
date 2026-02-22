@@ -10,7 +10,7 @@ const InfoAppointment = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [appointment, setAppointment] = useState({})
-
+    
     const [pets, setPets] = useState({})
 
     useEffect(() => {

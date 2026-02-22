@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import storeReducer from "../store";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import NavbarClient from "./Flujo-client/componentesClient/NavbarClient";
+import NavbarSitter from "./flujo-sitter/NavbarSitter";
 
 export const Navbar = () => {
 
@@ -41,8 +42,9 @@ export const Navbar = () => {
 
 	return (
 		<>
-			{localStorage.getItem("clientToken") ? <NavbarClient /> :
-				<nav className="navbar navbar-light bg-light">
+			{localStorage.getItem("clientToken") ? <NavbarClient />
+			:localStorage.getItem("sitterToken") ? <NavbarSitter />
+			 :<nav className="navbar navbar-light bg-light">
 					<div className="container">
 						<Link to="/">
 							<span className="navbar-brand mb-0 h1">Home</span>
@@ -50,9 +52,11 @@ export const Navbar = () => {
 						{/* botones publicos */}
 						<button className="btn btn-primary" onClick={() => navigate("/sitters")}>Go Sitters</button>
 
+						<button className="btn btn-danger" onClick={() => navigate("/welcome")}>Login</button>
+						<button className="btn btn-danger" onClick={() => navigate("/welcome")}>Sing Up</button>
 
 						{/* botones deslogeado */}
-						<button className="btn btn-danger" onClick={() => navigate("/sitters/login")}>Go sitters login</button>
+						<button className="btn btn-primary" onClick={() => navigate("/sitters/login")}>Go sitters login</button>
 						{/* botton crear sitter(signup) */}
 						<Link to="/clients/login" className="btn btn-primary me-3">Client's Login</Link>
 						{/* botton crear cliente(signup) */}
