@@ -641,7 +641,7 @@ def login_sitter():
     if password != sitter.password:
         return jsonify({"msg": "Bad username or password"}), 401
 
-    access_token = create_access_token(identity=sitter.id)
+    access_token = create_access_token(identity=str(sitter.id))
 
     return jsonify({"access_token": access_token,
                    "sitter": sitter.serialize()}), 200
@@ -963,3 +963,12 @@ def new_pet_by_id():
 
     return jsonify(pet.serialize()), 201
     ##=========================CLIENT LOGGED===========================##
+
+@api.route("appointment/sitter/list", methods=['GET'])
+@jwt_required()
+def get_appointment_list():
+
+    sitter_id = get_jwt_identity()
+    a_s = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id != sitter_id)).scalars().all()
+    print(a_s)
+    return "Hola desde appointment list"

@@ -26,6 +26,7 @@ const AppointmentList = () => {
 
 
 
+
     return (
         <div className="container">
             <h1>Get Appointments</h1>
@@ -58,9 +59,7 @@ const AppointmentList = () => {
                             </div>
                         </div>
                         <div className="container mt-3">
-                            <button className="btn btn-primary" onClick={""}>Accept
-                            </button>
-                            <button className="btn btn-danger ms-2" onClick={""}>Reject
+                            <button className="btn btn-primary" onClick={() => updateStatus(app.id, "accepted")}>Postularse
                             </button>
                         </div>
                     </div>
