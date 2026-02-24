@@ -33,7 +33,7 @@ const SitterLogin = () => {
         }
 
         const data = await response.json()
-        localStorage.setItem("sitterToken", data.access_token)
+        localStorage.setItem("sitterToken", data.sitter_token)
 
 
         localStorage.removeItem("clientToken"); 

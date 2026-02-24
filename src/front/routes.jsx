@@ -48,7 +48,7 @@ import ClientNewPets from "./components/Flujo-client/ClientNewPets";
 import Welcome from "./components/flujo-sin-usuario/Welcome";
 import NewSitterAccount from "./components/flujo-sitter/NewSitterAccount";
 import AppointmentList from "./components/flujo-sitter/AppointmentList";
-
+import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
 
 
 export const router = createBrowserRouter(
@@ -120,6 +120,7 @@ export const router = createBrowserRouter(
       <Route path="/sitters/login" element={<SitterLogin />} />
       <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
       <Route path="/appointments/list" element={<AppointmentList />} />
+      <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
 
 
 

@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../../main"
 
-const AppointmentList = () => {
+const AppointmentListOwn = () => {
 
     const [appointments, setAppointments] = useState([])
-    console.log(appointments)
+        console.log(appointments)
+
     useEffect(() => {
         getAppointment()
     }, [])
 
     const getAppointment = () => {
-        fetch(BACKEND_URL + "api/appointments/sitters/false", {
+        fetch(BACKEND_URL + "api/appointments/sitters/true", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("sitterToken")
             }
@@ -28,20 +29,16 @@ const AppointmentList = () => {
             .catch(err => console.log(err))
     }
 
-    const handlePostulate = async (appointmentId) => {
+    const handleCancel = async (id) => {
         try{
-            const resp = await fetch(BACKEND_URL + "api/sitter/appointment-sitter/new", {
-                method: "POST",
+            const resp = await fetch(BACKEND_URL + `api/sitter/appointment-sitter/${id}`, {
+                method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json",
                     "Authorization": "Bearer " + localStorage.getItem("sitterToken")
-                },
-                body: JSON.stringify({
-                    appointment_id: appointmentId
+                }
                 })
-            })
             if(!resp.ok){
-                throw new Error("Something went wrong while postulating")
+                throw new Error("Something went wrong")
             }
             getAppointment()
         } catch(err){
@@ -51,9 +48,10 @@ const AppointmentList = () => {
 
 
 
+
     return (
         <div className="container">
-            <h1>Looking for Appointments</h1>
+            <h1>My Appointments List</h1>
             {appointments.map(el => (
                 <div
                     key={el.id}
@@ -83,13 +81,14 @@ const AppointmentList = () => {
                             </div>
                         </div>
                         <div className="container mt-3">
-                            <button className="btn btn-primary" onClick={() => handlePostulate(el.id)}>Postularse
+                            <button className="btn btn-primary" onClick={() => handleCancel(el.id)}>Cancelar
                             </button>
                         </div>
                     </div>
                 </div>
             ))}
         </div>
+
     )
 }
-export default AppointmentList
+export default AppointmentListOwn
