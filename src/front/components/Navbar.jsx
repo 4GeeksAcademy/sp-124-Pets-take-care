@@ -61,6 +61,8 @@ export const Navbar = () => {
 
 						
 
+						<button className="btn btn-danger" onClick={() => navigate("/welcome")}>Login</button>
+						<button className="btn btn-danger" onClick={() => navigate("/welcome")}>Sing Up</button>
 
 						
 						{/* <button className="btn btn-danger" onClick={() => navigate("/sitters/login")}>Go sitters login</button>

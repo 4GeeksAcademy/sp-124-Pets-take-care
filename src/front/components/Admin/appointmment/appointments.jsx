@@ -8,7 +8,7 @@ const Appointments = () => {
 
     const [appointments, setAppointments] = useState([])
     const { id } = useParams();
-
+    console.log(appointments)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -79,6 +79,11 @@ const Appointments = () => {
                     <div className="container"> 
                         <h5>Servicio</h5>
                     <span>{el.service_name}📋</span> 
+                    </div>
+                    <div className="container"> 
+                        <h5>Estado de solicitud
+                        </h5>
+                    <span>{el.state}📋</span> 
                     </div>
                     </div>
                     <div className="container mt-3">

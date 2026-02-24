@@ -764,7 +764,7 @@ def update_appointment(id):
         return jsonify({"msg": "no data provided"}), 400
 
     if "state" in body:
-        appointment.state = body["state"]
+         appointment.state = body["state"]
 
     if "pet_id" in body:
         pet = db.session.get(Pet, body["pet_id"])

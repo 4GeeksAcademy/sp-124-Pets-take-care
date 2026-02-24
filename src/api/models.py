@@ -290,8 +290,8 @@ class AppointmentSitter(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    status: Mapped[str] = mapped_column(
-        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_status"),
+    state: Mapped[str] = mapped_column(
+        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_state"),
         default="applied",
         nullable=False
     )
@@ -307,6 +307,6 @@ class AppointmentSitter(db.Model):
         return {
             "id": self.id,
             "appointment": self.appointment.serialize(),
-            "status": self.status,
+            "state": self.state,
             "sitter": self.sitter.serialize()
         }
