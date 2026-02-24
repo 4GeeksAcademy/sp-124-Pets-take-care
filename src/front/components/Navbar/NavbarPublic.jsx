@@ -24,9 +24,8 @@ const NavbarPublic = () => {
                     <FontAwesomeIcon className="ms-3" icon={faHome} size="2x" />
                 </span>
             </Link>
-          <Link to="/clients/login" className="btn btn-primary me-3">Client's Login</Link> 
-           <Link to="/admin/login" className="btn btn-primary me-3">Admin's Login</Link>
-           <button className="btn btn-danger" onClick={() => navigate("/sitters/login")}>sitter's login</button>
+        <button className="btn btn-success" onClick={() => navigate("/welcome")}>Login</button>
+						<button className="btn btn-success" onClick={() => navigate("/welcome")}>Sing Up</button>
         </nav>
         </div>
 
