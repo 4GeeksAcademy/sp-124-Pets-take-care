@@ -144,6 +144,7 @@ export const router = createBrowserRouter(
       <Route path="/sitters/login" element={<SitterLogin />} />
       <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
       <Route path="/appointments/list" element={<AppointmentList />} />
+      <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
 
 
 
