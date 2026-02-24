@@ -8,8 +8,6 @@ const ClientHome = () => {
 
 
 
-    console.log(store.auth)
-
     return (
         <div className="container ">
             <h1 className="text-center">HOLA CLIENT</h1>

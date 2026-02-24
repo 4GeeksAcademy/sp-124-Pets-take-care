@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../main";
+import { BACKEND_URL } from "../../../main";
 import { useParams } from "react-router-dom";
 
 const PutAppointment = () => {
@@ -62,7 +62,12 @@ const PutAppointment = () => {
       const readPets = async () => {
       
            const response = await fetch(
-            BACKEND_URL + "api/pets")
+            BACKEND_URL + "api/clients/pets", {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("clientToken")}`
+            }
+        } )
             .then(resp => {
               if(!resp.ok) {
                 throw new Error("something went wrong")

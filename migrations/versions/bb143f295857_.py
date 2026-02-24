@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/b8b245b2ab23_.py
-Revision ID: b8b245b2ab23
+Revision ID: bb143f295857
 Revises: 
-Create Date: 2026-02-17 15:08:26.703022
-========
-Revision ID: 09ae96e40c7f
-Revises: 
-Create Date: 2026-02-17 14:36:18.811815
->>>>>>>> 0dac5e82ea9a6e91a1f96f07724b690b40c4379c:migrations/versions/09ae96e40c7f_.py
+Create Date: 2026-02-24 20:00:53.770949
 
 """
 from alembic import op
@@ -16,8 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b8b245b2ab23'
-revision = '09ae96e40c7f'
+revision = 'bb143f295857'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -101,7 +94,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('appointment_date', sa.Date(), nullable=False),
     sa.Column('appointment_time', sa.Time(), nullable=False),
-    sa.Column('state', sa.String(length=50), nullable=False),
+    sa.Column('status', sa.Enum('applied', 'selected', 'rejected', 'withdrawn', name='application_status'), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('pet_id', sa.Integer(), nullable=False),
     sa.Column('service_id', sa.Integer(), nullable=False),

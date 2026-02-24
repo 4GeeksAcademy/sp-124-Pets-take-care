@@ -3,39 +3,45 @@ import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
+
 import Sitters from "./components/Admin/sitter/Sitters"
 import InfoSitter from "./components/Admin/sitter/InfoSitter"
 import EditSitter from "./components/Admin/sitter/EditSitter"
 import CreateSitter from "./components/Admin/sitter/CreateSitter"
+
 import Pets from "./components/Admin/pet/Pets";
 import InfoPet from "./components/Admin/pet/InfoPet";
 import CreatePet from "./components/Admin/pet/CreatePet";
 import EditPet from "./components/Admin/pet/EditPet";
+
 import ClientList from "./components/Admin/Client/ClientList";
 import ViewClient from "./components/Admin/Client/ViewClient";
 import EditClient from "./components/Admin/Client/EditClient";
 import NewClient from "./components/Admin/Client/NewClient";
+
 import SkillsList from "./components/Admin/skills/SkillsList";
 import NewSkill from "./components/Admin/skills/NewSkill";
 import EditSkill from "./components/Admin/skills/EditSkills";
 import ViewSkills from "./components/Admin/skills/ViewSkill";
+
 import NewService from "./components/Admin/services/NewService";
 import ServiceList from "./components/Admin/services/ServiceList";
 import ViewService from "./components/Admin/services/ViewService";
 import EditService from "./components/Admin/services/EditService";
+
 import SitterPets from "./components/Admin/SitterPet/SitterPets";
 import AddSitterPets from "./components/Admin/SitterPet/AddSitterPets";
+
 import SitterLogin from "./components/Sitter-login/SitterLogin";
+
 import SitterSkillsList from "./components/Admin/sitterskills/SitterSkillsList";
 import NewSitterSkills from "./components/Admin/sitterskills/NewSitterSkills";
+
 import HomeSitter from "./components/Sitter-login/HomeSitter";
 import ClientLogin from "./components/Clients/Loggin/ClientLogin";
-import Appointments from "./appointmment/appointments";
-import InfoAppointment from "./appointmment/infoAppointment";
-import PostAppointment from "./appointmment/PostAppointment";
+
 import AdminLogin from "./components/Admin/AdminLogin";
 import AdminHome from "./components/Admin/AdminHome";
-import PutAppointment from "./appointmment/PutAppointments";
 
 import AppointmentSitterList from "./components/Admin/appointmentsitter/AppointmentSitterList";
 import ViewAppointmentSitter from "./components/Admin/appointmentsitter/ViewAppointmentSitter";
@@ -49,6 +55,11 @@ import ClientEditPet from "./components/Clients/Pets/ClientEditPet";
 
 import MyAppointments from "./components/Clients/Appointments/MyAppointments";
 import MyAppointmentsEdit from "./components/Clients/Appointments/MyAppointmentsEdit";
+
+import Appointments from "./components/Admin/appointmment/appointments";
+import InfoAppointment from "./components/Admin/appointmment/infoAppointment";
+import PostAppointment from "./components/Admin/appointmment/PostAppointment";
+import PutAppointment from "./components/Admin/appointmment/PutAppointments";
 
 
 export const router = createBrowserRouter(

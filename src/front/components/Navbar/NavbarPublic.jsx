@@ -19,7 +19,7 @@ const NavbarPublic = () => {
     return (
         <div className = "container">
         <nav className="navbar navbar-light bg-light">
-            <Link to="/clients/home">
+            <Link to="/">
                 <span>
                     <FontAwesomeIcon className="ms-3" icon={faHome} size="2x" />
                 </span>
