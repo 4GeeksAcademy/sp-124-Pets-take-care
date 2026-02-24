@@ -272,7 +272,7 @@ class Appointment(db.Model):
             "id": self.id,
             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
             "appointment_time": self.appointment_time.isoformat() if self.appointment_time else None,
-            "state": self.state,
+            "status": self.status,
             "pet_id": self.pet_id,
             "service_id": self.service_id,
             "service_name": self.service.service_name,
@@ -290,8 +290,8 @@ class AppointmentSitter(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    state: Mapped[str] = mapped_column(
-        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_state"),
+    status: Mapped[str] = mapped_column(
+        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_status"),
         default="applied",
         nullable=False
     )
@@ -307,6 +307,6 @@ class AppointmentSitter(db.Model):
         return {
             "id": self.id,
             "appointment": self.appointment.serialize(),
-            "state": self.state,
+            "status": self.status,
             "sitter": self.sitter.serialize()
         }
