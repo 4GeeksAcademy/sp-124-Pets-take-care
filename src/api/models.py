@@ -250,7 +250,11 @@ class Appointment(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     appointment_date: Mapped[date] = mapped_column(Date, nullable=False)
     appointment_time: Mapped[time] = mapped_column(Time, nullable=False)
-    state: Mapped[str] = mapped_column(String(50), nullable=False)
+    status: Mapped[str] = mapped_column(
+        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_status"),
+        default="applied",
+        nullable=False
+    )
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
     service_id: Mapped[int] = mapped_column(
