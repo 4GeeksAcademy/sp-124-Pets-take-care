@@ -1147,7 +1147,7 @@ def new_appointment():
 
     pet = db.session.get(Pet, pet_id)
     if not pet or pet.user_id != client_id:
-       return jsonify({"msg": "Invalid pet"}), 403
+        return jsonify({"msg": "Invalid pet"}), 403
 
     appointment = Appointment(
         user_id=client_id,
@@ -1172,36 +1172,51 @@ def edit_appointment(id):
     body = request.get_json()
     if not body:
         return jsonify({"msg": "Request body is required"}), 400
-    
-    appointment= db.session.get(Appointment, id)
+
+    appointment = db.session.get(Appointment, id)
     if not appointment:
         return jsonify({"msg": "appointment not found"}), 404
     if appointment.user_id != client_id:
         return jsonify({"msg": "appointment not found"}), 404
-    
-    if "appointment_date" in body: 
+
+    if "appointment_date" in body:
         try:
-            date_obj = datetime.strptime(body["appointment_date"], "%Y-%m-%d").date()
+            date_obj = datetime.strptime(
+                body["appointment_date"], "%Y-%m-%d").date()
             appointment.appointment_date = date_obj
         except ValueError:
             return jsonify({"msg": "incorrect date"}), 400
 
-    if "appointment_time" in body: 
+    if "appointment_time" in body:
         try:
-            time_obj = datetime.strptime(body["appointment_time"], "%H:%M").time()
+            time_obj = datetime.strptime(
+                body["appointment_time"], "%H:%M").time()
             appointment.appointment_time = time_obj
         except ValueError:
             return jsonify({"msg": "incorrect time"}), 400
 
-    if "state" in body: 
+    if "state" in body:
         appointment.state = body["state"]
 
-    if "pet_id" in body: 
+    if "pet_id" in body:
         appointment.pet_id = body["pet_id"]
 
-    if "service_id" in body: 
+    if "service_id" in body:
         appointment.service_id = body["service_id"]
 
     db.session.commit()
 
     return jsonify({"msg": "appointment updated successfully"}), 200
+
+
+@api.route("/appointment/requests/<int:appointment_id>", methods=["GET"])
+def get_appointment_requests(appointment_id):
+
+
+   appointment = db.session.get(Appointment, appointment_id)
+   if not appointment:
+      return jsonify({"msg": "Appointment not found"}), 400
+
+   appointment_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.appointment_id == appointment_id, AppointmentSitter.status == "applied")).scalars().all()
+    
+   return jsonify({"requests": [appointment_sitter.serialize() for appointment_sitter in appointment_sitters]}), 200
