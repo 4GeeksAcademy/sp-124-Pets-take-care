@@ -8,7 +8,7 @@ const MyAppointmentsEdit = () => {
     const [editarTime, setEditarTime] = useState("")
     const [editarPet, setEditarPet] = useState(null)
     const [editarService, setEditarService] = useState(null)
-    const [editarState, setEditarState] = useState("")
+    const [editarStatus, setEditarStatus] = useState("")
     const [editarUser, setEditarUser] = useState(null)
 
     const [pets, setPets] = useState([]);
@@ -32,7 +32,7 @@ const MyAppointmentsEdit = () => {
 
                 setEditarDate(data.appointment_date || "");
                 setEditarTime(data.appointment_time ? data.appointment_time.slice(0, 5) : "");
-                setEditarState(data.state || "");
+                setEditarStatus(data.status || "");
                 setEditarService(data.service_id ?? null);
                 setEditarPet(data.pet_id ?? null);
                 setEditarUser(data.user_id ?? null);
@@ -96,7 +96,7 @@ const MyAppointmentsEdit = () => {
                                         "appointment_time": editarTime,
                                         "pet_id": editarPet,
                                         "service_id": editarService,
-                                        "state": editarState,
+                                        "status": editarStatus,
                                         "user_id": editarUser
                                     })
                                 }
