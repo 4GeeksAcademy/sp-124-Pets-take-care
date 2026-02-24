@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useGlobalReducer from "../../hooks/useGlobalReducer";
+import useGlobalReducer from "../../../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
-import { BACKEND_URL } from "../../main";
+import { BACKEND_URL } from "../../../main";
 import Swal from 'sweetalert2'
 
 
@@ -41,12 +41,12 @@ const ClientNewPets = () => {
         if (!response.ok) {
             throw new Error("Error creating pet");
         }
-         Swal.fire({
+        Swal.fire({
             title: "New pet added!",
             icon: "success",
             draggable: true
         });
-       
+
         navigate("/clients/pets");
     };
 

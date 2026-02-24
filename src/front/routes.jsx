@@ -43,9 +43,12 @@ import NewAppointmentSitter from "./components/appointmentsitter/NewAppointmentS
 import EditAppointmentSitter from "./components/appointmentsitter/EditAppointmentSitter";
 
 import ClientHome from "./components/Flujo-client/ClientHome";
-import ClientsPets from "./components/Flujo-client/ClientsPets";
-import ClientNewPets from "./components/Flujo-client/ClientNewPets";
+import ClientsPets from "./components/Flujo-client/Pets/ClientsPets";
+import ClientNewPets from "./components/Flujo-client/Pets/ClientNewPets";
+import ClientEditPet from "./components/Flujo-client/Pets/ClientEditPet";
 
+import MyAppointments from "./components/Flujo-client/Appointments/MyAppointments";
+import MyAppointmentsEdit from "./components/Flujo-client/Appointments/MyAppointmentsEdit";
 
 
 export const router = createBrowserRouter(
@@ -109,10 +112,13 @@ export const router = createBrowserRouter(
       <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
       <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
       <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
-      
+
       <Route path="/clients/pets" element={<ClientsPets />} />
       <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
+      <Route path="/clients/pets/:id" element={<ClientEditPet />} />
 
+      <Route path="/clients/appointments" element={<MyAppointments />} />
+      <Route path="/clients/appointments/edit" element={<MyAppointmentsEdit />} />
 
 
 

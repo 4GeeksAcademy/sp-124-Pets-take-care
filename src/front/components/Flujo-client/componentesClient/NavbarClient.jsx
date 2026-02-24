@@ -33,8 +33,8 @@ const NavbarClient = () => {
                             <FontAwesomeIcon className="ms-3" icon={faHome} size="2x" />
                         </span>
                     </Link>
-                    <button className="btn btn-primary" onClick={()=>navigate("/appointments")}>Go appointments</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/clients/pets")}>Go Pets</button>
+                    <button className="btn btn-primary" onClick={()=>navigate("/clients/appointments")}>My appointments</button>
+                    <button className="btn btn-primary" onClick={() => navigate("/clients/pets")}>My Pets</button>
                     <button className="btn btn-primary" onClick={() => navigate("/sitters")}>Go Sitters</button>
                     <button className="btn btn-danger me-3" onClick={handleLogoutClient}>Logout</button>
                     

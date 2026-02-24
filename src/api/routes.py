@@ -39,7 +39,6 @@ def signup_sitter():
     last_name = body.get("last_name", None)
     email = body.get("email", None)
     password = body.get("password", None)
-    
 
     if not email or not password or not name or not last_name:
         return jsonify({"msg": "All fields are required"}), 400
@@ -346,6 +345,7 @@ def add_pet():
         "msg": "Pet added"
     }), 201
 
+
 @api.route('/pets/<int:pet_id>', methods=['PUT'])
 def put_pet(pet_id):
 
@@ -629,12 +629,12 @@ def login_sitter():
     password = request.json.get("password")
 
     if not email or not password:
-        return jsonify({"msg": "Missing credentials"}), 400 
-    
+        return jsonify({"msg": "Missing credentials"}), 400
+
     sitter = db.session.execute(
         select(Sitter).where(
             Sitter.email == email)).scalar_one_or_none()
-    
+
     if sitter is None:
         return jsonify({"msg": "Bad username or password"}), 401
 
@@ -646,9 +646,9 @@ def login_sitter():
     return jsonify({"access_token": access_token,
                    "sitter": sitter.serialize()}), 200
 
-   
-     ## =======================##LOGING SITTER##============================##
-     ## ====================================================================##
+    ## =======================##LOGING SITTER##============================##
+    ## ====================================================================##
+
 
 @api.route("/clients/login", methods=["POST"])
 def login_client():
@@ -657,33 +657,35 @@ def login_client():
 
     if not email or not password:
         return jsonify({"msg": "Missing credentials"}), 400
-    
+
     client = db.session.execute(
         select(User).where(
             User.email == email)).scalar_one_or_none()
-    
+
     if client is None:
         return jsonify({"msg": "Client not found"}), 404
-    
+
     if password != client.password:
         return jsonify({"msg": "Wrong password"}), 401
-    
+
     access_token = create_access_token(identity=str(client.id))
-    
 
     return jsonify({"client_token": access_token}), 200
 
 ## ====================================================================##
     ## =======================##APPOINTMETS##============================##
 
+
 @api.route('/appointments', methods=['GET'])
 def get_appointmenst():
 
     appointments = db.session.execute(select(Appointment)).scalars().all()
 
-    results_appointments = list(map(lambda appointmen: appointmen.serialize(), appointments))
+    results_appointments = list(
+        map(lambda appointmen: appointmen.serialize(), appointments))
 
     return jsonify(results_appointments), 200
+
 
 @api.route('/appointments/<int:id>', methods=['GET'])
 def get_appointment(id):
@@ -694,7 +696,6 @@ def get_appointment(id):
         return jsonify({"message": "appointment not found"}), 404
 
     return jsonify(appointment.serialize()), 200
-
 
 
 @api.route("/appointments", methods=["POST"])
@@ -735,6 +736,7 @@ def add_appointment():
 
     return jsonify({"msg": "New appointment created"}), 201
 
+
 @api.route('/appointments/<int:id>', methods=['DELETE'])
 def delete_appointment(id):
 
@@ -742,11 +744,12 @@ def delete_appointment(id):
 
     if not appointment:
         return jsonify({"message": "appointment not found"}), 404
-    
+
     db.session.delete(appointment)
     db.session.commit()
-    
+
     return jsonify({"msg": "appointment deleted"}), 200
+
 
 @api.route('/appointments/<int:id>', methods=['PUT'])
 def update_appointment(id):
@@ -755,47 +758,50 @@ def update_appointment(id):
 
     if not appointment:
         return jsonify({"message": "appointment not found"}), 404
-    
+
     body = request.get_json()
     if not body:
         return jsonify({"msg": "no data provided"}), 400
 
     if "state" in body:
-         appointment.state = body["state"] 
+        appointment.state = body["state"]
 
     if "pet_id" in body:
-         pet = db.session.get(Pet, body["pet_id"])
-         if not pet:
-           return jsonify({"msg": "pet not found"}), 400
-         appointment.pet_id = body["pet_id"]
+        pet = db.session.get(Pet, body["pet_id"])
+        if not pet:
+            return jsonify({"msg": "pet not found"}), 400
+        appointment.pet_id = body["pet_id"]
 
     if "service_id" in body:
-         service = db.session.get(Services, body["service_id"])
-         if not service:
-           return jsonify({"msg": "service not found"}), 400
-         appointment.service = body["service_id"] 
-    
-    if "appointment_date" in body: 
-         try:
-              date_obj = datetime.strptime(body["appointment_date"], "%Y-%m-%d").date()
-              appointment.appointment_date = date_obj 
-         except:
-             return jsonify({"msg": "incorrect date"}), 400
-    
+        service = db.session.get(Services, body["service_id"])
+        if not service:
+            return jsonify({"msg": "service not found"}), 400
+        appointment.service = body["service_id"]
+
+    if "appointment_date" in body:
+        try:
+            date_obj = datetime.strptime(
+                body["appointment_date"], "%Y-%m-%d").date()
+            appointment.appointment_date = date_obj
+        except:
+            return jsonify({"msg": "incorrect date"}), 400
+
     if "appointment_time" in body:
-        try: 
-              time_obj = datetime.strptime(body["appointment_time"], "%H:%M").time()   
-              appointment.appointment_time = time_obj
+        try:
+            time_obj = datetime.strptime(
+                body["appointment_time"], "%H:%M").time()
+            appointment.appointment_time = time_obj
 
         except:
-             return jsonify({"msg": "incorrect time"}), 400
-        
-    db.session.commit()    
+            return jsonify({"msg": "incorrect time"}), 400
+
+    db.session.commit()
 
     return jsonify({"msg": "appointment updated"}), 200
 
 ## ====================================================================##
     ## =======================##APPOINTMETS##============================##
+
 
 @api.route("/admin/login", methods=["POST"])
 def login_admin():
@@ -804,36 +810,39 @@ def login_admin():
 
     if not email or not password:
         return jsonify({"msg": "Missing credentials"}), 400
-    
+
     admin = db.session.execute(
         select(UserAdmin).where(
             UserAdmin.email == email)).scalar_one_or_none()
-    
+
     if admin is None:
-        return jsonify({"msg": "Admin not found"}),404
-    
+        return jsonify({"msg": "Admin not found"}), 404
+
     if password != admin.password:
         return jsonify({"msg": "Wrong password"}), 401
-    
+
     access_token = create_access_token(identity=admin.id)
 
     return jsonify({"admin_token": access_token}), 200
 
 ## ====================================================================##
 
-#get todos los appointment sitters
+# get todos los appointment sitters
+
 
 @api.route('/appointments/sitters', methods=['GET'])
 def get_appointments_sitters():
 
-    appointments = db.session.execute(select(AppointmentSitter)).scalars().all()
+    appointments = db.session.execute(
+        select(AppointmentSitter)).scalars().all()
 
-    appointments_serialized = [appointment.serialize() for appointment in appointments]
+    appointments_serialized = [appointment.serialize()
+                               for appointment in appointments]
 
     return jsonify({"appointments": appointments_serialized}), 200
 
 
-#get de un appointment sitter
+# get de un appointment sitter
 
 @api.route('/appointments/sitters/<int:id>', methods=['GET'])
 def get_appointment_sitters(id):
@@ -846,7 +855,7 @@ def get_appointment_sitters(id):
     return jsonify(application.serialize()), 200
 
 
-#post de un nuevo appointment sitter
+# post de un nuevo appointment sitter
 
 @api.route("/appointments/sitters/new", methods=["POST"])
 def add_appointment_sitter():
@@ -857,19 +866,19 @@ def add_appointment_sitter():
     sitter_id = body.get("sitter_id")
 
     if not appointment_id or not sitter_id:
-        return jsonify({"msg": "appointment_id and sitter_id are required"}),400
+        return jsonify({"msg": "appointment_id and sitter_id are required"}), 400
 
     appointment_sitter = AppointmentSitter(
-    appointment_id=appointment_id,
-    sitter_id=sitter_id)
+        appointment_id=appointment_id,
+        sitter_id=sitter_id)
 
     db.session.add(appointment_sitter)
     db.session.commit()
 
-    return jsonify({"msg": "Appointment Sitter created"}),200
+    return jsonify({"msg": "Appointment Sitter created"}), 200
 
 
-#put editar un appointment sitter
+# put editar un appointment sitter
 
 @api.route("/appointments/sitters/edit/<int:id>", methods=["PUT"])
 def update_appointment_sitter(id):
@@ -901,7 +910,7 @@ def update_appointment_sitter(id):
     }), 200
 
 
-#delete eliminar un appointment sitter
+# delete eliminar un appointment sitter
 
 @api.route('/appointments/sitters/<int:id>', methods=['DELETE'])
 def delete_appointment_sitter(id):
@@ -910,41 +919,57 @@ def delete_appointment_sitter(id):
 
     if not appointment_sitter:
         return jsonify({"message": "appointment not found"}), 404
-    
+
     db.session.delete(appointment_sitter)
     db.session.commit()
-    
+
     return jsonify({"msg": "sitter's appointment deleted"}), 200
-    ##=========================CLIENT LOGGED===========================##
+    ## =========================CLIENT LOGGED===========================##
+
+
 @api.route("/clients/pets", methods=["GET"])
 @jwt_required()
-
 def get_pets_by_id():
     client_id = (get_jwt_identity())
-      
-    pets_client = db.session.execute(select(Pet).where(Pet.user_id == client_id)).scalars().all()
+
+    pets_client = db.session.execute(select(Pet).where(
+        Pet.user_id == client_id)).scalars().all()
 
     serialized = [pet.serialize() for pet in pets_client]
 
-    return jsonify(serialized), 200 
+    return jsonify(serialized), 200
+
+
+@api.route('/clients/pets/<int:pet_id>', methods=['GET'])
+@jwt_required()
+def get_pet_by_id(pet_id):
+    client_id = (get_jwt_identity())
+
+    pet = db.session.get(Pet, pet_id)
+
+    if pet is None:
+        return jsonify({"message": "Pet not found"}), 404
+
+    if pet.user_id != client_id:
+        return jsonify({"msg": "pet not found"}), 404
+
+    return jsonify(pet.serialize()), 200
 
 
 @api.route("/clients/pets/newpet", methods=['POST'])
-@jwt_required() 
-
+@jwt_required()
 def new_pet_by_id():
     client_id = (get_jwt_identity())
-    
+
     body = request.get_json()
     if not body:
-        return jsonify({"msg": "Request body is required"}), 400 
-    
+        return jsonify({"msg": "Request body is required"}), 400
+
     name = body.get("name")
     species = body.get("species")
     has_nie = body.get("has_nie", False)
     nie = body.get("nie")
     sterilized = body.get("sterilized", False)
-    
 
     if not name or not species:
         return jsonify({"msg": "name and species fields are required"}), 400
@@ -956,10 +981,227 @@ def new_pet_by_id():
         nie=nie,
         sterilized=sterilized,
         user_id=client_id
-    )   
+    )
 
     db.session.add(pet)
     db.session.commit()
 
     return jsonify(pet.serialize()), 201
-    ##=========================CLIENT LOGGED===========================##
+
+
+@api.route("/clients/pets/edit/<int:id>", methods=['PUT'])
+@jwt_required()
+def edit_pet_by_id(id):
+
+    client_id = int(get_jwt_identity())
+
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    pet = db.session.get(Pet, id)
+    if not pet:
+        return jsonify({"msg": "pet not found"}), 404
+    if pet.user_id != client_id:
+        return jsonify({"msg": "pet not found"}), 404
+
+    if "name" in body:
+        pet.name = body["name"]
+
+    if "species" in body:
+        pet.species = body["species"]
+
+    if "race" in body:
+        pet.race = body["race"]
+
+    if "gender" in body:
+        pet.gender = body["gender"]
+
+    if "color" in body:
+        pet.color = body["color"]
+
+    if "nie" in body:
+        pet.nie = body["nie"]
+
+    if "birth_date" in body:
+        try:
+            date_obj = datetime.strptime(body["birth_date"], "%Y-%m-%d").date()
+            pet.birth_date = date_obj
+        except:
+            return jsonify({"msg": "incorrect date"}), 400
+
+    if "type_food" in body:
+        pet.type_food = body["type_food"]
+
+    if "special_care" in body:
+        pet.special_care = body["special_care"]
+
+    if "about_pet" in body:
+        pet.about_pet = body["about_pet"]
+
+    db.session.commit()
+
+    return jsonify({"msg": "Pet updated successfully"}), 200
+
+
+@api.route("/clients/pets/<int:pet_id>", methods=['DELETE'])
+@jwt_required()
+def remove_pet_by_id(pet_id):
+    client_id = int(get_jwt_identity())
+
+    pet = db.session.execute(
+        select(Pet)
+        .where(
+            Pet.id == pet_id,
+            Pet.user_id == client_id
+        )
+    ).scalar_one_or_none()
+
+    if pet is None:
+        return jsonify({"msg": "Pet not found"}), 404
+
+    db.session.delete(pet)
+    db.session.commit()
+
+    return jsonify({"msg": "pet deleted"}), 204
+
+
+@api.route("/clients/appointments", methods=["GET"])
+@jwt_required()
+def get_appointments_by_id():
+    client_id = (get_jwt_identity())
+
+    appointments = db.session.execute(select(Appointment).where(
+        Appointment.user_id == client_id)).scalars().all()
+
+    serialized = [app.serialize() for app in appointments]
+
+    return jsonify(serialized), 200
+
+
+@api.route('/clients/appointments/<int:id>', methods=['GET'])
+@jwt_required()
+def get_appointment_info(id):
+    client_id = int(get_jwt_identity())
+
+    appointment = db.session.get(Appointment, id)
+
+    if appointment is None:
+        return jsonify({"msg": "None"}), 404
+    # print (type(appointment.user_id))
+    # print (type(client_id))
+    if appointment.user_id != client_id:
+        return jsonify({"msg": "not found"}), 404
+
+    return jsonify(appointment.serialize()), 200
+
+
+@api.route('clients/appointments/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_appointment_user(id):
+    client_id = int(get_jwt_identity())
+
+    appointment = db.session.execute(
+        select(Appointment)
+        .where(
+            Appointment.id == id,
+            Appointment.user_id == client_id
+        )
+    ).scalar_one_or_none()
+    print(appointment.id)
+    print(id)
+
+    if appointment is None:
+        return jsonify({"msg": "not found"}), 404
+
+    db.session.delete(appointment)
+    db.session.commit()
+
+    return jsonify({"msg": "appointment deleted"}), 200
+
+
+@api.route("/clients/appointments", methods=['POST'])
+@jwt_required()
+def new_appointment():
+    client_id = int(get_jwt_identity())
+
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+
+    # name = body.get("name")
+    date = body.get("appointment_date")
+    time = body.get("appointment_time")
+    state = body.get("state", "pending")
+    pet_id = body.get("pet_id")
+    service_id = body.get("service_id")
+
+    if not all([date, time, state, pet_id, service_id]):
+        return jsonify({"msg": "All fields are required"}), 400
+
+    try:
+        appointment_date = datetime.strptime(date, "%Y-%m-%d").date()
+        appointment_time = datetime.strptime(time, "%H:%M").time()
+    except ValueError:
+        return jsonify({"msg": "Invalid date or time format"}), 400
+
+    pet = db.session.get(Pet, pet_id)
+    if not pet or pet.user_id != client_id:
+       return jsonify({"msg": "Invalid pet"}), 403
+
+    appointment = Appointment(
+        user_id=client_id,
+        appointment_date=appointment_date,
+        appointment_time=appointment_time,
+        pet_id=pet_id,
+        service_id=service_id,
+        state=state
+
+    )
+    db.session.add(appointment)
+    db.session.commit()
+
+    return jsonify({"msg": "New appointment created"}), 201
+
+
+@api.route('/clients/appointments/<int:id>', methods=['PUT'])
+@jwt_required()
+def edit_appointment(id):
+    client_id = int(get_jwt_identity())
+
+    body = request.get_json()
+    if not body:
+        return jsonify({"msg": "Request body is required"}), 400
+    
+    appointment= db.session.get(Appointment, id)
+    if not appointment:
+        return jsonify({"msg": "appointment not found"}), 404
+    if appointment.user_id != client_id:
+        return jsonify({"msg": "appointment not found"}), 404
+    
+    if "appointment_date" in body: 
+        try:
+            date_obj = datetime.strptime(body["appointment_date"], "%Y-%m-%d").date()
+            appointment.appointment_date = date_obj
+        except ValueError:
+            return jsonify({"msg": "incorrect date"}), 400
+
+    if "appointment_time" in body: 
+        try:
+            time_obj = datetime.strptime(body["appointment_time"], "%H:%M").time()
+            appointment.appointment_time = time_obj
+        except ValueError:
+            return jsonify({"msg": "incorrect time"}), 400
+
+    if "state" in body: 
+        appointment.state = body["state"]
+
+    if "pet_id" in body: 
+        appointment.pet_id = body["pet_id"]
+
+    if "service_id" in body: 
+        appointment.service_id = body["service_id"]
+
+    db.session.commit()
+
+    return jsonify({"msg": "appointment updated successfully"}), 200
