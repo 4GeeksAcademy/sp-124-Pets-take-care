@@ -58,13 +58,6 @@ export const Navbar = () => {
 						  !localStorage.getItem("sitterToken") && <NavbarPublic />}
 
 						
-
-						
-
-						<button className="btn btn-danger" onClick={() => navigate("/welcome")}>Login</button>
-						<button className="btn btn-danger" onClick={() => navigate("/welcome")}>Sing Up</button>
-
-						
 						{/* <button className="btn btn-danger" onClick={() => navigate("/sitters/login")}>Go sitters login</button>
 						<Link to="/clients/login" className="btn btn-primary me-3">Client's Login</Link>
 						<Link to="/admin/login" className="btn btn-primary me-3">Admin's Login</Link> */}
