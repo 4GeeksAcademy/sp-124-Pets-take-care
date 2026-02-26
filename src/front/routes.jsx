@@ -51,7 +51,7 @@ import EditAppointmentSitter from "./components/Admin/appointmentsitter/EditAppo
 import Welcome from "./components/flujo-sin-usuario/Welcome";
 import NewSitterAccount from "./components/flujo-sitter/NewSitterAccount";
 import AppointmentList from "./components/flujo-sitter/AppointmentList";
-
+import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn"
 
 import ClientsPets from "./components/Clients/Pets/ClientsPets";
 import ClientNewPets from "./components/Clients/Pets/ClientNewPets";
@@ -59,11 +59,13 @@ import ClientEditPet from "./components/Clients/Pets/ClientEditPet";
 
 import MyAppointments from "./components/Clients/Appointments/MyAppointments";
 import MyAppointmentsEdit from "./components/Clients/Appointments/MyAppointmentsEdit";
+import MyNewAppointment from "./components/Clients/Appointments/MyNewAppointment";
+import MyAppointMentRequests from "./components/Clients/Appointments/MyAppointmentRequest";
 
-import Appointments from "./components/Admin/appointmment/appointments";
-import InfoAppointment from "./components/Admin/appointmment/infoAppointment";
-import PostAppointment from "./components/Admin/appointmment/PostAppointment";
-import PutAppointment from "./components/Admin/appointmment/PutAppointments";
+import Appointments from "./components/Admin/appointment/appointments";
+import InfoAppointment from "./components/Admin/appointment/infoAppointment";
+import PostAppointment from "./components/Admin/appointment/PostAppointment";
+import PutAppointment from "./components/Admin/appointment/PutAppointments";
 
 import SitterLogin from "./components/flujo-sitter/SitterLogin";
 import HomeSitter from "./components/flujo-sitter/HomeSitter";
@@ -139,8 +141,9 @@ export const router = createBrowserRouter(
       <Route path="/clients/pets/:id" element={<ClientEditPet />} />
 
       <Route path="/clients/appointments" element={<MyAppointments />} />
-      <Route path="/clients/appointments/edit" element={<MyAppointmentsEdit />} />
-
+      <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
+      <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
+      <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
       
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/sitters/login" element={<SitterLogin />} />

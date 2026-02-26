@@ -34,7 +34,6 @@ const NavbarClient = () => {
                     </Link>
                     <button className="btn btn-primary" onClick={() => navigate("/clients/appointments")}>My appointments</button>
                     <button className="btn btn-primary" onClick={() => navigate("/clients/pets")}>My Pets</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/sitters")}>Go Sitters</button>
                     <button className="btn btn-danger me-3" onClick={handleLogoutClient}>Logout</button>
 
 

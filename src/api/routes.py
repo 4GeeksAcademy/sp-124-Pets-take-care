@@ -1006,6 +1006,7 @@ def get_appointment_list(postulated):
 
     if postulated != "true":
         appointments = db.session.execute(select(Appointment).where(Appointment.id.notin_(sitter_appointments), Appointment.status == "applied")).scalars().all()
+        print(appointments[0].serialize())
         return jsonify({"appointments": [appointment.serialize() for appointment in appointments]})
         
     appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments) )).scalars().all()
@@ -1021,7 +1022,7 @@ def get_appointments_asigned():
 
     sitter_appointments = [appointment_sitters.appointment_id for appointment_sitters in appointments_sitters]
 
-    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.status == "selected")).scalars().all()
+    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.status != "applied")).scalars().all()
     return jsonify ({"appointments": [appointment.serialize() for appointment in appointments]}), 200
 
 
@@ -1292,3 +1293,56 @@ def get_appointment_requests(appointment_id):
    appointment_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.appointment_id == appointment_id, AppointmentSitter.status == "applied")).scalars().all()
     
    return jsonify({"requests": [appointment_sitter.serialize() for appointment_sitter in appointment_sitters]}), 200
+
+@api.route("/appointment-sitter/<int:app_sitter_id>/select", methods=['PUT'])
+@jwt_required()
+def select_sitter(app_sitter_id):
+
+    client_id = int(get_jwt_identity())
+
+    app_sitter = db.session.get(AppointmentSitter, app_sitter_id)
+    if not app_sitter:
+        return jsonify({"msg": "Application not found"}), 404
+
+    appointment = app_sitter.appointment
+    if not appointment:
+        return jsonify({"msg": "Appointment not found"}), 404
+
+    if appointment.user_id != client_id:
+        return jsonify({"msg": "Unauthorized"}), 403
+
+    all_requests = AppointmentSitter.query.filter_by(
+        appointment_id=appointment.id
+    ).all()
+
+    for r in all_requests:
+        if r.id == app_sitter_id:
+            r.status = "selected"
+        else:
+            r.status = "rejected"
+
+    appointment.status = "selected"
+
+    db.session.commit()
+
+    return jsonify({"msg": "Sitter selected successfully"}), 200
+
+@api.route("/appointment-sitter/<int:app_sitter_id>/reject", methods=['PUT'])
+@jwt_required()
+def reject_sitter(app_sitter_id):
+    client_id = int(get_jwt_identity())
+    app_sitter = db.session.get(AppointmentSitter, app_sitter_id)
+
+    if not app_sitter:
+        return jsonify({"msg": "Application not found"}), 404
+    
+    appointment = app_sitter.appointment
+    if not appointment:
+        return jsonify({"msg": "Appointment not found"}), 404
+    if appointment.user_id != client_id:
+        return jsonify({"msg": "Unauthorized"}), 403
+    
+    app_sitter.status = "rejected"
+    db.session.commit()
+
+    return jsonify({"msg": "Sitter rejected"}), 200
