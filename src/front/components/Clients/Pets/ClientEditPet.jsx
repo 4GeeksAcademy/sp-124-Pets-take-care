@@ -59,7 +59,8 @@ const ClientEditPet = () => {
     const updatePet = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch(BACKEND_URL + `api/clients/pets/edit/${id}`,
+            const response = await fetch
+            (BACKEND_URL + `api/clients/pets/edit/${id}`,
                 {
                     method: "PUT",
                     headers: {

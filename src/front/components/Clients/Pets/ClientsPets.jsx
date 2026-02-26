@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../../main";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeartCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCross, faHeartCircleXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 const ClientsPets = () => {
@@ -114,7 +114,7 @@ const ClientsPets = () => {
                                         <button className="btn"
                                             onClick={() => deletePet(el.id)} >
                                             <FontAwesomeIcon
-                                                icon={faHeartCircleXmark}
+                                                icon={faXmark}
                                                 size="2x"
                                             />
                                         </button>
