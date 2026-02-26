@@ -738,8 +738,10 @@ def add_appointment():
 
 
 @api.route('/appointments/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_appointment(id):
 
+    
     appointment = db.session.get(Appointment, id)
 
     if not appointment:
@@ -991,7 +993,8 @@ def new_pet_by_id():
 
 #Este endpoint me da los appointments en los que el sitter no se ha postulado
 
-@api.route("appointments/sitters/<string:postulated>", methods=['GET'])
+
+@api.route("sitter/appointments/<string:postulated>", methods=['GET'])
 @jwt_required()
 def get_appointment_list(postulated):
 
@@ -1041,6 +1044,10 @@ def add_own_appointment_sitter():
     db.session.commit()
 
     return jsonify({"msg": "Appointment Sitter created"}),200
+
+
+
+
 
 @api.route("/sitter/appointment-sitter/<int:appointment_id>", methods=["DELETE"])
 @jwt_required()
@@ -1158,8 +1165,6 @@ def get_appointment_info(id):
 
     if appointment is None:
         return jsonify({"msg": "None"}), 404
-    # print (type(appointment.user_id))
-    # print (type(client_id))
     if appointment.user_id != client_id:
         return jsonify({"msg": "not found"}), 404
 
@@ -1178,8 +1183,6 @@ def delete_appointment_user(id):
             Appointment.user_id == client_id
         )
     ).scalar_one_or_none()
-    print(appointment.id)
-    print(id)
 
     if appointment is None:
         return jsonify({"msg": "not found"}), 404
