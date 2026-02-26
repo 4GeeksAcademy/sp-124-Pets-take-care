@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../../main"
+import { useParams } from "react-router-dom"
 
-const AppointmentListOwn = () => {
+const AppointmentAsigned = () => {
 
     const [appointments, setAppointments] = useState([])
+    const [status, setStatus] = useState([])
+    const {id} = useParams()
         console.log(appointments)
 
     useEffect(() => {
@@ -11,7 +14,7 @@ const AppointmentListOwn = () => {
     }, [])
 
     const getAppointment = () => {
-        fetch(BACKEND_URL + "api/sitter/appointments/true", {
+        fetch(BACKEND_URL + "api/appointments/asigned", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("sitterToken")
             }
@@ -23,14 +26,15 @@ const AppointmentListOwn = () => {
                 return resp.json()
             })
 
-            .then(data =>
-                setAppointments(data.appointments)
+            .then(data =>{
+                console.log("DATA:", data)
+                setAppointments(data.appointments)}
             )
             .catch(err => console.log(err))
     }
 
-    const handleCancel = async (id) => {
-        try{
+        const handleCancel = async (id) => {
+            try{
             const resp = await fetch(BACKEND_URL + `api/sitter/appointment-sitter/${id}`, {
                 method: "DELETE",
                 headers: {
@@ -44,14 +48,11 @@ const AppointmentListOwn = () => {
         } catch(err){
             console.log(err)
         }
-    }
-
-
-
+        }
 
     return (
         <div className="container">
-            <h1>My Appointments List</h1>
+            <h1>Asigned Appointment</h1>
             {appointments.map(el => (
                 <div
                     key={el.id}
@@ -81,7 +82,7 @@ const AppointmentListOwn = () => {
                             </div>
                         </div>
                         <div className="container mt-3">
-                            <button className="btn btn-primary" onClick={() => handleCancel(el.id)}>Cancelar
+                            <button className="btn btn-primary" onClick={() => handleCancel(el.id)}>Rechazar
                             </button>
                         </div>
                     </div>
@@ -91,4 +92,4 @@ const AppointmentListOwn = () => {
 
     )
 }
-export default AppointmentListOwn
+export default AppointmentAsigned

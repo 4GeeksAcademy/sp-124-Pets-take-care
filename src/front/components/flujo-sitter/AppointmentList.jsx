@@ -4,13 +4,12 @@ import { BACKEND_URL } from "../../main"
 const AppointmentList = () => {
 
     const [appointments, setAppointments] = useState([])
-    console.log(appointments)
     useEffect(() => {
         getAppointment()
     }, [])
 
     const getAppointment = () => {
-        fetch(BACKEND_URL + "api/appointments/sitters/false", {
+        fetch(BACKEND_URL + "api/sitter/appointments/false", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("sitterToken")
             }
@@ -22,8 +21,10 @@ const AppointmentList = () => {
                 return resp.json()
             })
 
-            .then(data =>
-                setAppointments(data.appointments)
+            .then(data =>{
+                console.log("DATA:", data)
+                setAppointments(data.appointments || [])
+            }
             )
             .catch(err => console.log(err))
     }
@@ -54,7 +55,9 @@ const AppointmentList = () => {
     return (
         <div className="container">
             <h1>Looking for Appointments</h1>
-            {appointments.map(el => (
+            {appointments.length === 0 ? (
+    <p>No hay appointments disponibles</p>
+) : appointments.map(el => (
                 <div
                     key={el.id}
                     className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center mb-3">
@@ -75,11 +78,6 @@ const AppointmentList = () => {
                             <div className="container">
                                 <h5>Servicio</h5>
                                 <span>{el.service_name}📋</span>
-                            </div>
-                            <div className="container">
-                                <h5>Estado de solicitud
-                                </h5>
-                                <span>{el.state}📋</span>
                             </div>
                         </div>
                         <div className="container mt-3">
