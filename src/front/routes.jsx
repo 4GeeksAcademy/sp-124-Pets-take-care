@@ -68,6 +68,8 @@ import PutAppointment from "./components/Admin/appointmment/PutAppointments";
 import SitterLogin from "./components/flujo-sitter/SitterLogin";
 import HomeSitter from "./components/flujo-sitter/HomeSitter";
 import ClientHome from "./components/Clients/Loggin/ClientHome";
+import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
+import AppointmentAsigned from "./components/flujo-sitter/AppointmentAsigned";
 
 
 export const router = createBrowserRouter(
@@ -145,6 +147,7 @@ export const router = createBrowserRouter(
       <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
       <Route path="/appointments/list" element={<AppointmentList />} />
       <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
+      <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
 
 
 

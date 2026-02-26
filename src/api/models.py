@@ -259,6 +259,7 @@ class Appointment(db.Model):
     pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
     service_id: Mapped[int] = mapped_column(
         ForeignKey("services.id"), nullable=False)
+    
     user: Mapped["User"] = relationship(back_populates="appointments")
     pet: Mapped["Pet"] = relationship(back_populates="appointments")
     service: Mapped["Services"] = relationship(back_populates="appointments")

@@ -709,11 +709,11 @@ def add_appointment():
     user_id = body.get("user_id")
     pet_id = body.get("pet_id")
     service_id = body.get("service_id")
-    state = body.get("state")
+    status = body.get("status")
     date_str = body.get("appointment_date")
     time_str = body.get("appointment_time")
 
-    if not all([user_id, pet_id, service_id, state, date_str, time_str]):
+    if not all([user_id, pet_id, service_id, status, date_str, time_str]):
         return jsonify({"msg": "All fields are required"}), 400
 
     try:
@@ -728,7 +728,7 @@ def add_appointment():
         service_id=service_id,
         appointment_date=appointment_date,
         appointment_time=appointment_time,
-        state=state
+        status=status
     )
 
     db.session.add(new_appointment)
@@ -738,8 +738,10 @@ def add_appointment():
 
 
 @api.route('/appointments/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_appointment(id):
 
+    
     appointment = db.session.get(Appointment, id)
 
     if not appointment:
@@ -763,8 +765,8 @@ def update_appointment(id):
     if not body:
         return jsonify({"msg": "no data provided"}), 400
 
-    if "state" in body:
-         appointment.state = body["state"]
+    if "status" in body:
+         appointment.status = body["status"]
 
     if "pet_id" in body:
         pet = db.session.get(Pet, body["pet_id"])
@@ -991,19 +993,19 @@ def new_pet_by_id():
 
 #Este endpoint me da los appointments en los que el sitter no se ha postulado
 
-@api.route("appointments/sitters/<string:postulated>", methods=['GET'])
+
+@api.route("sitter/appointments/<string:postulated>", methods=['GET'])
 @jwt_required()
 def get_appointment_list(postulated):
 
     sitter_id = get_jwt_identity()
 
-    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.state == "applied")).scalars().all()
+    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.status == "applied")).scalars().all()
 
     sitter_appointments = [appointment_sitter.appointment_id for appointment_sitter in appointments_sitters]
 
     if postulated != "true":
-        appointments = db.session.execute(select(Appointment).where(Appointment.id.notin_(sitter_appointments), Appointment.state == "pending")).scalars().all()
-        print(appointments[0].serialize())
+        appointments = db.session.execute(select(Appointment).where(Appointment.id.notin_(sitter_appointments), Appointment.status == "applied")).scalars().all()
         return jsonify({"appointments": [appointment.serialize() for appointment in appointments]})
         
     appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments) )).scalars().all()
@@ -1015,11 +1017,11 @@ def get_appointments_asigned():
 
     sitter_id = get_jwt_identity()
 
-    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.state == "selected")).scalars().all()
+    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.status == "selected")).scalars().all()
 
     sitter_appointments = [appointment_sitters.appointment_id for appointment_sitters in appointments_sitters]
 
-    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.state != "pending")).scalars().all()
+    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.status == "selected")).scalars().all()
     return jsonify ({"appointments": [appointment.serialize() for appointment in appointments]}), 200
 
 
@@ -1041,6 +1043,10 @@ def add_own_appointment_sitter():
     db.session.commit()
 
     return jsonify({"msg": "Appointment Sitter created"}),200
+
+
+
+
 
 @api.route("/sitter/appointment-sitter/<int:appointment_id>", methods=["DELETE"])
 @jwt_required()
@@ -1158,8 +1164,6 @@ def get_appointment_info(id):
 
     if appointment is None:
         return jsonify({"msg": "None"}), 404
-    # print (type(appointment.user_id))
-    # print (type(client_id))
     if appointment.user_id != client_id:
         return jsonify({"msg": "not found"}), 404
 
@@ -1178,8 +1182,6 @@ def delete_appointment_user(id):
             Appointment.user_id == client_id
         )
     ).scalar_one_or_none()
-    print(appointment.id)
-    print(id)
 
     if appointment is None:
         return jsonify({"msg": "not found"}), 404
@@ -1202,11 +1204,11 @@ def new_appointment():
     # name = body.get("name")
     date = body.get("appointment_date")
     time = body.get("appointment_time")
-    state = body.get("state", "pending")
+    status = body.get("status", "applied")
     pet_id = body.get("pet_id")
     service_id = body.get("service_id")
 
-    if not all([date, time, state, pet_id, service_id]):
+    if not all([date, time, status, pet_id, service_id]):
         return jsonify({"msg": "All fields are required"}), 400
 
     try:
@@ -1225,7 +1227,7 @@ def new_appointment():
         appointment_time=appointment_time,
         pet_id=pet_id,
         service_id=service_id,
-        state=state
+        status=status
 
     )
     db.session.add(appointment)
@@ -1265,8 +1267,8 @@ def edit_appointment(id):
         except ValueError:
             return jsonify({"msg": "incorrect time"}), 400
 
-    if "state" in body:
-        appointment.state = body["state"]
+    if "status" in body:
+        appointment.status = body["status"]
 
     if "pet_id" in body:
         appointment.pet_id = body["pet_id"]
