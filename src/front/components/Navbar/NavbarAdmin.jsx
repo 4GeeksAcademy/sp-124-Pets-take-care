@@ -23,11 +23,7 @@ const NavbarAdmin = () => {
     }
 
     return (
-
-        <nav className="navbar navbar-light bg-light">
-            {localStorage.getItem("adminToken") ?
                 <>
-
                     <Link to="/clients/home">
                         <span>
                             <FontAwesomeIcon className="ms-3" icon={faHome} size="2x" />
@@ -44,11 +40,7 @@ const NavbarAdmin = () => {
 							<Link to="/appointments/sitters" className="btn btn-primary me-3">Appointment Sitter's List</Link>
 
 
-                </>
-                : <h1>logeate</h1>
-            }
-        </nav>
-
+                </>   
     )
 }
 

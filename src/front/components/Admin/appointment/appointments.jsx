@@ -8,7 +8,7 @@ const Appointments = () => {
 
     const [appointments, setAppointments] = useState([])
     const { id } = useParams();
-    console.log(appointments)
+    
     const navigate = useNavigate();
 
     useEffect(() => {

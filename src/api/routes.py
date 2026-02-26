@@ -709,11 +709,11 @@ def add_appointment():
     user_id = body.get("user_id")
     pet_id = body.get("pet_id")
     service_id = body.get("service_id")
-    state = body.get("state")
+    status = body.get("status")
     date_str = body.get("appointment_date")
     time_str = body.get("appointment_time")
 
-    if not all([user_id, pet_id, service_id, state, date_str, time_str]):
+    if not all([user_id, pet_id, service_id, status, date_str, time_str]):
         return jsonify({"msg": "All fields are required"}), 400
 
     try:
@@ -728,7 +728,7 @@ def add_appointment():
         service_id=service_id,
         appointment_date=appointment_date,
         appointment_time=appointment_time,
-        state=state
+        status=status
     )
 
     db.session.add(new_appointment)
@@ -763,8 +763,8 @@ def update_appointment(id):
     if not body:
         return jsonify({"msg": "no data provided"}), 400
 
-    if "state" in body:
-         appointment.state = body["state"]
+    if "status" in body:
+         appointment.status = body["status"]
 
     if "pet_id" in body:
         pet = db.session.get(Pet, body["pet_id"])
@@ -997,12 +997,12 @@ def get_appointment_list(postulated):
 
     sitter_id = get_jwt_identity()
 
-    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.state == "applied")).scalars().all()
+    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.status == "applied")).scalars().all()
 
     sitter_appointments = [appointment_sitter.appointment_id for appointment_sitter in appointments_sitters]
 
     if postulated != "true":
-        appointments = db.session.execute(select(Appointment).where(Appointment.id.notin_(sitter_appointments), Appointment.state == "pending")).scalars().all()
+        appointments = db.session.execute(select(Appointment).where(Appointment.id.notin_(sitter_appointments), Appointment.status == "applied")).scalars().all()
         print(appointments[0].serialize())
         return jsonify({"appointments": [appointment.serialize() for appointment in appointments]})
         
@@ -1015,11 +1015,11 @@ def get_appointments_asigned():
 
     sitter_id = get_jwt_identity()
 
-    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.state == "selected")).scalars().all()
+    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.status == "selected")).scalars().all()
 
     sitter_appointments = [appointment_sitters.appointment_id for appointment_sitters in appointments_sitters]
 
-    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.state != "pending")).scalars().all()
+    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.status != "applied")).scalars().all()
     return jsonify ({"appointments": [appointment.serialize() for appointment in appointments]}), 200
 
 
@@ -1202,11 +1202,11 @@ def new_appointment():
     # name = body.get("name")
     date = body.get("appointment_date")
     time = body.get("appointment_time")
-    state = body.get("state", "pending")
+    status = body.get("status", "applied")
     pet_id = body.get("pet_id")
     service_id = body.get("service_id")
 
-    if not all([date, time, state, pet_id, service_id]):
+    if not all([date, time, status, pet_id, service_id]):
         return jsonify({"msg": "All fields are required"}), 400
 
     try:
@@ -1225,7 +1225,7 @@ def new_appointment():
         appointment_time=appointment_time,
         pet_id=pet_id,
         service_id=service_id,
-        state=state
+        status=status
 
     )
     db.session.add(appointment)
@@ -1265,8 +1265,8 @@ def edit_appointment(id):
         except ValueError:
             return jsonify({"msg": "incorrect time"}), 400
 
-    if "state" in body:
-        appointment.state = body["state"]
+    if "status" in body:
+        appointment.status = body["status"]
 
     if "pet_id" in body:
         appointment.pet_id = body["pet_id"]
@@ -1290,3 +1290,56 @@ def get_appointment_requests(appointment_id):
    appointment_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.appointment_id == appointment_id, AppointmentSitter.status == "applied")).scalars().all()
     
    return jsonify({"requests": [appointment_sitter.serialize() for appointment_sitter in appointment_sitters]}), 200
+
+@api.route("/appointment-sitter/<int:app_sitter_id>/select", methods=['PUT'])
+@jwt_required()
+def select_sitter(app_sitter_id):
+
+    client_id = int(get_jwt_identity())
+
+    app_sitter = db.session.get(AppointmentSitter, app_sitter_id)
+    if not app_sitter:
+        return jsonify({"msg": "Application not found"}), 404
+
+    appointment = app_sitter.appointment
+    if not appointment:
+        return jsonify({"msg": "Appointment not found"}), 404
+
+    if appointment.user_id != client_id:
+        return jsonify({"msg": "Unauthorized"}), 403
+
+    all_requests = AppointmentSitter.query.filter_by(
+        appointment_id=appointment.id
+    ).all()
+
+    for r in all_requests:
+        if r.id == app_sitter_id:
+            r.status = "selected"
+        else:
+            r.status = "rejected"
+
+    appointment.status = "selected"
+
+    db.session.commit()
+
+    return jsonify({"msg": "Sitter selected successfully"}), 200
+
+@api.route("/appointment-sitter/<int:app_sitter_id>/reject", methods=['PUT'])
+@jwt_required()
+def reject_sitter(app_sitter_id):
+    client_id = int(get_jwt_identity())
+    app_sitter = db.session.get(AppointmentSitter, app_sitter_id)
+
+    if not app_sitter:
+        return jsonify({"msg": "Application not found"}), 404
+    
+    appointment = app_sitter.appointment
+    if not appointment:
+        return jsonify({"msg": "Appointment not found"}), 404
+    if appointment.user_id != client_id:
+        return jsonify({"msg": "Unauthorized"}), 403
+    
+    app_sitter.status = "rejected"
+    db.session.commit()
+
+    return jsonify({"msg": "Sitter rejected"}), 200

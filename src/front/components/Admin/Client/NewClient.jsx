@@ -38,23 +38,23 @@ const NewClient = () => {
 
 
     return (
-        <div className="container">
+        <div className="container mb-3">
             <h1>New Client</h1>
 
             <form>
-                <div className="container">
-                    <input placeholder="name" value={name} onChange={e => setName(e.target.value)} />
+                <div className="container mb-3">
+                    <input placeholder="name" className="form-control" value={name} onChange={e => setName(e.target.value)} />
                 </div>
-                <div className="container">
-                    <input placeholder="last name" value={lastName} onChange={e => setLastName(e.target.value)} />
+                <div className="container mb-3">
+                    <input placeholder="last name" className="form-control" value={lastName} onChange={e => setLastName(e.target.value)} />
                 </div>
-                <div className="container">
-                    <input placeholder="email" value={email} onChange={e => setEmail(e.target.value)} />
+                <div className="container mb-3">
+                    <input placeholder="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} />
                 </div>
-                <div className="container">
-                    <input type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
+                <div className="container mb-3">
+                    <input type="password" className="form-control" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
                 </div>
-                <button type="button" onClick={postClient}>
+                <button type="button" className="btn btn-primary" onClick={postClient}>
                     New Client
                 </button>
             </form>
