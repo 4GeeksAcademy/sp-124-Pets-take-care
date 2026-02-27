@@ -5,8 +5,9 @@ const DogsApi = () => {
 const [dogBreeds, setDogBreeds] = useState([])
 
 
-useEffect(()=>{
+useEffect(()=> {
 
+    readDogBreeds()
 
 },[])
 
@@ -18,11 +19,10 @@ const readDogBreeds = async () => {
 
       const breedList = Object.keys(data.message);
       setDogBreeds(breedList);
+    } catch (err) {
+      console.error(err);
     }
-
-
-
-}
+}; 
 
 
     return(<h1>hola</h1>)

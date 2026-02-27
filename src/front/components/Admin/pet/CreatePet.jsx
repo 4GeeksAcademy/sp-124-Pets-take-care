@@ -16,8 +16,14 @@ const CreatePet = () => {
   const [sterilized, setSterilized] = useState(false);
   const [userId, setUserId] = useState(null);
 
+  
+
+
 
   useEffect(() => {
+    
+    readDogBreeds()
+
     fetch(BACKEND_URL + "api/clients")
       .then(r => r.json())
       .then(data => {
@@ -29,6 +35,7 @@ const CreatePet = () => {
       .catch(err => console.log(err));
   }, []);
 
+   
 
   const newPet = async () => {
 
