@@ -51,7 +51,7 @@ import EditAppointmentSitter from "./components/Admin/appointmentsitter/EditAppo
 import Welcome from "./components/flujo-sin-usuario/Welcome";
 import NewSitterAccount from "./components/flujo-sitter/NewSitterAccount";
 import AppointmentList from "./components/flujo-sitter/AppointmentList";
-import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn"
+
 
 import ClientsPets from "./components/Clients/Pets/ClientsPets";
 import ClientNewPets from "./components/Clients/Pets/ClientNewPets";

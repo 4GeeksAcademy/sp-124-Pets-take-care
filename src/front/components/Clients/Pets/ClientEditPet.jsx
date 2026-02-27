@@ -21,10 +21,20 @@ const ClientEditPet = () => {
     const [editarSterilized, setEditarSterilized] = useState(false);
     const [editarAboutPet, setEditarAboutPet] = useState("");
 
+    const [breeds, setBreeds] = useState([]);
+
     useEffect(() => {
+        readDogBreeds()
+        readPetInfo()
+        
+
+    }, [id]);
+
+    const readPetInfo = () => {
         fetch(BACKEND_URL + `api/clients/pets/${id}`, {
             method: 'GET',
             headers: {
+                "Content-Type": "application/json",
                 'Authorization': `Bearer ${localStorage.getItem("clientToken")}`
             }
         })
@@ -51,11 +61,20 @@ const ClientEditPet = () => {
             }
             )
             .catch(err => console.log(err));
+    }
 
-    }, [id]);
+    const readDogBreeds = async () => {
 
+        try {
+            const res = await fetch("https://dog.ceo/api/breeds/list/all");
+            const data = await res.json();
 
-
+            const breedList = Object.keys(data.message);
+            setBreeds(breedList);
+        } catch (err) {
+            console.error(err);
+        }
+    }
     const updatePet = async (e) => {
         e.preventDefault()
         try {
@@ -123,26 +142,44 @@ const ClientEditPet = () => {
                         <label htmlFor="exampleFormControlInput2" className="form-label text-white">
                             Pet species
                         </label>
-                        <input type="text"
-                            className="form-control"
-                            id="exampleFormControlInput2"
-                            placeholder="species"
-                            value={editarSpecies}
-                            onChange={(e) => setEditarSpecies(e.target.value)} />
-
+                        <select placeholder="species" value={editarSpecies} className="form-control" 
+                        onChange={(e) => setEditarSpecies(e.target.value)} >
+                            <option value="">Select species</option>
+                           <option value="Dog">Dog</option> 
+                           <option value="Cat">Cat</option>
+                           <option value="Exotic">Exotic</option>
+                           <option value="Bird">Bird</option>
+                          </select>  
                     </div>
                     <div className="col-12 mb-3">
-                        <label htmlFor="exampleFormControlInput3" className="form-label text-white">
-                            Pet species
-                        </label>
-                        <input type="text"
-                            className="form-control"
-                            id="exampleFormControlInput3"
-                            placeholder="race"
-                            value={editarRace}
-                            onChange={(e) => setEditarRace(e.target.value)} />
+  <label className="form-label text-white">
+    Pet Race
+  </label>
 
-                    </div>
+  {editarSpecies === "Dog" ? (
+    <select
+      className="form-control"
+      value={editarRace}
+      onChange={(e) => setEditarRace(e.target.value)}
+    >
+      <option value="">Select breed</option>
+      {breeds.map((breed) => (
+        <option key={breed} value={breed}>
+          {breed}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <input
+      type="text"
+      className="form-control"
+      placeholder="race"
+      value={editarRace}
+      onChange={(e) => setEditarRace(e.target.value)}
+    />
+  )}
+</div>
+                        
                     <div className="col-12 mb-3">
                         <label className="form-check-label mb-2 text-white">Gender</label>
                         <div className="form-check">
@@ -249,6 +286,5 @@ const ClientEditPet = () => {
         </div>
     )
 }
-
 
 export default ClientEditPet

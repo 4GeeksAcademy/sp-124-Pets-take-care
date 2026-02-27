@@ -17,12 +17,13 @@ const MyAppointmentsEdit = () => {
 
   const [pets, setPets] = useState([]);
   const [services, setServices] = useState([]);
+  
 
 
   useEffect(() => {
     readServices()
     readPets()
-
+    
 
     fetch(BACKEND_URL + `api/clients/appointments/${id}`, {
       method: "GET",
@@ -120,6 +121,7 @@ const MyAppointmentsEdit = () => {
     }
   };
 
+  
 
 
   return (
