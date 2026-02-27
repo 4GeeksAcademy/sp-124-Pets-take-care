@@ -36,6 +36,7 @@ const NavbarSitter = () => {
                     <button className="btn btn-primary" onClick={()=>navigate("/appointments/list")}>Appointment's Request</button>
                     <button className="btn btn-primary" onClick={() => navigate("/appointments-sitters/own")}>Open Request</button>
                     <button className="btn btn-primary" onClick={() => navigate("/appointments-sitters/asigned")}>Asigned Appointments</button>
+                    <button className="btn btn-primary" onClick={() => navigate("/sitter/profile")}>My profile</button>
                     <button className="btn btn-danger me-3" onClick={handleLogoutClient}>Logout</button>
                     
                 
