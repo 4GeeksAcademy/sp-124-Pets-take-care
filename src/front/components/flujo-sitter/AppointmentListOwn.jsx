@@ -4,7 +4,7 @@ import { BACKEND_URL } from "../../main"
 const AppointmentListOwn = () => {
 
     const [appointments, setAppointments] = useState([])
-        console.log(appointments)
+
 
     useEffect(() => {
         getAppointment()

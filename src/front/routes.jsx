@@ -73,6 +73,8 @@ import ClientHome from "./components/Clients/Loggin/ClientHome";
 import AppointmentAsigned from "./components/flujo-sitter/AppointmentAsigned";
 import SitterProfile from "./components/flujo-sitter/SitterProfile";
 import SitterProfileEdit from "./components/flujo-sitter/SitterProfileEdit";
+import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
+import AppointmentBackground from "./components/flujo-sitter/AppointmentBackground";
 
 
 export const router = createBrowserRouter(
@@ -154,6 +156,7 @@ export const router = createBrowserRouter(
       <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
       <Route path="/sitter/profile" element={<SitterProfile />} />
       <Route path="/sitter/profile/edit" element={<SitterProfileEdit />} />
+      <Route path="/appointments-sitter/background" element={<AppointmentBackground />} />
 
 
 

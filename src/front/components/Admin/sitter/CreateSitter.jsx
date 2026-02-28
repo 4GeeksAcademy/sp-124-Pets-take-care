@@ -21,7 +21,6 @@ const CreateSitter = () => {
       "password": password,
 
     }
-    console.log(prueba)
 
     const response = await fetch(
       BACKEND_URL + "api/signup/sitters",

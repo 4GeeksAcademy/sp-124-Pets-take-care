@@ -2,18 +2,16 @@ import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../../main"
 import { useParams } from "react-router-dom"
 
-const AppointmentAsigned = () => {
+const AppointmentBackground = () => {
 
     const [appointments, setAppointments] = useState([])
-    const [status, setStatus] = useState([])
-    const {id} = useParams()
 
     useEffect(() => {
         getAppointment()
     }, [])
 
     const getAppointment = () => {
-        fetch(BACKEND_URL + "api/appointments/asigned", {
+        fetch(BACKEND_URL + "api/appointments/background", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("sitterToken")
             }
@@ -25,34 +23,19 @@ const AppointmentAsigned = () => {
                 return resp.json()
             })
 
-            .then(data =>{
-
-                setAppointments(data.appointments)}
+            .then(data => {
+                setAppointments(data.appointments)
+            }
             )
             .catch(err => console.log(err))
     }
 
-        const handleWithdrawn = async (id) => {
-            try{
-            const resp = await fetch(BACKEND_URL + `api/sitter/appointment-sitter/withdrawn/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("sitterToken")
-                }
-                })
-            if(!resp.ok){
-                throw new Error("Something went wrong")
-            }
-            getAppointment()
-        } catch(err){
-            console.log(err)
-        }
-        }
-
     return (
         <div className="container">
-            <h1>Asigned Appointment</h1>
-            {appointments.map(el => (
+            <h1>Looking for Appointments</h1>
+            {appointments.length === 0 ? (
+                <p>No hay appointments disponibles</p>
+            ) : appointments.map(el => (
                 <div
                     key={el.id}
                     className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center mb-3">
@@ -80,15 +63,10 @@ const AppointmentAsigned = () => {
                                 <span>{el.status}📋</span>
                             </div>
                         </div>
-                        <div className="container mt-3">
-                            <button className="btn btn-danger" onClick={() => handleWithdrawn(el.id)}>Withdrawn
-                            </button>
-                        </div>
                     </div>
                 </div>
             ))}
         </div>
-
     )
 }
-export default AppointmentAsigned
+export default AppointmentBackground

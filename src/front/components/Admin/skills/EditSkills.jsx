@@ -44,13 +44,7 @@ const EditSkill = () => {
             console.error(error);
             alert("Could not update skill");
         }
-        console.log("ID desde useParams:", id, typeof id);
     };
-
-    // const handleEdit = () => {
-    //     alert("Contacto editado correctamente")
-    //     navigate("/clients")
-    // }
 
     return (
         <div className="container">

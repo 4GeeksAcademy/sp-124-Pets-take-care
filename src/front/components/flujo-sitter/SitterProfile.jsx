@@ -25,7 +25,6 @@ const SitterProfile = () => {
                 return resp.json()
             })
             .then(data => {
-                console.log(data)
                 setSitter(data)
             })
             .catch(err => console.log(err))
