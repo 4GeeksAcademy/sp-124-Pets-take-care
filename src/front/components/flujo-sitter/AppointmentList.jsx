@@ -22,11 +22,10 @@ const AppointmentList = () => {
             })
 
             .then(data =>{
-                console.log("DATA:", data)
                 setAppointments(data.appointments || [])
             }
             )
-            .catch(err => console.log(err))
+            .catch(err => setAppointments([]))
     }
 
     const handlePostulate = async (appointmentId) => {
