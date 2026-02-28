@@ -51,7 +51,6 @@ const NewAppointmentSitter = () => {
                 return resp.json()
             })
             .then(data => {
-                console.log(data)
                 navigate(-1)
             })
             .catch(err => console.log(err))

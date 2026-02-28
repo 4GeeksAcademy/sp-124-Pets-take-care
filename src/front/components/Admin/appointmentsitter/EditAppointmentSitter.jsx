@@ -44,7 +44,6 @@ const EditAppointmentSitter = () => {
             return resp.json()
         })
         .then(data => {
-            console.log(data)
             navigate(-1)
 
         })

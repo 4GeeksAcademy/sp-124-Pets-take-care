@@ -1005,11 +1005,10 @@ def get_appointment_list(postulated):
     sitter_appointments = [appointment_sitter.appointment_id for appointment_sitter in appointments_sitters]
 
     if postulated != "true":
-        appointments = db.session.execute(select(Appointment).where(Appointment.id.notin_(sitter_appointments), Appointment.status != "selected")).scalars().all()
-        print(appointments[0].serialize())
+        appointments = db.session.execute(select(Appointment).where(Appointment.id.notin_(sitter_appointments), Appointment.status != "selected", Appointment.status != "rejected")).scalars().all()
         return jsonify({"appointments": [appointment.serialize() for appointment in appointments]})
         
-    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments) )).scalars().all()
+    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.status != "rejected")).scalars().all()
     return jsonify({"appointments": [appointment.serialize() for appointment in appointments]})
     
 @api.route ("appointments/asigned", methods=["GET"])
@@ -1025,6 +1024,19 @@ def get_appointments_asigned():
     appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.status == "selected")).scalars().all()
     return jsonify ({"appointments": [appointment.serialize() for appointment in appointments]}), 200
 
+@api.route ("appointments/background", methods=["GET"])
+@jwt_required()
+def get_appointments_background():
+
+    sitter_id = get_jwt_identity()
+
+    appointments_sitters = db.session.execute(select(AppointmentSitter).where(AppointmentSitter.sitter_id == sitter_id, AppointmentSitter.status != "selected")).scalars().all()
+
+    sitter_appointments = [appointment_sitters.appointment_id for appointment_sitters in appointments_sitters]
+
+    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), AppointmentSitter.status != "selected")).scalars().all()
+    
+    return jsonify ({"appointments": [appointment.serialize() for appointment in appointments]})
 
 @api.route("/sitter/appointment-sitter/new", methods=["POST"])
 @jwt_required()

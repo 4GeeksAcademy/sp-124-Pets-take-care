@@ -60,7 +60,6 @@ const EditClient = () => {
             console.error(error);
             alert("Could not update client");
         }
-        console.log("ID desde useParams:", id, typeof id);
     };
 
     // const handleEdit = () => {
