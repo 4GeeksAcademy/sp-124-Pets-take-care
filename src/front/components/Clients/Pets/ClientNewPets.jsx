@@ -63,14 +63,19 @@ const ClientNewPets = () => {
                                 placeholder="Pupy the cheesse master"
                                 onChange={(e) => setName(e.target.value)} />
                         </div>
-                        <div className="my-3">
-                            <label htmlFor="exampleFormControlInput2" className="form-label">Species</label>
-                            <input type="text"
-                                className="form-control"
-                                id="exampleFormControlInput2"
-                                placeholder="Species"
-                                onChange={(e) => setSpecies(e.target.value)} />
-                        </div>
+                        <div className="col-12 mb-3">
+                        <label htmlFor="exampleFormControlInput2" className="form-label">
+                            Pet species
+                        </label>
+                        <select placeholder="species" value={species} className="form-control" 
+                        onChange={(e) => setSpecies(e.target.value)} >
+                            <option value="">Select species</option>
+                           <option value="Dog">Dog</option> 
+                           <option value="Cat">Cat</option>
+                           <option value="Exotic">Exotic</option>
+                           <option value="Bird">Bird</option>
+                          </select>  
+                    </div>
                         <label className="form-check-label mb-2">Has nie?</label>
                         <div className="form-check">
                             <input className="form-check-input"

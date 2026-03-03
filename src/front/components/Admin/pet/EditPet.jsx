@@ -10,7 +10,7 @@ const EditPet = () => {
     const { id } = useParams();
     const [editarName, setEditarName] = useState("")
     const [editarSpecies, setEditarSpecies] = useState("")
-    const [editarRace, setEditarRace] = useState("")
+    const [editarBreed, setEditarBreed] = useState("")
     const [editarGender, setEditarGender] = useState("")
     const [editarColor, setEditarColor] = useState("")
     const [editarHasNie, setEditarHasNie] = useState(false);
@@ -28,7 +28,7 @@ const EditPet = () => {
             .then(data => {
                 setEditarName(data.name || "");
                 setEditarSpecies(data.species || "");
-                setEditarRace(data.race || "");
+                setEditarBreed(data.Breed || "");
                 setEditarGender(data.gender);
                 setEditarColor(data.color || "");
                 setEditarNie(data.nie || "");
@@ -66,7 +66,7 @@ const EditPet = () => {
                         body: JSON.stringify({
                             "name": editarName,
                             "species": editarSpecies,
-                            "race": editarRace,
+                            "breed": editarBreed,
                             "gender": editarGender,
                             "color": editarColor,
                             "nie": editarNie,
@@ -97,8 +97,8 @@ const EditPet = () => {
         const createSpecies = (e) => {
             setEditarSpecies(e.target.value)
         }
-        const createRace = (e) => {
-            setEditarRace(e.target.value)
+        const createBreed = (e) => {
+            setEditarBreed(e.target.value)
         }
         const createTypeFood = (e) => {
             setEditarTypeFood(e.target.value)
@@ -135,8 +135,8 @@ const EditPet = () => {
                         </select>
                     </div>
                     <div className="container">
-                        <h5>Race</h5>
-                        <input type="text" placeholder="Race" onChange={createRace} value={editarRace} />
+                        <h5>Breed</h5>
+                        <input type="text" placeholder="Breed" onChange={createBreed} value={editarBreed} />
                     </div>
                     <h5>Gender</h5>
                     <div className="container">

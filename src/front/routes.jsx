@@ -72,7 +72,8 @@ import HomeSitter from "./components/flujo-sitter/HomeSitter";
 import ClientHome from "./components/Clients/Loggin/ClientHome";
 import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
 import AppointmentAsigned from "./components/flujo-sitter/AppointmentAsigned";
-
+import PetProfile from "./components/Clients/Pets/PetProfile";
+import SitterProfile from "./components/Clients/Appointments/SitterProfile";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -138,12 +139,14 @@ export const router = createBrowserRouter(
 
       <Route path="/clients/pets" element={<ClientsPets />} />
       <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
-      <Route path="/clients/pets/:id" element={<ClientEditPet />} />
+      <Route path="/clients/pets/edit/:id" element={<ClientEditPet />} />
 
       <Route path="/clients/appointments" element={<MyAppointments />} />
       <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
       <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
       <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
+      <Route path="/clients/appointments/:appointmentId/sitters/:sitterId" element={<SitterProfile />} />
+      
       
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/sitters/login" element={<SitterLogin />} />
@@ -152,6 +155,7 @@ export const router = createBrowserRouter(
       <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
       <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
 
+      <Route path="/clients/pets/profile/:id" element={<PetProfile />} />
 
 
 
