@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../../main";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCross, faHeartCircleXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faBookOpen, faCross, faHeartCircleXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 const ClientsPets = () => {
@@ -94,23 +94,32 @@ const ClientsPets = () => {
             <div className="row">
                 {pets.map(el => (
                     <div className="col-4" key={el.id}>
-                        <div className="card mt-4" style={{ width: "18rem" }}>
-                            <img src={el.species == "cat" ? "https://imgs.search.brave.com/m16ZiABxPzlzT1GkCukGYkClKbNyBzTV0IM2qWlpdU8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNC8w/NC8xMy8yMC80OS9j/YXQtMzIzMjYyXzY0/MC5qcGc"
+                        <div className="card shadow mt-4" style={{ width: "18rem" }}>
+                            <img src={el.species == "Cat" ? "https://imgs.search.brave.com/m16ZiABxPzlzT1GkCukGYkClKbNyBzTV0IM2qWlpdU8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNC8w/NC8xMy8yMC80OS9j/YXQtMzIzMjYyXzY0/MC5qcGc"
                                 : "https://imgs.search.brave.com/nCFECc9LfBs-fIH7mFGwV59rdZcUqAQ-gNzKLYAhdZo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/ZHpvb20ub3JnLmVz/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDEx/LzA0L2ZvdG9zLW1h/c2NvdGFzLWFuaW1h/bC1wZXJyby1jb25z/ZWpvcy1mb3RvZ3Jh/ZmlhLWVuZm9jYXIt/b2pvcy1taXJhZGEt/cGVycm8tNzM0eDQ4/OS5qcGc"}
                                 className="card-img-top" alt="pets" />
-                            <div className="card-body container">
+                            <div className="card-body  container">
                                 <div className="row">
-                                    <div className="col-4">
-                                        <p className="card-text">
+                                    <div className="col-12">
+                                        <h3 className="card-text mb-2 text-center">
                                             {el.name}
-                                        </p>
+                                        </h3>
                                     </div>
-                                    <div className="col-3">
-                                        <button className="btn" onClick={() => navigate(`/clients/pets/${el.id}`)}>
+                                    <div className="col-4">
+                                        <button className="btn" onClick={() => navigate(`/clients/pets/edit/${el.id}`)}>
                                             <span className="fa-regular fa-pen-to-square fs-3"></span>
                                         </button>
                                     </div>
-                                    <div className="col-3">
+                                    <div className="col-4">
+                                        <button className="btn"
+                                            onClick={() => navigate(`/clients/pets/profile/${el.id}`)} >
+                                            <FontAwesomeIcon
+                                                icon={faBookOpen}
+                                                size="2x"
+                                            />
+                                        </button>
+                                    </div>
+                                    <div className="col-4">
                                         <button className="btn"
                                             onClick={() => deletePet(el.id)} >
                                             <FontAwesomeIcon

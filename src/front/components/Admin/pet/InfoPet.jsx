@@ -45,7 +45,7 @@ const InfoPet = () => {
 
             <p><strong>Name:</strong> {pet.name}</p>
             <p><strong>Species:</strong> {pet.species}</p>
-            <p><strong>Race:</strong> {pet.race}</p>
+            <p><strong>Breed:</strong> {pet.breed}</p>
             <p><strong>Color:</strong> {pet.color}</p>
             <p><strong>Gender:</strong> {pet.gender}</p>
              <p>

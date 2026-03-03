@@ -3,6 +3,7 @@ from sqlalchemy import String, Boolean, Numeric, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date, time
 from sqlalchemy import Date
+from sqlalchemy import Text
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from typing import List
@@ -108,9 +109,9 @@ class Pet(db.Model):
     __tablename__ = "pet"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    breed: Mapped[str] = mapped_column(String(120), nullable=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     species: Mapped[str] = mapped_column(String(120), nullable=False)
-    race: Mapped[str] = mapped_column(String(120), nullable=True)
     gender: Mapped[str] = mapped_column(String(120), nullable=True)
     color: Mapped[str] = mapped_column(String(120), nullable=True)
     has_nie: Mapped[bool] = mapped_column(Boolean(), nullable=False)
@@ -126,8 +127,9 @@ class Pet(db.Model):
         back_populates="pet", cascade="all, delete-orphan")
     appointments = relationship(
         "Appointment", back_populates="pet", cascade="all, delete-orphan")
-
+    
     user: Mapped["User"] = relationship("User", back_populates="pets")
+
 
     def __repr__(self):
         return f"<Pet id={self.id} name={self.name} species={self.species}>"
@@ -137,7 +139,6 @@ class Pet(db.Model):
             "id": self.id,
             "name": self.name,
             "species": self.species,
-            "race": self.race,
             "gender": self.gender,
             "color": self.color,
             "nie": self.nie,
@@ -145,7 +146,8 @@ class Pet(db.Model):
             "type_food": self.type_food,
             "special_care": self.special_care,
             "sterilized": self.sterilized,
-            "about_pet": self.about_pet
+            "about_pet": self.about_pet,
+            "breed": self.breed
 
             # do not serialize the password, its a security breach
         }
@@ -311,3 +313,4 @@ class AppointmentSitter(db.Model):
             "status": self.status,
             "sitter": self.sitter.serialize()
         }
+

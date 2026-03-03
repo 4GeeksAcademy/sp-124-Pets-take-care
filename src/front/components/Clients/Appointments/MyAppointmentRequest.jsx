@@ -9,20 +9,28 @@ export const MyAppointMentRequests = () => {
     const [requests, setRequests] = useState([])
     const navigate = useNavigate()
 
-    const getAppointmentRequests = async () => {
-        const response = await fetch(BACKEND_URL + "api/appointment/requests/" + id)
-        const data = await response.json()
 
-        if (response.ok) {
-            setRequests(data.requests)
-            return
+    const getAppointmentRequests = async () => {
+        const response = await fetch(
+            BACKEND_URL + "api/appointment/requests/" + id,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("clientToken")}`
+                }
+            })
+
+        if (!response.ok) {
+            throw new Error("Error loading requests")
+            
         }
-        throw new Error("Error loading requests")
+        const data = await response.json()
+        setRequests(data.requests)
     }
 
     useEffect(() => {
         getAppointmentRequests()
     }, [id])
+
 
     const updateStatus = async (requestId, action) => {
         try {
@@ -53,44 +61,57 @@ export const MyAppointMentRequests = () => {
     }
 
     return (
-        <div className="container mt-3">
-            <div className="row">
-                {requests.map(request => (
-                    <div key={request.id} className="card me-3" style={{ width: "18rem" }}>
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                {request.sitter.name.toUpperCase()} {request.sitter.last_name.toUpperCase()}
-                            </h5>
+        <>
+            <div className="container mt-3">
+                <div className="row">
+                    {requests.map(request => (
+                        <div key={request.id} className="card me-3" style={{ width: "18rem" }}>
+                            <div className="card-body">
+                                <h5 className="card-title">
+                                    {request.sitter.name.toUpperCase()}{" "}
+                                    {request.sitter.last_name.toUpperCase()}
+                                </h5>
 
-                            <p>{request.sitter.email}</p>
+                                <button
+                                    className="btn btn-warning me-2 mb-2"
+                                    onClick={() => navigate(`/clients/appointments/${id}/sitters/${request.sitter.id}`)}
+                                >
+                                    View Profile
+                                </button>
 
-                            <div className="alert alert-info">
-                                {request.status.toUpperCase()}
+                                <div className="alert alert-info">
+                                    {request.status.toUpperCase()}
+                                </div>
+
+                                <button
+                                    className="btn btn-primary me-2"
+                                    onClick={() => updateStatus(request.id, "select")}
+                                >
+                                    Accept
+                                </button>
+
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => updateStatus(request.id, "reject")}
+                                >
+                                    Deny
+                                </button>
                             </div>
-
-                            <button
-                                className="btn btn-primary me-2"
-                                onClick={() => updateStatus(request.id, "select")}
-                            >
-                                Accept
-                            </button>
-
-                            <button
-                                className="btn btn-danger"
-                                onClick={() => updateStatus(request.id, "reject")}
-                            >
-                                Deny
-                            </button>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+
                 <div className="container">
-                    <button className="btn btn-primary mt-4" onClick={() => navigate("/clients/appointments")}>Back
+                    <button
+                        className="btn btn-primary mt-4"
+                        onClick={() => navigate("/clients/appointments")}
+                    >
+                        Back
                     </button>
                 </div>
             </div>
-        </div>
-    )
+        </>
+    );
 }
 
 export default MyAppointMentRequests
