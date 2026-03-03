@@ -24,7 +24,7 @@ const NavbarSitter = () => {
 
     return (
 
-        <nav className="navbar navbar-light bg-light">
+        <nav className="navbar navbar-light bg-light rounded-5">
             {localStorage.getItem("sitterToken") ?
                 <>
 

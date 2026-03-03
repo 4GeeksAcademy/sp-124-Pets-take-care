@@ -5,6 +5,7 @@ import NavbarClient from "./Navbar/NavbarClient";
 import NavbarSitter from "./Navbar/NavbarSitter";
 import NavbarAdmin from "./Navbar/NavbarAdmin";
 import NavbarPublic from "./Navbar/NavbarPublic";
+import "../../front/index.css"
 
 export const Navbar = () => {
 
@@ -44,7 +45,7 @@ export const Navbar = () => {
 
 	return (
 		<>
-				<nav>
+				<nav className="main-navbar">
 					<div>
 						{/* <Link to="/">
 							<span className="navbar-brand mb-0 h1">Home</span>

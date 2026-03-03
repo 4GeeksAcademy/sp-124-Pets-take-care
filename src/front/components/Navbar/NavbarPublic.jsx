@@ -17,7 +17,7 @@ const NavbarPublic = () => {
 
 
     return (
-        <nav className="navbar navbar-light bg-light">
+        <nav className="navbar navbar-light bg-light rounded-5">
             <div className="container d-flex align-items-center">
                 <Link to="/">
                     <img className="logo" src="https://www.tiendapetcare.es/wp-content/uploads/2024/11/logo-horizontal-petcare.png" alt="" />
