@@ -24,7 +24,7 @@ const NavbarClient = () => {
 
     return (
         <div className = "container">
-        <nav className="navbar navbar-light bg-light">
+        <nav className="navbar navbar-light bg-light rounded-5">
             {localStorage.getItem("clientToken") ?
                 <>
                     <Link to="/clients/home">

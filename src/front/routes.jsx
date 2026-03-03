@@ -70,7 +70,6 @@ import ClientHome from "./components/Clients/Loggin/ClientHome";
 import AppointmentAsigned from "./components/flujo-sitter/AppointmentAsigned";
 import PetProfile from "./components/Clients/Pets/PetProfile";
 import SitterProfile from "./components/Clients/Appointments/SitterProfile";
-import SitterProfile from "./components/flujo-sitter/SitterProfile";
 import SitterProfileEdit from "./components/flujo-sitter/SitterProfileEdit";
 import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
 import AppointmentBackground from "./components/flujo-sitter/AppointmentBackground";
