@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../../main";
 
 
-const SitterProfile = () => {
+const SitterProfileForClient = () => {
 
 const { appointmentId, sitterId } = useParams()
 const navigate = useNavigate();
@@ -74,4 +74,4 @@ useEffect(() => {
 
 
 
-export default SitterProfile
+export default SitterProfileForClient

@@ -69,15 +69,15 @@ import HomeSitter from "./components/flujo-sitter/HomeSitter";
 import ClientHome from "./components/Clients/Loggin/ClientHome";
 import AppointmentAsigned from "./components/flujo-sitter/AppointmentAsigned";
 import PetProfile from "./components/Clients/Pets/PetProfile";
-import SitterProfile from "./components/Clients/Appointments/SitterProfile";
 import SitterProfileEdit from "./components/flujo-sitter/SitterProfileEdit";
 import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
 import AppointmentBackground from "./components/flujo-sitter/AppointmentBackground";
-import { Prueba } from "./pages/Prueba";
 import { LayoutSitter } from "./layouts/LayoutSitter";
 import { LayoutClient } from "./layouts/LayoutClient";
 import { LayoutAdmin } from "./layouts/LayoutAdmin";
 import { LayoutGuest } from "./layouts/LayoutGuest";
+import SitterProfileForClient from "./components/Clients/Appointments/SitterProfileForClient";
+import SitterProfile from "./components/flujo-sitter/SitterProfile";
 
 
 export const router = createBrowserRouter(
@@ -131,6 +131,7 @@ export const router = createBrowserRouter(
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/clients/login" element={<ClientLogin />} />
         <Route path="/sitters/login" element={<SitterLogin />} />
+        <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
       </Route>
 
 
@@ -140,37 +141,21 @@ export const router = createBrowserRouter(
         <Route path="/appointments/:id" element={<InfoAppointment />} />
         <Route path="/appointments/new" element={<PostAppointment />} />
         <Route path="/appointments/edit/:id" element={<PutAppointment />} />
-
         <Route path="/appointments/sitters" element={<AppointmentSitterList />} />
         <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
         <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
         <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
       </Route>
 
-      <Route path="/clients/pets" element={<ClientsPets />} />
-      <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
-      <Route path="/clients/pets/edit/:id" element={<ClientEditPet />} />
 
-      <Route path="/clients/appointments" element={<MyAppointments />} />
-      <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
-      <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
-      <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
-      <Route path="/clients/appointments/:appointmentId/sitters/:sitterId" element={<SitterProfile />} />
-      
-      
-      <Route path="/welcome" element={<Welcome />} />
-      <Route path="/sitters/login" element={<SitterLogin />} />
-      <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
-      <Route path="/appointments/list" element={<AppointmentList />} />
-      <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
-      <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
 
-      <Route path="/clients/pets/profile/:id" element={<PetProfile />} />
       <Route element={<LayoutClient />}>
         <Route path="/clients/home" element={<ClientHome />} />
         <Route path="/clients/pets" element={<ClientsPets />} />
         <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
         <Route path="/clients/pets/:id" element={<ClientEditPet />} />
+        <Route path="/clients/pets/profile/:id" element={<PetProfile />} />
+        <Route path="/clients/appointments/:appointmentId/sitters/:sitterId" element={<SitterProfileForClient />} />
         <Route path="/clients/appointments" element={<MyAppointments />} />
         <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
         <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
@@ -179,7 +164,6 @@ export const router = createBrowserRouter(
 
       <Route element={<LayoutSitter />}>
         <Route path="/sitters/home" element={<HomeSitter />} />
-        <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
         <Route path="/appointments/list" element={<AppointmentList />} />
         <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
         <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
