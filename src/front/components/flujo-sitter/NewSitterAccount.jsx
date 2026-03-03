@@ -53,14 +53,12 @@ const NewSitterAccount = () => {
 
 
   return (
-    <div className="container my-5">
+  <div className="container my-5">
+    <div className="appointments-section p-4 p-md-5">
       <div className="row justify-content-center">
         <div className="col-12 col-md-6">
-
-          <h1 className="text-center mb-4">New Sitter</h1>
-
-          <form>
-
+          <h1 className="text-center mb-4">Create Sitter Account</h1>
+          <form className="appointment-form">
             <div className="mb-3">
               <label className="form-label">Name</label>
               <input
@@ -69,7 +67,6 @@ const NewSitterAccount = () => {
                 onChange={e => setName(e.target.value)}
               />
             </div>
-
             <div className="mb-3">
               <label className="form-label">Last Name</label>
               <input
@@ -78,7 +75,6 @@ const NewSitterAccount = () => {
                 onChange={e => setLastName(e.target.value)}
               />
             </div>
-
             <div className="mb-3">
               <label className="form-label">Email</label>
               <input
@@ -88,7 +84,6 @@ const NewSitterAccount = () => {
                 onChange={e => setEmail(e.target.value)}
               />
             </div>
-
             <div className="mb-4">
               <label className="form-label">Password</label>
               <input
@@ -98,7 +93,6 @@ const NewSitterAccount = () => {
                 onChange={e => setPassword(e.target.value)}
               />
             </div>
-
             <button
               className="btn btn-warm w-100"
               type="button"
@@ -106,13 +100,12 @@ const NewSitterAccount = () => {
             >
               Create Account
             </button>
-
           </form>
-
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default NewSitterAccount;

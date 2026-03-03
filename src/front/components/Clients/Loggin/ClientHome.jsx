@@ -13,7 +13,7 @@ const ClientHome = () => {
         <div className="container my-5">
   <div className="client-home-section">
 
-    <h2 className="mb-4">Welcome back, Juan 👋</h2>
+    <h2 className="mb-4">Welcome back, IverNando 👋</h2>
 
     <div className="row">
 

@@ -83,74 +83,109 @@ const MyAppointments = () => {
 
 
     return (
-  <div className="container my-5">
+        <div className="container my-5">
+            <div className="appointments-section p-4 p-md-5">
+                <div className="row align-items-center mb-4">
+                    <div className="col-12 col-md-6 mb-3 mb-md-0">
+                        <h1 className="mb-0">My Appointments</h1>
+                    </div>
+                    <div className="col-12 col-md-6 text-md-end">
+                        <button
+                            className="btn btn-warm"
+                            onClick={() => navigate("/clients/appointments/new")}
+                        >
+                            New Appointment
+                        </button>
+                    </div>
+                </div>
 
-    <div className="appointments-section p-4">
+                {appointments.length === 0 ? (
+                    <div className="empty-state text-center py-5">
+                        <p className="mb-3">You don’t have any appointments yet.</p>
+                        <button
+                            className="btn btn-warm"
+                            onClick={() => navigate("/clients/appointments/new")}
+                        >
+                            Book your first appointment
+                        </button>
+                    </div>
+                ) : (
+                    <div className="row">
+                        {appointments.map(el => (
+                            <div key={el.id} className="col-12 mb-4">
+                                <div className="appointment-card p-4">
+                                    <div className="d-flex justify-content-between align-items-center mb-3">
+                                        <span className="section-label">Appointment Status</span>
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className="mb-0">My Appointments</h1>
-        <button
-          className="btn btn-warm"
-          onClick={() => navigate("/clients/appointments/new")}
-        >
-          New Appointment
-        </button>
-      </div>
-
-      <div className="row">
-        {appointments.map(el => (
-          <div key={el.id} className="col-12 mb-4">
-            <div className="appointment-card p-4">
-              <div className="row">
-                <div className="col-12 col-md-3 mb-3 mb-md-0">
-                  <h6 className="section-label">Client</h6>
-                  <p className="mb-0">{el.user_name}</p>
-                </div>
-                <div className="col-12 col-md-3 mb-3 mb-md-0">
-                  <h6 className="section-label">When</h6>
-                  <p className="mb-0">
-                    {el.appointment_date} · {el.appointment_time}
-                  </p>
-                </div>
-                <div className="col-12 col-md-3 mb-3 mb-md-0">
-                  <h6 className="section-label">Pet</h6>
-                  <p className="mb-0">{el.pet_name}</p>
-                </div>
-                <div className="col-12 col-md-3">
-                  <h6 className="section-label">Service</h6>
-                  <p className="mb-0">{el.service_name}</p>
-                </div>
-              </div>
-              <hr className="my-4" />
-              <div className="d-flex flex-wrap gap-3">
-                <button
-                  className="btn btn-outline-warm"
-                  onClick={() => navigate(`/clients/appointments/edit/${el.id}`)}
-                >
-                  Edit
-                </button>
-                {el.status !== "selected" && (
-                  <button
-                    className="btn btn-warm"
-                    onClick={() => navigate(`/clients/appointments/requests/${el.id}`)}
-                  >
-                    Requests
-                  </button>
+                                        <span
+                                            className={`status-badge ${el.status === "selected"
+                                                    ? "badge-confirmed"
+                                                    : el.status === "pending"
+                                                        ? "badge-pending"
+                                                        : el.status === "cancelled"
+                                                            ? "badge-cancelled"
+                                                            : "badge-completed"
+                                                }`}
+                                        >
+                                            {el.status}
+                                        </span>
+                                    </div>
+                                    <div className="row align-items-center">
+                                        <div className="col-12 col-md-8">
+                                            <div className="row">
+                                                <div className="col-6 col-md-3 mb-3 mb-md-0">
+                                                    <span className="section-label">Client</span>
+                                                    <p className="mb-0">{el.user_name}</p>
+                                                </div>
+                                                <div className="col-6 col-md-3 mb-3 mb-md-0">
+                                                    <span className="section-label">When</span>
+                                                    <p className="mb-0">
+                                                        {el.appointment_date} · {el.appointment_time}
+                                                    </p>
+                                                </div>
+                                                <div className="col-6 col-md-3 mb-3 mb-md-0">
+                                                    <span className="section-label">Pet</span>
+                                                    <p className="mb-0">{el.pet_name}</p>
+                                                </div>
+                                                <div className="col-6 col-md-3">
+                                                    <span className="section-label">Service</span>
+                                                    <p className="mb-0">{el.service_name}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 col-md-4 text-md-end mt-3 mt-md-0">
+                                            <div className="d-flex flex-wrap justify-content-md-end gap-2">
+                                                <button
+                                                    className="btn btn-outline-warm btn-sm"
+                                                    onClick={() => navigate(`/clients/appointments/edit/${el.id}`)}
+                                                >
+                                                    Edit
+                                                </button>
+                                                {el.status !== "selected" && (
+                                                    <button
+                                                        className="btn btn-warm btn-sm"
+                                                        onClick={() => navigate(`/clients/appointments/requests/${el.id}`)}
+                                                    >
+                                                        Requests
+                                                    </button>
+                                                )}
+                                                <button
+                                                    className="btn btn-danger-soft btn-sm"
+                                                    onClick={() => deleteApp(el.id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 )}
-                <button
-                  className="btn btn-danger-soft"
-                  onClick={() => deleteApp(el.id)}
-                >
-                  Delete
-                </button>
-              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
+        </div>
+    );
 }
 
 export default MyAppointments

@@ -125,51 +125,78 @@ const MyAppointmentsEdit = () => {
 
 
   return (
-    <div className="container">
-      <h1>Edit Appointment</h1>
-
-      <form onSubmit={updateAppointment}>
-        <div className="container mb-3">
-          <div className="container mb-3">
-            <select name="service" value={editarService} className="form-control" onChange={e => setEditarService(Number(e.target.value))}>
-              {
-                services.map(el =>
-                  <option
-                    key={el.id}
-                    value={el.id}>
+  <div className="container my-5">
+    <div className="appointments-section p-4 p-md-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-6">
+          <h1 className="mb-4 text-center">Edit Appointment</h1>
+          <form onSubmit={updateAppointment} className="appointment-form">
+            <div className="mb-3">
+              <label className="form-label">Service</label>
+              <select
+                name="service"
+                value={editarService}
+                className="form-select"
+                onChange={e => setEditarService(Number(e.target.value))}
+              >
+                {services.map(el => (
+                  <option key={el.id} value={el.id}>
                     {el.service_name}
-
                   </option>
-                )
-              }
-            </select>
-          </div>
-          <div className="container mb-3">
-            <input type="date" className="form-control" placeholder="date" value={editarDate} onChange={e => setEditarDate(e.target.value)} />
-          </div>
-          <div className="container mb-3">
-            <input type="time" className="form-control" placeholder="time" value={editarTime} onChange={e => setEditarTime(e.target.value)} />
-          </div>
-          <div className="container mb-3">
-            <select name="pet" className="form-control" value={editarPet} onChange={e => setEditarPet(Number(e.target.value))}>
-              {
-                pets.map(el =>
-                  <option
-                    key={el.id}
-                    value={el.id}
-                  >{el.name}
-
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Date</label>
+              <input
+                type="date"
+                className="form-control"
+                value={editarDate}
+                onChange={e => setEditarDate(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Time</label>
+              <input
+                type="time"
+                className="form-control"
+                value={editarTime}
+                onChange={e => setEditarTime(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="form-label">Pet</label>
+              <select
+                name="pet"
+                className="form-select"
+                value={editarPet}
+                onChange={e => setEditarPet(Number(e.target.value))}
+              >
+                {pets.map(el => (
+                  <option key={el.id} value={el.id}>
+                    {el.name}
                   </option>
-                )
-              }
-            </select>
-          </div>
-          <button type="submit" className="btn btn-success" >save Appointment</button>
-          <button className="btn btn-primary ms-3" onClick={() => navigate("/clients/appointments")}>Back</button>
+                ))}
+              </select>
+            </div>
+            <div className="d-flex gap-3">
+              <button type="submit" className="btn btn-warm w-100">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-warm w-100"
+                onClick={() => navigate("/clients/appointments")}
+              >
+                Back
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
-  )
+  </div>
+);
 
 }
 

@@ -52,41 +52,53 @@ const AppointmentList = () => {
 
 
     return (
-        <div className="container">
-            <h1>Looking for Appointments</h1>
-            {appointments.length === 0 ? (
-    <p>No hay appointments disponibles</p>
-) : appointments.map(el => (
-                <div
-                    key={el.id}
-                    className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center mb-3">
-                    <div className="container">
-                        <div className="row">
-                            <div className="container">
-                                <h5>Nombre cliente</h5>
-                                <span>{el.user_name}</span>
-                            </div>
-                            <div className="container">
-                                <h5>Fecha y a que hora</h5>
-                                <span>{el.appointment_date}📅 {el.appointment_time}⏰</span>
-                            </div>
-                            <div className="container">
-                                <h5>Nombre mascota</h5>
-                                <span>{el.pet_name}🐾</span>
-                            </div>
-                            <div className="container">
-                                <h5>Servicio</h5>
-                                <span>{el.service_name}📋</span>
-                            </div>
-                        </div>
-                        <div className="container mt-3">
-                            <button className="btn btn-primary" onClick={() => handlePostulate(el.id)}>Postularse
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            ))}
+  <div className="container my-5">
+    <div className="appointments-section p-4 p-md-5">
+      <h1 className="mb-4">Looking for Appointments</h1>
+      {appointments.length === 0 ? (
+        <div className="empty-state text-center py-5">
+          <h5 className="mb-3">No appointments available</h5>
+          <p className="mb-0">Check back later for new opportunities.</p>
         </div>
-    )
+      ) : (
+        <div className="row">
+          {appointments.map(el => (
+            <div key={el.id} className="col-12 mb-4">
+              <div className="appointment-card p-4">
+                <div className="row">
+                  <div className="col-12 col-md-3 mb-3 mb-md-0">
+                    <span className="section-label">Client</span>
+                    <p className="mb-0">{el.user_name}</p>
+                  </div>
+                  <div className="col-12 col-md-3 mb-3 mb-md-0">
+                    <span className="section-label">When</span>
+                    <p className="mb-0">
+                      {el.appointment_date} · {el.appointment_time}
+                    </p>
+                  </div>
+                  <div className="col-12 col-md-3 mb-3 mb-md-0">
+                    <span className="section-label">Pet</span>
+                    <p className="mb-0">{el.pet_name}</p>
+                  </div>
+                  <div className="col-12 col-md-3">
+                    <span className="section-label">Service</span>
+                    <p className="mb-0">{el.service_name}</p>
+                  </div>
+                </div>
+                <hr className="my-4" />
+                <button
+                  className="btn btn-warm w-100 w-md-auto"
+                  onClick={() => handlePostulate(el.id)}
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+);
 }
 export default AppointmentList

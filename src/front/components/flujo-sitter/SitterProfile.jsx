@@ -30,41 +30,67 @@ const SitterProfile = () => {
             .catch(err => console.log(err))
     }
     return (
-        <div className="container w-50">
-            <form>
-                <fieldset disabled>
-                    <h3 className="display-5 mb-3">Profile</h3>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="name" >Name</label>
-                        <input value={sitter.name} type="text" className="form-control" id="name" autoComplete="off"/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="last_name">Last Name</label>
-                        <input value={sitter.last_name} type="text" className="form-control" id="last_name" autoComplete="off"/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="email">Email</label>
-                        <input value={sitter.email} type="text" className="form-control" id="email" autoComplete="off"/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="phone">Phone</label>
-                        <input value={sitter.phone} type="text" className="form-control" id="phone" autoComplete="off"/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="address">Address</label>
-                        <input value={sitter.address} type="text" className="form-control" id="address" autoComplete="off"/>
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="studies">Studies</label>
-                        <input value={sitter.studies_comment} type="text" className="form-control" id="studies" autoComplete="off"/>
-                    </div>
-                </fieldset>
-                    <div className="mt-4">
-                    <button type="submit" className="btn btn-primary" onClick={()=> navigate("/sitter/profile/edit")}>Edit</button>
-                    </div>
-            </form>
+  <div className="container my-5">
+
+    <div className="appointments-section p-4 p-md-5">
+
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-6">
+
+          <div className="profile-card p-4">
+
+            <h2 className="mb-4 text-center">My Profile</h2>
+
+            <div className="profile-info">
+
+              <div className="mb-3">
+                <span className="section-label">Name</span>
+                <p className="mb-0">{sitter.name}</p>
+              </div>
+
+              <div className="mb-3">
+                <span className="section-label">Last Name</span>
+                <p className="mb-0">{sitter.last_name}</p>
+              </div>
+
+              <div className="mb-3">
+                <span className="section-label">Email</span>
+                <p className="mb-0">{sitter.email}</p>
+              </div>
+
+              <div className="mb-3">
+                <span className="section-label">Phone</span>
+                <p className="mb-0">{sitter.phone}</p>
+              </div>
+
+              <div className="mb-3">
+                <span className="section-label">Address</span>
+                <p className="mb-0">{sitter.address}</p>
+              </div>
+
+              <div className="mb-4">
+                <span className="section-label">Studies</span>
+                <p className="mb-0">{sitter.studies_comment}</p>
+              </div>
+
+            </div>
+
+            <button
+              className="btn btn-warm w-100"
+              onClick={() => navigate("/sitter/profile/edit")}
+            >
+              Edit Profile
+            </button>
+
+          </div>
+
         </div>
-    )
+      </div>
+
+    </div>
+
+  </div>
+);
 }
 
 export default SitterProfile
