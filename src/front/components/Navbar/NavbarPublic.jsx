@@ -23,8 +23,8 @@ const NavbarPublic = () => {
                     <img className="logo" src="https://www.tiendapetcare.es/wp-content/uploads/2024/11/logo-horizontal-petcare.png" alt="" />
                 </Link>
                 <div className="d-flex ms-auto">
-                <button className="btn btn-warning rounded-pill px-4 me-3" onClick={() => navigate("/welcome")}>Login</button>
-                <button className="btn btn-warning rounded-pill px-4" onClick={() => navigate("/welcome")}>Sing Up</button>
+                <button className="btn btn-warm rounded-pill me-3" onClick={() => navigate("/welcome")}>Login</button>
+                <button className="btn btn-warm rounded-pill" onClick={() => navigate("/welcome")}>Sing Up</button>
                 </div>
             </div>
         </nav>

@@ -83,50 +83,74 @@ const MyAppointments = () => {
 
 
     return (
-        <div className="container">
-            <h1>My Appointments</h1>
-            {appointments.map(el => (
-                <div
-                    key={el.id}
-                    className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center mb-3 rounded">
-                    <div className="container">
-                        <div className="row">
-                            <div className="container">
-                                <h5>Client</h5>
-                                <span>{el.user_name}</span>
-                            </div>
-                            <div className="container">
-                                <h5>When</h5>
-                                <span>{el.appointment_date}📅 {el.appointment_time}⏰</span>
-                            </div>
-                            <div className="container">
-                                <h5>Pet</h5>
-                                <span>{el.pet_name}🐾</span>
-                            </div>
-                            <div className="container">
-                                <h5>Service</h5>
-                                <span>{el.service_name}📋</span>
-                            </div>
-                        </div>
-                        <div className="container mt-3">
-                            <button className="btn btn-warning me-4" onClick={() => navigate(`/clients/appointments/edit/${el.id}`)}>Edit
-                            </button>
-                            {el.status != "selected" &&
-                            <button onClick={() => navigate(`/clients/appointments/requests/${el.id}`)} className="btn btn-primary">Requests</button>
-                            }
-                            <button className="btn btn-danger ms-4" onClick={() => deleteApp(el.id)}>delete</button>
+  <div className="container my-5">
 
-                        </div>
-                    </div>
+    <div className="appointments-section p-4">
+
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h1 className="mb-0">My Appointments</h1>
+        <button
+          className="btn btn-warm"
+          onClick={() => navigate("/clients/appointments/new")}
+        >
+          New Appointment
+        </button>
+      </div>
+
+      <div className="row">
+        {appointments.map(el => (
+          <div key={el.id} className="col-12 mb-4">
+            <div className="appointment-card p-4">
+              <div className="row">
+                <div className="col-12 col-md-3 mb-3 mb-md-0">
+                  <h6 className="section-label">Client</h6>
+                  <p className="mb-0">{el.user_name}</p>
                 </div>
-            ))}
-
-            <div className="container">
-                <button className="btn btn-primary mt-5" onClick={() => navigate("/clients/appointments/new")}>New appointment</button>
+                <div className="col-12 col-md-3 mb-3 mb-md-0">
+                  <h6 className="section-label">When</h6>
+                  <p className="mb-0">
+                    {el.appointment_date} · {el.appointment_time}
+                  </p>
+                </div>
+                <div className="col-12 col-md-3 mb-3 mb-md-0">
+                  <h6 className="section-label">Pet</h6>
+                  <p className="mb-0">{el.pet_name}</p>
+                </div>
+                <div className="col-12 col-md-3">
+                  <h6 className="section-label">Service</h6>
+                  <p className="mb-0">{el.service_name}</p>
+                </div>
+              </div>
+              <hr className="my-4" />
+              <div className="d-flex flex-wrap gap-3">
+                <button
+                  className="btn btn-outline-warm"
+                  onClick={() => navigate(`/clients/appointments/edit/${el.id}`)}
+                >
+                  Edit
+                </button>
+                {el.status !== "selected" && (
+                  <button
+                    className="btn btn-warm"
+                    onClick={() => navigate(`/clients/appointments/requests/${el.id}`)}
+                  >
+                    Requests
+                  </button>
+                )}
+                <button
+                  className="btn btn-danger-soft"
+                  onClick={() => deleteApp(el.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-        </div>
-
-    )
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default MyAppointments

@@ -42,10 +42,10 @@ const NewSitterAccount = () => {
     }
 
     const data = await response.json()
-        localStorage.setItem("sitterToken", data.access_token)
+    localStorage.setItem("sitterToken", data.access_token)
 
 
-        localStorage.removeItem("clientToken");
+    localStorage.removeItem("clientToken");
 
     navigate("/sitters/home");
 
@@ -53,30 +53,64 @@ const NewSitterAccount = () => {
 
 
   return (
-    <div className="container">
-        <h1>New Account</h1>
+    <div className="container my-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-6">
 
-        <form>
-            <div className="container">
-                <label className="form-label mt-3">Name</label>
-                <input className="form-control" placeholder="name" value={name} onChange={e => setName(e.target.value)} />
+          <h1 className="text-center mb-4">New Sitter</h1>
+
+          <form>
+
+            <div className="mb-3">
+              <label className="form-label">Name</label>
+              <input
+                className="form-control"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
             </div>
-            <div className="container">
-                <label className="form-label mt-3">Last Name</label>
-                <input className="form-control" placeholder="last name" value={lastName} onChange={e => setLastName(e.target.value)} />
+
+            <div className="mb-3">
+              <label className="form-label">Last Name</label>
+              <input
+                className="form-control"
+                value={lastName}
+                onChange={e => setLastName(e.target.value)}
+              />
             </div>
-            <div className="container">
-                <label className="form-label mt-3">Email</label>
-                <input className="form-control" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} />
+
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
             </div>
-            <div className="container">
-                <label className="form-label mt-3">Password</label>
-                <input className="form-control" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
+
+            <div className="mb-4">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
             </div>
-            <button className="btn btn-primary mt-3" type="button" onClick={newSitter}>
-                Create
+
+            <button
+              className="btn btn-warm w-100"
+              type="button"
+              onClick={newSitter}
+            >
+              Create Account
             </button>
-        </form>
+
+          </form>
+
+        </div>
+      </div>
     </div>
   );
 };

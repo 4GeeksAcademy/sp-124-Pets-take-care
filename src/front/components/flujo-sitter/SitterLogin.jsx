@@ -44,8 +44,8 @@ const SitterLogin = () => {
 
 
     return (
-        <div className="container bg-secondary-subtle p-5 mt-5">
-            <h1 className="text-center mb-3">Loggin</h1>
+        <div className="container p-5 mt-5">
+            <h1 className="text-center mb-3">Welcome Sitter</h1>
             <form onSubmit={handleSubmit}>
                 <div className="container">
                     <div className="row d-grid gap-0 row-gap-3">
@@ -65,12 +65,20 @@ const SitterLogin = () => {
                                 placeholder="Password"
                             />
                         </div>
+                        <div className="col-12">
                         <button type="submit"
-                            className="btn btn-success ">
+                            className="btn btn-warm w-100">
                             Login
                         </button>
+                        </div>
                         <a className="icon-link icon-link-hover" onClick={()=> navigate("/sitters/newaccount")}>
-                            Signup
+                            Create New Account
+                            <svg xmlns="http://www.w3.org/2000/svg" className="bi" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                            </svg>
+                        </a>
+                        <a className="icon-link icon-link-hover" onClick={()=> navigate("/welcome")}>
+                            Back
                             <svg xmlns="http://www.w3.org/2000/svg" className="bi" viewBox="0 0 16 16" aria-hidden="true">
                                 <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
                             </svg>
