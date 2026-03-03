@@ -75,6 +75,11 @@ import SitterProfile from "./components/flujo-sitter/SitterProfile";
 import SitterProfileEdit from "./components/flujo-sitter/SitterProfileEdit";
 import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
 import AppointmentBackground from "./components/flujo-sitter/AppointmentBackground";
+import { Prueba } from "./pages/Prueba";
+import { LayoutSitter } from "./layouts/LayoutSitter";
+import { LayoutClient } from "./layouts/LayoutClient";
+import { LayoutAdmin } from "./layouts/LayoutAdmin";
+import { LayoutGuest } from "./layouts/LayoutGuest";
 
 
 export const router = createBrowserRouter(
@@ -116,48 +121,55 @@ export const router = createBrowserRouter(
       <Route path="/sitterpets" element={<SitterPets />} />
       <Route path="/sitters/:id/add-pet" element={<AddSitterPets />} />
       {/* ==================================LOGIN SITTER=================================== */}
-      
-      <Route path="/clients/login" element={<ClientLogin />} />
-      <Route path="/admin/login" element={<AdminLogin />} />
+
 
       <Route path="/newsitter/:id/newskills" element={<NewSitterSkills />} />
       <Route path="/sitterskills" element={<SitterSkillsList />} />
 
       {/* ==================================SITTER LOGGED=================================== */}
-      <Route path="/sitters/home" element={<HomeSitter />} />
-      <Route path="/clients/home" element={<ClientHome/>} />
-      <Route path="/admin/home" element={<AdminHome />} />
+
+      <Route element={<LayoutGuest />}>
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/clients/login" element={<ClientLogin />} />
+        <Route path="/sitters/login" element={<SitterLogin />} />
+      </Route>
 
 
-      <Route path="/appointments" element={<Appointments />} />
-      <Route path="/appointments/:id" element={<InfoAppointment />} />
-      <Route path="/appointments/new" element={<PostAppointment />} />
-      <Route path="/appointments/edit/:id" element={<PutAppointment />} />
+      <Route element={<LayoutAdmin />}>
+        <Route path="/admin/home" element={<AdminHome />} />
+        <Route path="/appointments" element={<Appointments />} />
+        <Route path="/appointments/:id" element={<InfoAppointment />} />
+        <Route path="/appointments/new" element={<PostAppointment />} />
+        <Route path="/appointments/edit/:id" element={<PutAppointment />} />
 
-      <Route path="/appointments/sitters" element={<AppointmentSitterList />} />
-      <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
-      <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
-      <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
+        <Route path="/appointments/sitters" element={<AppointmentSitterList />} />
+        <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
+        <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
+        <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
+      </Route>
 
-      <Route path="/clients/pets" element={<ClientsPets />} />
-      <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
-      <Route path="/clients/pets/:id" element={<ClientEditPet />} />
+      <Route element={<LayoutClient />}>
+        <Route path="/clients/home" element={<ClientHome />} />
+        <Route path="/clients/pets" element={<ClientsPets />} />
+        <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
+        <Route path="/clients/pets/:id" element={<ClientEditPet />} />
+        <Route path="/clients/appointments" element={<MyAppointments />} />
+        <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
+        <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
+        <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
+      </Route>
 
-      <Route path="/clients/appointments" element={<MyAppointments />} />
-      <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
-      <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
-      <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
-      
-      <Route path="/welcome" element={<Welcome />} />
-      <Route path="/sitters/login" element={<SitterLogin />} />
-      <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
-      <Route path="/appointments/list" element={<AppointmentList />} />
-      <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
-      <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
-      <Route path="/sitter/profile" element={<SitterProfile />} />
-      <Route path="/sitter/profile/edit" element={<SitterProfileEdit />} />
-      <Route path="/appointments-sitter/background" element={<AppointmentBackground />} />
-
+      <Route element={<LayoutSitter />}>
+        <Route path="/sitters/home" element={<HomeSitter />} />
+        <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
+        <Route path="/appointments/list" element={<AppointmentList />} />
+        <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
+        <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
+        <Route path="/appointments-sitter/background" element={<AppointmentBackground />} />
+        <Route path="/sitter/profile" element={<SitterProfile />} />
+        <Route path="/sitter/profile/edit" element={<SitterProfileEdit />} />
+      </Route>
 
 
 

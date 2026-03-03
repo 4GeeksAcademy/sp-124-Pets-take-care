@@ -1034,7 +1034,7 @@ def get_appointments_background():
 
     sitter_appointments = [appointment_sitters.appointment_id for appointment_sitters in appointments_sitters]
 
-    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), AppointmentSitter.status != "selected")).scalars().all()
+    appointments = db.session.execute(select(Appointment).where(Appointment.id.in_(sitter_appointments), Appointment.status != "selected")).scalars().all()
     
     return jsonify ({"appointments": [appointment.serialize() for appointment in appointments]})
 
