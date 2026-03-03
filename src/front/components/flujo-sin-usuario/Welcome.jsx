@@ -16,9 +16,9 @@ const Welcome = () => {
                         <h1>Welcome</h1>
                     </div>
                     <div className="col-12 col-md-6 border rounded shadow p-4 text-center bg-white">
-                        <h3 className="my-3">Login as Client</h3>
+                        <h2 className="my-3">Login as Client</h2>
 
-                        <Link to="/login">
+                        <Link to="/clients/login">
                             <img
                                 src={mujeryperro}
                                 alt="Ir a iniciar sesión"
@@ -27,8 +27,8 @@ const Welcome = () => {
                         </Link>
                     </div>
                     <div className="col-12 col-md-6 border rounded shadow p-4 text-center bg-white">
-                        <h3 className="my-3">Login as Sitter</h3>
-                        <Link to="/login">
+                        <h2 className="my-3">Login as Sitter</h2>
+                        <Link to="/sitters/login">
                             <img src={hombreyperro}
                                 alt="Ir a iniciar sesión"
                                 className="login-image"/>

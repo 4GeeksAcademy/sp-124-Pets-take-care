@@ -48,7 +48,7 @@ export const Home = () => {
 								<h3 className="display-2">Sitters for all pets</h3>
 								<p>we know your concerns when your are looking for a sitter for yourpet</p>
 							</div>
-							<button className="btn btn-dark rounded fs-4 mt-4 px-5 py-3" onClick={()=> navigate("/welcome")}>START</button>
+							<button className="btn btn-warm fs-4 mt-4 px-5 py-3" onClick={()=> navigate("/welcome")}>START</button>
 						</div>
 					</div>
 				</div>

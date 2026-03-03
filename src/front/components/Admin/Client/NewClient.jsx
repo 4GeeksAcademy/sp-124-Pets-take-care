@@ -38,26 +38,64 @@ const NewClient = () => {
 
 
     return (
-        <div className="container mb-3">
-            <h1>New Client</h1>
+        <div className="container my-5">
+            <div className="row justify-content-center">
+                <div className="col-12 col-md-6">
 
-            <form>
-                <div className="container mb-3">
-                    <input placeholder="name" className="form-control" value={name} onChange={e => setName(e.target.value)} />
+                    <h1 className="text-center mb-4">New Client</h1>
+
+                    <form>
+
+                        <div className="mb-3">
+                            <label className="form-label">Name</label>
+                            <input
+                                className="form-control"
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label className="form-label">Last Name</label>
+                            <input
+                                className="form-control"
+                                value={lastName}
+                                onChange={e => setLastName(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label className="form-label">Email</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="form-label">Password</label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                        </div>
+
+                        <button
+                            type="button"
+                            className="btn btn-warm w-100"
+                            onClick={postClient}
+                        >
+                            Create Account
+                        </button>
+
+                    </form>
+
                 </div>
-                <div className="container mb-3">
-                    <input placeholder="last name" className="form-control" value={lastName} onChange={e => setLastName(e.target.value)} />
-                </div>
-                <div className="container mb-3">
-                    <input placeholder="email" className="form-control" value={email} onChange={e => setEmail(e.target.value)} />
-                </div>
-                <div className="container mb-3">
-                    <input type="password" className="form-control" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
-                </div>
-                <button type="button" className="btn btn-primary" onClick={postClient}>
-                    New Client
-                </button>
-            </form>
+            </div>
         </div>
     );
 };
