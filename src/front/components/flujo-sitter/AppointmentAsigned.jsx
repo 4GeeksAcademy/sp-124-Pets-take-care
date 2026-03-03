@@ -7,7 +7,6 @@ const AppointmentAsigned = () => {
     const [appointments, setAppointments] = useState([])
     const [status, setStatus] = useState([])
     const {id} = useParams()
-        console.log(appointments)
 
     useEffect(() => {
         getAppointment()
@@ -27,16 +26,16 @@ const AppointmentAsigned = () => {
             })
 
             .then(data =>{
-                console.log("DATA:", data)
+
                 setAppointments(data.appointments)}
             )
             .catch(err => console.log(err))
     }
 
-        const handleCancel = async (id) => {
+        const handleWithdrawn = async (id) => {
             try{
-            const resp = await fetch(BACKEND_URL + `api/sitter/appointment-sitter/${id}`, {
-                method: "DELETE",
+            const resp = await fetch(BACKEND_URL + `api/sitter/appointment-sitter/withdrawn/${id}`, {
+                method: "PUT",
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("sitterToken")
                 }
@@ -82,7 +81,7 @@ const AppointmentAsigned = () => {
                             </div>
                         </div>
                         <div className="container mt-3">
-                            <button className="btn btn-primary" onClick={() => handleCancel(el.id)}>Rechazar
+                            <button className="btn btn-danger" onClick={() => handleWithdrawn(el.id)}>Withdrawn
                             </button>
                         </div>
                     </div>

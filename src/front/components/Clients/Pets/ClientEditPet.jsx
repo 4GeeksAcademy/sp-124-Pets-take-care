@@ -123,10 +123,6 @@ const ClientEditPet = () => {
         }
     };
 
-
-
-
-
     return (
         <div className="container bg-secondary rounded mt-5 ">
             <h1 className="text-white">Edit Pet</h1>

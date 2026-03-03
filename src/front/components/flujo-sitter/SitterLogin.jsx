@@ -14,7 +14,7 @@ const SitterLogin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(email, password)
+
 
         const response = await fetch(
             BACKEND_URL + "api/sitters/login",

@@ -5,7 +5,6 @@ import { BACKEND_URL } from "../../../main"
 const ViewAppointmentSitter = () => {
 
     const [aS, setAS] = useState({})
-    console.log(aS)
     const { id } = useParams()
     const navigate = useNavigate()
 

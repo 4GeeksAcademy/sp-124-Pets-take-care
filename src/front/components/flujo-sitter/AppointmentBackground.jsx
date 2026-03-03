@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../../main"
+import { useParams } from "react-router-dom"
 
-const AppointmentList = () => {
+const AppointmentBackground = () => {
 
     const [appointments, setAppointments] = useState([])
+
     useEffect(() => {
         getAppointment()
     }, [])
 
     const getAppointment = () => {
-        fetch(BACKEND_URL + "api/sitter/appointments/false", {
+        fetch(BACKEND_URL + "api/appointments/background", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("sitterToken")
             }
@@ -21,42 +23,18 @@ const AppointmentList = () => {
                 return resp.json()
             })
 
-            .then(data =>{
-                setAppointments(data.appointments || [])
+            .then(data => {
+                setAppointments(data.appointments)
             }
             )
-            .catch(err => setAppointments([]))
+            .catch(err => console.log(err))
     }
-
-    const handlePostulate = async (appointmentId) => {
-        try{
-            const resp = await fetch(BACKEND_URL + "api/sitter/appointment-sitter/new", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + localStorage.getItem("sitterToken")
-                },
-                body: JSON.stringify({
-                    appointment_id: appointmentId
-                })
-            })
-            if(!resp.ok){
-                throw new Error("Something went wrong while postulating")
-            }
-            getAppointment()
-        } catch(err){
-            console.log(err)
-        }
-    }
-
-
 
     return (
         <div className="container">
-            <h1>Looking for Appointments</h1>
-            {appointments.length === 0 ? (
-    <p>No hay appointments disponibles</p>
-) : appointments.map(el => (
+            <h1>Appointments Background</h1>
+            <button onClick={()=> console.log(appointments)}> appointments</button>
+            {appointments.map(el => (
                 <div
                     key={el.id}
                     className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center mb-3">
@@ -78,10 +56,11 @@ const AppointmentList = () => {
                                 <h5>Servicio</h5>
                                 <span>{el.service_name}📋</span>
                             </div>
-                        </div>
-                        <div className="container mt-3">
-                            <button className="btn btn-primary" onClick={() => handlePostulate(el.id)}>Postularse
-                            </button>
+                            <div className="container">
+                                <h5>Estado de solicitud
+                                </h5>
+                                <span>{el.status}📋</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,4 +68,4 @@ const AppointmentList = () => {
         </div>
     )
 }
-export default AppointmentList
+export default AppointmentBackground

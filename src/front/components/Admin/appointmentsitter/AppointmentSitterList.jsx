@@ -5,7 +5,6 @@ import { BACKEND_URL } from "../../../main"
 const AppointmentSitterList = () => {
 
     const [appointmentSitter, setAppointmentSitter] = useState([])
-    console.log(appointmentSitter)
     const { id } = useParams()
     const navigate = useNavigate()
 
