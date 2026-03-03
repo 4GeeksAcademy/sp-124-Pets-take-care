@@ -4,7 +4,7 @@ import { BACKEND_URL } from "../../../main";
 import silueta from "../../../assets/img/silueta.webp"
 
 
-const SitterProfile = () => {
+const ClientsSitterProfile = () => {
 
 const { appointmentId, sitterId } = useParams()
 const navigate = useNavigate();
@@ -84,4 +84,4 @@ useEffect(() => {
 
 
 
-export default SitterProfile
+export default ClientsSitterProfile
