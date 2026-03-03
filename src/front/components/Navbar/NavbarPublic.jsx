@@ -17,17 +17,17 @@ const NavbarPublic = () => {
 
 
     return (
-        <div className = "container">
         <nav className="navbar navbar-light bg-light">
-            <Link to="/">
-                <span>
-                    <FontAwesomeIcon className="ms-3" icon={faHome} size="2x" />
-                </span>
-            </Link>
-        <button className="btn btn-success" onClick={() => navigate("/welcome")}>Login</button>
-						<button className="btn btn-success" onClick={() => navigate("/welcome")}>Sing Up</button>
+            <div className="container d-flex align-items-center">
+                <Link to="/">
+                    <img className="logo" src="https://www.tiendapetcare.es/wp-content/uploads/2024/11/logo-horizontal-petcare.png" alt="" />
+                </Link>
+                <div className="d-flex ms-auto">
+                <button className="btn btn-warning rounded-pill px-4 me-3" onClick={() => navigate("/welcome")}>Login</button>
+                <button className="btn btn-warning rounded-pill px-4" onClick={() => navigate("/welcome")}>Sing Up</button>
+                </div>
+            </div>
         </nav>
-        </div>
 
     )
 }

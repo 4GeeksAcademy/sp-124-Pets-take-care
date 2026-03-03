@@ -32,10 +32,9 @@ const AppointmentBackground = () => {
 
     return (
         <div className="container">
-            <h1>Looking for Appointments</h1>
-            {appointments.length === 0 ? (
-                <p>No hay appointments disponibles</p>
-            ) : appointments.map(el => (
+            <h1>Appointments Background</h1>
+            <button onClick={()=> console.log(appointments)}> appointments</button>
+            {appointments.map(el => (
                 <div
                     key={el.id}
                     className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center mb-3">
