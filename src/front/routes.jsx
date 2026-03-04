@@ -3,41 +3,85 @@ import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
-import Sitters from "./components/sitter/Sitters"
-import InfoSitter from "./components/sitter/InfoSitter"
-import EditSitter from "./components/sitter/EditSitter"
-import CreateSitter from "./components/sitter/CreateSitter"
-import Pets from "./components/pet/Pets";
-import InfoPet from "./components/pet/InfoPet";
-import CreatePet from "./components/pet/CreatePet";
-import EditPet from "./components/pet/EditPet";
-import ClientList from "./components/clients/ClientList";
-import ViewClient from "./components/clients/ViewClient";
-import EditClient from "./components/clients/EditClient";
-import NewClient from "./components/clients/NewClient";
-import SkillsList from "./components/skills/SkillsList";
-import NewSkill from "./components/skills/NewSkill";
-import EditSkill from "./components/skills/EditSkills";
-import ViewSkills from "./components/skills/ViewSkill";
-import NewService from "./components/services/NewService";
-import ServiceList from "./components/services/ServiceList";
-import ViewService from "./components/services/ViewService";
-import EditService from "./components/services/EditService";
-import SitterPets from "./components/SitterPet/SitterPets";
-import AddSitterPets from "./components/SitterPet/AddSitterPets";
-import SitterLogin from "./components/Sitter-login/SitterLogin";
-import SitterSkillsList from "./components/sitterskills/SitterSkillsList";
-import NewSitterSkills from "./components/sitterskills/NewSitterSkills";
-import HomeSitter from "./components/Sitter-login/HomeSitter";
-import ClientLogin from "./components/loginclient/ClientLogin";
-import Appointments from "./appointmment/appointments";
-import InfoAppointment from "./appointmment/infoAppointment";
-import PostAppointment from "./appointmment/PostAppointment";
-import AdminLogin from "./components/loginadmin/AdminLogin";
-import AdminHome from "./components/loginadmin/AdminHome";
-import PutAppointment from "./appointmment/PutAppointments";
-import ClientHome from "./components/loginclient/ClientHome";
 
+import Sitters from "./components/Admin/sitter/Sitters"
+import InfoSitter from "./components/Admin/sitter/InfoSitter"
+import EditSitter from "./components/Admin/sitter/EditSitter"
+import CreateSitter from "./components/Admin/sitter/CreateSitter"
+
+import Pets from "./components/Admin/pet/Pets";
+import InfoPet from "./components/Admin/pet/InfoPet";
+import CreatePet from "./components/Admin/pet/CreatePet";
+import EditPet from "./components/Admin/pet/EditPet";
+
+import ClientList from "./components/Admin/Client/ClientList";
+import ViewClient from "./components/Admin/Client/ViewClient";
+import EditClient from "./components/Admin/Client/EditClient";
+import NewClient from "./components/Admin/Client/NewClient";
+
+import SkillsList from "./components/Admin/skills/SkillsList";
+import NewSkill from "./components/Admin/skills/NewSkill";
+import EditSkill from "./components/Admin/skills/EditSkills";
+import ViewSkills from "./components/Admin/skills/ViewSkill";
+
+import NewService from "./components/Admin/services/NewService";
+import ServiceList from "./components/Admin/services/ServiceList";
+import ViewService from "./components/Admin/services/ViewService";
+import EditService from "./components/Admin/services/EditService";
+
+import SitterPets from "./components/Admin/SitterPet/SitterPets";
+import AddSitterPets from "./components/Admin/SitterPet/AddSitterPets";
+
+import SitterSkillsList from "./components/Admin/sitterskills/SitterSkillsList";
+import NewSitterSkills from "./components/Admin/sitterskills/NewSitterSkills";
+
+import ClientLogin from "./components/Clients/Loggin/ClientLogin";
+
+import AdminLogin from "./components/Admin/AdminLogin";
+import AdminHome from "./components/Admin/AdminHome";
+
+import AppointmentSitterList from "./components/Admin/appointmentsitter/AppointmentSitterList";
+import ViewAppointmentSitter from "./components/Admin/appointmentsitter/ViewAppointmentSitter";
+import NewAppointmentSitter from "./components/Admin/appointmentsitter/NewAppointmentSitter";
+import EditAppointmentSitter from "./components/Admin/appointmentsitter/EditAppointmentSitter";
+
+import Welcome from "./components/flujo-sin-usuario/Welcome";
+import NewSitterAccount from "./components/flujo-sitter/NewSitterAccount";
+import AppointmentList from "./components/flujo-sitter/AppointmentList";
+
+
+import ClientsPets from "./components/Clients/Pets/ClientsPets";
+import ClientNewPets from "./components/Clients/Pets/ClientNewPets";
+import ClientEditPet from "./components/Clients/Pets/ClientEditPet";
+
+import MyAppointments from "./components/Clients/Appointments/MyAppointments";
+import MyAppointmentsEdit from "./components/Clients/Appointments/MyAppointmentsEdit";
+import MyNewAppointment from "./components/Clients/Appointments/MyNewAppointment";
+import MyAppointMentRequests from "./components/Clients/Appointments/MyAppointmentRequest";
+
+import Appointments from "./components/Admin/appointment/appointments";
+import InfoAppointment from "./components/Admin/appointment/infoAppointment";
+import PostAppointment from "./components/Admin/appointment/PostAppointment";
+import PutAppointment from "./components/Admin/appointment/PutAppointments";
+
+import SitterLogin from "./components/flujo-sitter/SitterLogin";
+import HomeSitter from "./components/flujo-sitter/HomeSitter";
+import ClientHome from "./components/Clients/Loggin/ClientHome";
+import AppointmentAsigned from "./components/flujo-sitter/AppointmentAsigned";
+import PetProfile from "./components/Clients/Pets/PetProfile";
+
+import SitterProfileEdit from "./components/flujo-sitter/SitterProfileEdit";
+import AppointmentListOwn from "./components/flujo-sitter/AppointmentListOwn";
+import AppointmentBackground from "./components/flujo-sitter/AppointmentBackground";
+import { Prueba } from "./pages/Prueba";
+import { LayoutSitter } from "./layouts/LayoutSitter";
+import { LayoutClient } from "./layouts/LayoutClient";
+import { LayoutAdmin } from "./layouts/LayoutAdmin";
+import { LayoutGuest } from "./layouts/LayoutGuest";
+import ClientsSitterProfile from "./components/Clients/Appointments/ClientsSitterProfile";
+import SitterProfile from "./components/flujo-sitter/SitterProfile";
+import RegisterClient from "./components/Clients/Loggin/RegisterClient";
+import RegisterSitter from "./components/flujo-sitter/RegisterSitter";
 
 
 export const router = createBrowserRouter(
@@ -47,60 +91,107 @@ export const router = createBrowserRouter(
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Home />} />
 
-      <Route path="/sitters" element={<Sitters />} />
-      <Route path="/sitters/:id" element={<InfoSitter />} />
-      <Route path="/sitters/create" element={<CreateSitter />} />
-      <Route path="/sitters/edit/:id" element={<EditSitter />} />
-      <Route path="/sitters/:id" element={<InfoSitter />} />
-
-      <Route path="/newclients" element={<NewClient />} />
-      <Route path="/clients" element={<ClientList />} />
-      <Route path="/viewclients/:id" element={<ViewClient />} />
-      <Route path="/editclients/:id" element={<EditClient />} />
-
-      <Route path="/newskills" element={<NewSkill />} />
-      <Route path="/skills" element={<SkillsList />} />
-      <Route path="/viewskills/:id" element={<ViewSkills />} />
-      <Route path="/editskills/:id" element={<EditSkill />} />
-
-      <Route path="/single/:theId" element={<Single />} />
-      <Route path="/demo" element={<Demo />} />
-
-      <Route path="/pets" element={<Pets />} />
-      <Route path="/pets/:id" element={<InfoPet />} />
-      <Route path="/pets/create" element={<CreatePet />} />
-      <Route path="/pets/edit/:id" element={<EditPet />} />
-
-      <Route path="/newservices" element={<NewService />} />
-      <Route path="/services" element={<ServiceList />} />
-      <Route path="/viewservices/:id" element={<ViewService />} />
-      <Route path="/editservices/:id" element={<EditService />} />
-
-      <Route path="/sitterpets" element={<SitterPets />} />
-      <Route path="/sitters/:id/add-pet" element={<AddSitterPets />} />
-      {/* ==================================LOGIN SITTER=================================== */}
-      <Route path="/sitters/login" element={<SitterLogin />} />
-      <Route path="/clients/login" element={<ClientLogin />} />
-      <Route path="/admin/login" element={<AdminLogin />} />
-
-      <Route path="/newsitter/:id/newskills" element={<NewSitterSkills />} />
-      <Route path="/sitterskills" element={<SitterSkillsList />} />
 
       {/* ==================================SITTER LOGGED=================================== */}
-      <Route path="/sitters/home" element={<HomeSitter />} />
-      <Route path="/clients/home" element={<ClientHome />} />
-      <Route path="/admin/home" element={<AdminHome />} />
+
+      <Route element={<LayoutGuest />}>
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/clients/login" element={<ClientLogin />} />
+        <Route path="/sitters/login" element={<SitterLogin />} />
+        <Route path="/clients/newclient" element={<RegisterClient />} />
+        <Route path="/newsitters" element={<RegisterSitter />} />
+      </Route>
 
 
+      <Route element={<LayoutAdmin />}>
+        <Route path="/admin/home" element={<AdminHome />} />
+        <Route path="/appointments" element={<Appointments />} />
+        <Route path="/appointments/:id" element={<InfoAppointment />} />
+        <Route path="/appointments/new" element={<PostAppointment />} />
+        <Route path="/appointments/edit/:id" element={<PutAppointment />} />
 
-      <Route path="/appointments" element={<Appointments />} />
-      <Route path="/appointments/:id" element={<InfoAppointment />} />
-      <Route path="/appointments/new" element={<PostAppointment />} />
-      <Route path="/appointments/edit/:id" element={<PutAppointment />} />
+        <Route path="/appointments/sitters" element={<AppointmentSitterList />} />
+        <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
+        <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
+        <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
+        <Route path="/sitters" element={<Sitters />} />
+        <Route path="/sitters/:id" element={<InfoSitter />} />
+        <Route path="/sitters/create" element={<CreateSitter />} />
+        <Route path="/sitters/edit/:id" element={<EditSitter />} />
+        <Route path="/sitters/:id" element={<InfoSitter />} />
+
+        <Route path="/newclients" element={<NewClient />} />
+        <Route path="/clients" element={<ClientList />} />
+        <Route path="/viewclients/:id" element={<ViewClient />} />
+        <Route path="/editclients/:id" element={<EditClient />} />
+
+        <Route path="/newskills" element={<NewSkill />} />
+        <Route path="/skills" element={<SkillsList />} />
+        <Route path="/viewskills/:id" element={<ViewSkills />} />
+        <Route path="/editskills/:id" element={<EditSkill />} />
+
+        <Route path="/single/:theId" element={<Single />} />
+        <Route path="/demo" element={<Demo />} />
+
+        <Route path="/pets" element={<Pets />} />
+        <Route path="/pets/:id" element={<InfoPet />} />
+        <Route path="/pets/create" element={<CreatePet />} />
+        <Route path="/pets/edit/:id" element={<EditPet />} />
+
+        <Route path="/newservices" element={<NewService />} />
+        <Route path="/services" element={<ServiceList />} />
+        <Route path="/viewservices/:id" element={<ViewService />} />
+        <Route path="/editservices/:id" element={<EditService />} />
+
+        <Route path="/sitterpets" element={<SitterPets />} />
+        <Route path="/sitters/:id/add-pet" element={<AddSitterPets />} />
+      
+        <Route path="/newsitter/:id/newskills" element={<NewSitterSkills />} />
+        <Route path="/sitterskills" element={<SitterSkillsList />} />
+      </Route>
+
+      <Route path="/clients/pets" element={<ClientsPets />} />
+      <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
+      <Route path="/clients/pets/edit/:id" element={<ClientEditPet />} />
+
+      <Route path="/clients/appointments" element={<MyAppointments />} />
+      <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
+      <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
+      <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
+      <Route path="/clients/appointments/:appointmentId/sitters/:sitterId" element={<ClientsSitterProfile />} />
 
 
+      <Route path="/welcome" element={<Welcome />} />
+      <Route path="/sitters/login" element={<SitterLogin />} />
+      <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
+      <Route path="/appointments/list" element={<AppointmentList />} />
+      <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
+      <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
+      <Route path="/clients/pets/profile/:id" element={<PetProfile />} />
 
+      <Route element={<LayoutClient />}>
+        <Route path="/clients/home" element={<ClientHome />} />
+        <Route path="/clients/pets" element={<ClientsPets />} />
+        <Route path="/clients/pets/newpet" element={<ClientNewPets />} />
+        <Route path="/clients/pets/:id" element={<ClientEditPet />} />
+        <Route path="/clients/appointments" element={<MyAppointments />} />
+        <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
+        <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
+        <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
 
+      </Route>
+
+      <Route element={<LayoutSitter />}>
+        <Route path="/sitters/home" element={<HomeSitter />} />
+        <Route path="/sitters/newaccount" element={<NewSitterAccount />} />
+        <Route path="/appointments/list" element={<AppointmentList />} />
+        <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
+        <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
+        <Route path="/appointments-sitter/background" element={<AppointmentBackground />} />
+        <Route path="/sitter/profile" element={<SitterProfile />} />
+        <Route path="/sitter/profile/edit" element={<SitterProfileEdit />} />
+      </Route>
 
 
 

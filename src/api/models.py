@@ -3,10 +3,11 @@ from sqlalchemy import String, Boolean, Numeric, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date, time
 from sqlalchemy import Date
+from sqlalchemy import Text
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from typing import List
-
+import sqlalchemy as sa
 db = SQLAlchemy()
 
 
@@ -66,7 +67,8 @@ class Sitter(db.Model):
         back_populates="sitter", cascade="all, delete-orphan")
     sitter_skills: Mapped[List["SitterSkills"]] = relationship(
         back_populates="sitter", cascade="all, delete-orphan")
-    application: Mapped[List["AppointmentSitter"]] = relationship("AppointmentSitter", back_populates="sitter", cascade="all, delete-orphan")
+    appointment_applications: Mapped[List["AppointmentSitter"]] = relationship("AppointmentSitter", back_populates="sitter", cascade="all, delete-orphan")
+    
     def __repr__(self):
         return f"<Sitter id={self.id} name={self.name} email={self.email}>"
 
@@ -107,9 +109,9 @@ class Pet(db.Model):
     __tablename__ = "pet"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    breed: Mapped[str] = mapped_column(String(120), nullable=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     species: Mapped[str] = mapped_column(String(120), nullable=False)
-    race: Mapped[str] = mapped_column(String(120), nullable=True)
     gender: Mapped[str] = mapped_column(String(120), nullable=True)
     color: Mapped[str] = mapped_column(String(120), nullable=True)
     has_nie: Mapped[bool] = mapped_column(Boolean(), nullable=False)
@@ -125,8 +127,9 @@ class Pet(db.Model):
         back_populates="pet", cascade="all, delete-orphan")
     appointments = relationship(
         "Appointment", back_populates="pet", cascade="all, delete-orphan")
-
+    
     user: Mapped["User"] = relationship("User", back_populates="pets")
+
 
     def __repr__(self):
         return f"<Pet id={self.id} name={self.name} species={self.species}>"
@@ -136,7 +139,6 @@ class Pet(db.Model):
             "id": self.id,
             "name": self.name,
             "species": self.species,
-            "race": self.race,
             "gender": self.gender,
             "color": self.color,
             "nie": self.nie,
@@ -144,7 +146,8 @@ class Pet(db.Model):
             "type_food": self.type_food,
             "special_care": self.special_care,
             "sterilized": self.sterilized,
-            "about_pet": self.about_pet
+            "about_pet": self.about_pet,
+            "breed": self.breed
 
             # do not serialize the password, its a security breach
         }
@@ -249,11 +252,16 @@ class Appointment(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     appointment_date: Mapped[date] = mapped_column(Date, nullable=False)
     appointment_time: Mapped[time] = mapped_column(Time, nullable=False)
-    state: Mapped[str] = mapped_column(String(50), nullable=False)
+    status: Mapped[str] = mapped_column(
+        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_status"),
+        default="applied",
+        nullable=False
+    )
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     pet_id: Mapped[int] = mapped_column(ForeignKey("pet.id"), nullable=False)
     service_id: Mapped[int] = mapped_column(
         ForeignKey("services.id"), nullable=False)
+    
     user: Mapped["User"] = relationship(back_populates="appointments")
     pet: Mapped["Pet"] = relationship(back_populates="appointments")
     service: Mapped["Services"] = relationship(back_populates="appointments")
@@ -267,13 +275,12 @@ class Appointment(db.Model):
             "id": self.id,
             "appointment_date": self.appointment_date.isoformat() if self.appointment_date else None,
             "appointment_time": self.appointment_time.isoformat() if self.appointment_time else None,
-            "state": self.state,
+            "status": self.status,
             "pet_id": self.pet_id,
             "service_id": self.service_id,
             "service_name": self.service.service_name,
             "pet_name": self.pet.name,
             "user_name": self.user.name
-
         }
 
 class AppointmentSitter(db.Model):
@@ -286,19 +293,24 @@ class AppointmentSitter(db.Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    status: Mapped[str] = mapped_column(String(50), default="applied")
+    status: Mapped[str] = mapped_column(
+        sa.Enum("applied", "selected", "rejected", "withdrawn", name="application_status"),
+        default="applied",
+        nullable=False
+    )
     #applied, selected, rejected, withdrawn
 
     appointment_id: Mapped[int] = mapped_column(ForeignKey("appointment.id"), nullable=False)
     sitter_id: Mapped[int] = mapped_column(ForeignKey("sitter.id"), nullable=False)
     
     appointment: Mapped["Appointment"] = relationship(back_populates="appointment_sitters")
-    sitter: Mapped["Sitter"] = relationship(back_populates="application")
+    sitter: Mapped["Sitter"] = relationship(back_populates="appointment_applications")
 
     def serialize(self):
         return {
             "id": self.id,
-            "appointment_id": self.appointment_id,
-            "sitter_id": self.sitter_id,
-            "status": self.status
+            "appointment": self.appointment.serialize(),
+            "status": self.status,
+            "sitter": self.sitter.serialize()
         }
+

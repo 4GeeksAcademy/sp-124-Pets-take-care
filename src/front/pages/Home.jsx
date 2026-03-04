@@ -3,10 +3,12 @@ import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import perrosImageUrl from "../assets/img/perros.webp"
+import StepsSection from "../components/Home/StepsSection.jsx";
 
 export const Home = () => {
 
-	const navigate = useNavigate(); 
+	const navigate = useNavigate();
 
 	const { store, dispatch } = useGlobalReducer()
 	const loadMessage = async () => {
@@ -36,22 +38,25 @@ export const Home = () => {
 	}, [])
 
 	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Hello Rigo!!</h1>
-			<p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p>
-			<button className="btn btn-primary" onClick={()=>navigate("/appointments")}>Go appointments</button>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
-
+		<div className="container-fluid p-0">
+			<div className="position-relative px-0 jumbotron">
+				<div className="position-relative z-2 h-100">
+					<div className="container h-100 d-flex align-items-center">
+						<div className="w-50">
+							<div>
+								<p className="fs-3 m-0">We take care of your pet</p>
+								<h3 className="display-2">Sitters for all pets</h3>
+								<p>we know your concerns when your are looking for a sitter for yourpet</p>
+							</div>
+							<button className="btn btn-warm fs-4 mt-4 px-5 py-3" onClick={()=> navigate("/welcome")}>START</button>
+						</div>
+					</div>
+				</div>
+				<div className="position-absolute z-1 start-0 end-0 top-0 bottom-0">
+					<img src={perrosImageUrl} className="img-fluid h-100 w-100" alt="" />
+				</div>
 			</div>
+			<StepsSection />
 		</div>
 	);
 }; 
