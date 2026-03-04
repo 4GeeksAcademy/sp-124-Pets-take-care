@@ -37,23 +37,57 @@ const AddSitterPets = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Add pet to sitter</h2>
 
-      {pets.map(pet => (
-        <div key={pet.id} className="border p-2 mb-2">
-          <span>{pet.name} <strong>{pet.species}</strong>🐾</span>
+  <div>
 
-          <button
-            className="btn btn-primary ms-2"
-            onClick={() => addPetToSitter(pet.id)}
-          >
-            add
-          </button>
-        </div>
-      ))}
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Add Pet to Sitter</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate(-1)}
+      >
+        ← Back
+      </button>
     </div>
-  );
+    {pets.length === 0 ? (
+      <div className="text-muted">
+        No pets available.
+      </div>
+
+    ) : (
+      <div className="table-responsive">
+        <table className="table table-hover align-middle">
+          <thead className="table-light">
+            <tr>
+              <th>Pet Name</th>
+              <th>Species</th>
+              <th className="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pets.map(pet => (
+              <tr key={pet.id}>
+
+                <td>{pet.name}</td>
+                <td>{pet.species}</td>
+                <td className="text-end">
+                  <button
+                    className="btn btn-sm btn-dark"
+                    onClick={() => addPetToSitter(pet.id)}
+                  >
+                    Add
+                  </button>
+                </td>
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+);
 };
 
 

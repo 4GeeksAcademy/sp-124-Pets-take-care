@@ -40,32 +40,90 @@ const InfoPet = () => {
         
     return (
 
-        <div className="container">
-            <h1>pet detail</h1>
+  <div>
 
-            <p><strong>Name:</strong> {pet.name}</p>
-            <p><strong>Species:</strong> {pet.species}</p>
-            <p><strong>Breed:</strong> {pet.breed}</p>
-            <p><strong>Color:</strong> {pet.color}</p>
-            <p><strong>Gender:</strong> {pet.gender}</p>
-             <p>
-                <strong>Nie:</strong>{" "}
-                {pet.nie ? "Yes" : "No"}
-            </p>
-            <p><strong>Birth Date:</strong> {pet.birth_date}</p>
-            <p><strong>Type of food:</strong> {pet.type_food}</p>
-            <p>
-                <strong>Special Care:</strong>{" "}
-                {pet.special_care ? "Yes" : "No"}
-            </p>
-             <p>
-                <strong>Sterilized:</strong>{" "}
-                {pet.sterilized ? "Yes" : "No"}
-            </p>
-            <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/pets")}>go back</button>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Pet Details</h2>
+
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/pets")}
+      >
+        ← Back
+      </button>
+    </div>
+
+    <div className="card shadow-sm">
+
+      <div className="card-body">
+
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Name</strong>
+            <div>{pet.name}</div>
+          </div>
+
+          <div className="col-md-6">
+            <strong>Species</strong>
+            <div>{pet.species}</div>
+          </div>
         </div>
-        
-    );
+
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Breed</strong>
+            <div>{pet.breed}</div>
+          </div>
+
+          <div className="col-md-6">
+            <strong>Color</strong>
+            <div>{pet.color}</div>
+          </div>
+        </div>
+
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Gender</strong>
+            <div>{pet.gender}</div>
+          </div>
+
+          <div className="col-md-6">
+            <strong>Birth Date</strong>
+            <div>{pet.birth_date}</div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="row mb-3">
+          <div className="col-md-4">
+            <strong>NIE</strong>
+            <div>{pet.nie ? "Yes" : "No"}</div>
+          </div>
+
+          <div className="col-md-4">
+            <strong>Special Care</strong>
+            <div>{pet.special_care ? "Yes" : "No"}</div>
+          </div>
+
+          <div className="col-md-4">
+            <strong>Sterilized</strong>
+            <div>{pet.sterilized ? "Yes" : "No"}</div>
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <strong>Type of Food</strong>
+          <div>{pet.type_food}</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+);
 }
 
 export default InfoPet

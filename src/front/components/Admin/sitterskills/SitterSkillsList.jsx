@@ -55,9 +55,6 @@ const SitterSkillsList = () => {
         }
 
 
-        // setSitterPets(prev =>
-        //     prev.filter(el => !(el.sitter_id === sitter_id && el.pet_id === pet_id))
-        // );
 
         ReadSitterSkills()
         ReadSitters()
@@ -83,44 +80,68 @@ const SitterSkillsList = () => {
     });
 
     return (
-        <div className="container">
-            <h1>Get relation sitter & skill</h1>
 
-            {Object.entries(skillsList).map(([sitter_id, sitter]) => (
-                <div
-                    key={sitter_id}
-                    className="container border p-2 bg-secondary-subtle mb-3"
-                >
-                    <h4>👤 {sitter.sitter_name}</h4>
+  <div>
 
-                    {sitter.skills.length === 0 && (
-                        <p className="text-muted">No skills assigned</p>
-                    )}
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Sitter & Skill Relations</h2>
+    </div>
+    {Object.entries(skillsList).length === 0 ? (
 
-                    <ul>
-                        {sitter.skills.map(skill => (
-                            <li key={skill.skill_id}>
-                                {skill.skill}
+      <div className="text-muted">
+        No relations found.
+      </div>
+    ) : (
+      Object.entries(skillsList).map(([sitter_id, sitter]) => (
+        <div key={sitter_id} className="mb-5">
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h5 className="mb-0">{sitter.sitter_name}</h5>
+            <button
+              className="btn btn-sm btn-dark"
+              onClick={() => navigate(`/newsitter/${sitter_id}/newskills`)}
+            >
+              + Add Skill
+            </button>
+          </div>
+          {sitter.skills.length === 0 ? (
+            <div className="text-muted mb-3">
+              No skills assigned.
+            </div>
 
-                                <button
-                                    className="btn btn-danger ms-5 btn-sm"
-                                    onClick={() => deleteSitterSkill(sitter_id, skill.skill_id)}
-                                >
-                                    delete
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <button
-                        className="btn btn-primary ms-5 btn-sm"
-                        onClick={() => navigate(`/newsitter/${sitter_id}/newskills`)}
-                    >
-                        add skill
-                    </button>
-                </div>
-            ))}
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>Skill</th>
+                    <th className="text-end">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sitter.skills.map(skill => (
+                    <tr key={skill.skill_id}>
+                      <td>{skill.skill}</td>
+                      <td className="text-end">
+                        <button
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() =>
+                            deleteSitterSkill(sitter_id, skill.skill_id)
+                          }
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <hr />
         </div>
-    );
+      ))
+    )}
+  </div>
+);
 }
 export default SitterSkillsList

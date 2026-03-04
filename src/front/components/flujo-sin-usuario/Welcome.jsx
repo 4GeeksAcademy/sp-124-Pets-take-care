@@ -31,10 +31,17 @@ const Welcome = () => {
                         <Link to="/sitters/login">
                             <img src={hombreyperro}
                                 alt="Ir a iniciar sesión"
-                                className="login-image"/>
+                                className="login-image" />
                         </Link>
                     </div>
 
+                </div>
+            </div>
+            <div className="row mt-3">
+                <div className="col-12 text-center">
+                    <Link to="/admin/login" className="admin-link">
+                        Admin
+                    </Link>
                 </div>
             </div>
 

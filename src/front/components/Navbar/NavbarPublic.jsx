@@ -17,19 +17,38 @@ const NavbarPublic = () => {
 
 
     return (
-        <nav className="navbar navbar-light bg-light rounded-5">
-            <div className="container d-flex align-items-center">
-                <Link to="/">
-                    <img className="logo" src="https://www.tiendapetcare.es/wp-content/uploads/2024/11/logo-horizontal-petcare.png" alt="" />
-                </Link>
-                <div className="d-flex ms-auto">
-                <button className="btn btn-warm rounded-pill me-3" onClick={() => navigate("/welcome")}>Login</button>
-                <button className="btn btn-warm rounded-pill" onClick={() => navigate("/welcome")}>Sing Up</button>
-                </div>
-            </div>
-        </nav>
+  <nav className="main-navbar d-flex justify-content-between align-items-center rounded-5 px-4 py-2">
 
-    )
+    {/* Logo */}
+    <Link to="/">
+      <img
+        className="logo"
+        src="https://www.tiendapetcare.es/wp-content/uploads/2024/11/logo-horizontal-petcare.png"
+        alt="PetCare"
+      />
+    </Link>
+
+    {/* Right side */}
+    <div className="d-flex align-items-center gap-3">
+
+      <button
+        className="nav-link-btn"
+        onClick={() => navigate("/welcome")}
+      >
+        Login
+      </button>
+
+      <button
+        className="nav-btn-primary"
+        onClick={() => navigate("/welcome")}
+      >
+        Sign Up
+      </button>
+
+    </div>
+
+  </nav>
+);
 }
 
 export default NavbarPublic

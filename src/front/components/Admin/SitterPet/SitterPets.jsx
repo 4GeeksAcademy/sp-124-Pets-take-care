@@ -56,10 +56,6 @@ const SitterPets = () => {
         }
 
 
-        // setSitterPets(prev =>
-        //     prev.filter(el => !(el.sitter_id === sitter_id && el.pet_id === pet_id))
-        // );
-
         ReadSitterPets()
         ReadSitters()
          
@@ -84,44 +80,75 @@ const SitterPets = () => {
 });
 
 return (
-    <div className="container">
-        <h1>Get relation sitter & pet</h1>
 
-        {Object.entries(petsList).map(([sitterId, sitter]) => (
-            <div
-                key={sitterId}
-                className="container border p-2 bg-secondary-subtle mb-3"
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Sitter & Pet Relations</h2>
+    </div>
+
+    {Object.entries(petsList).length === 0 ? (
+
+      <div className="text-muted">
+        No relations found.
+      </div>
+
+    ) : (
+      Object.entries(petsList).map(([sitterId, sitter]) => (
+
+        <div key={sitterId} className="mb-5">
+
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h5 className="mb-0">{sitter.sitter_name}</h5>
+            <button
+              className="btn btn-sm btn-dark"
+              onClick={() => navigate(`/sitters/${sitterId}/add-pet`)}
             >
-                <h4>👤 {sitter.sitter_name}</h4>
+              + Add Pet
+            </button>
+          </div>
 
-                {sitter.pets.length === 0 && (
-            <p className="text-muted">No pets assigned</p>
-        )}
+          {sitter.pets.length === 0 ? (
+            <div className="text-muted mb-3">
+              No pets assigned.
+            </div>
 
-        <ul>
-            {sitter.pets.map(pet => (
-                <li key={pet.pet_id}>
-                    {pet.pet_name}
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover align-middle">
 
-                    <button
-                        className="btn btn-danger ms-5 btn-sm"
-                        onClick={() => deleteSitterPet(sitterId, pet.pet_id)}
-                    >
-                        delete
-                    </button>
-                </li>
-            ))}
-        </ul>
+                <thead className="table-light">
+                  <tr>
+                    <th>Pet Name</th>
+                    <th className="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sitter.pets.map(pet => (
+                    <tr key={pet.pet_id}>
 
-        <button
-            className="btn btn-primary ms-5 btn-sm"
-            onClick={() => navigate(`/sitters/${sitterId}/add-pet`)}
-        >
-            add pet
-        </button>
-    </div>
-        ))}
-    </div>
+                      <td>{pet.pet_name}</td>
+
+                      <td className="text-end">
+                        <button
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => deleteSitterPet(sitterId, pet.pet_id)}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <hr />
+
+        </div>
+      ))
+    )}
+  </div>
 );
 }
 export default SitterPets

@@ -45,33 +45,41 @@ const CreateSitter = () => {
   }
 
 
+  
   return (
-  <div className="container my-5">
-    <div className="row justify-content-center">
-      <div className="col-12 col-md-6">
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Create Sitter</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/sitters")}
+      >
+        ← Back
+      </button>
+    </div>
 
-        <h1 className="text-center mb-4">Post Sitter</h1>
-
+    <div className="card shadow-sm">
+      <div className="card-body">
         <form>
-
           <div className="mb-3">
             <label className="form-label">Name</label>
             <input
+              type="text"
               className="form-control"
               value={name}
               onChange={e => setName(e.target.value)}
             />
           </div>
-
           <div className="mb-3">
             <label className="form-label">Last Name</label>
             <input
+              type="text"
               className="form-control"
               value={lastName}
               onChange={e => setLastName(e.target.value)}
             />
           </div>
-
           <div className="mb-3">
             <label className="form-label">Email</label>
             <input
@@ -81,7 +89,6 @@ const CreateSitter = () => {
               onChange={e => setEmail(e.target.value)}
             />
           </div>
-
           <div className="mb-4">
             <label className="form-label">Password</label>
             <input
@@ -91,20 +98,18 @@ const CreateSitter = () => {
               onChange={e => setPassword(e.target.value)}
             />
           </div>
-
           <button
-            className="btn btn-warm w-100"
             type="button"
+            className="btn btn-dark w-100"
             onClick={newSitter}
           >
-            Create Sitter Account
+            Create Sitter
           </button>
-
         </form>
-
       </div>
     </div>
   </div>
+
 );
 };
 

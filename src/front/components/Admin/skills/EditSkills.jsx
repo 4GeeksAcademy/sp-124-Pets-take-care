@@ -47,18 +47,42 @@ const EditSkill = () => {
     };
 
     return (
-        <div className="container">
-            <h2>Edit Skill</h2>
-            <form onSubmit={putSkill}>
-                <div className="mb-3">
-                    <label className="form-label">Name</label>
-                    <input type="text" className="form-control" value={editSkill} onChange={e => setEditSkill(e.target.value)} />
-                </div>
-                <button type="submit" className="btn btn-primary">Edit Skill</button>
-                <Link className="btn btn-primary ms-2" to="/skills">Back</Link>
-            </form>
-        </div>
-    )
+  <div>
+
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Edit Skill</h2>
+
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/skills")}
+      >
+        ← Back
+      </button>
+    </div>
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <form onSubmit={putSkill}>
+          <div className="mb-4">
+            <label className="form-label">Skill Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editSkill}
+              onChange={e => setEditSkill(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="btn btn-dark w-100"
+          >
+            Save Changes
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+)
 }
 
 export default EditSkill

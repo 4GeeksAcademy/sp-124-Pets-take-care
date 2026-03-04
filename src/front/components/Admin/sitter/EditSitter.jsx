@@ -97,59 +97,164 @@ const EditSitter = () => {
 
 
     return (
-        <div className="container">
-            <h1>Edit Sitter</h1>
-            <form>
-                <div className="container">
-                    <input type="text" placeholder="name" onChange={createName} value={editarName} />
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="last name" onChange={createLastName} value={editarLastName} />
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="email" onChange={createEmail} value={editarEmail} />
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="password" onChange={createPassword} value={editarPassword} />
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="phone" onChange={createPhone} value={editarPhone} />
-                </div>
-                <h5>studies</h5>
-                <div className="container">
-                    <input type="radio" id="studies-yes" name="studies" checked={editarStudies === true}
-                        onChange={() => setEditarStudies(true)} />
-                    <label htmlFor="studies-yes">Yes</label>
-                </div>
 
-                <div className="container">
-                    <input type="radio" id="studies-no" name="studies" checked={editarStudies === false}
-                        onChange={() => setEditarStudies(false)} />
-                    <label htmlFor="studies-no">No</label>
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="studies_comment" onChange={createStudiesComment} value={editarStudiesComment} />
-                </div>
-                <div className="container">
-                    <input type="text" placeholder="address" onChange={createAddress} value={editarAddress} />
-                </div>
-                <h5>is_active</h5>
-                <div className="container">
-                    <input type="radio" id="active-yes" name="active" checked={editarActive === true}
-                        onChange={() => setEditarActive(true)} />
-                    <label htmlFor="active-yes">Yes</label>
-                </div>
+  <div>
 
-                <div className="container">
-                    <input type="radio" id="active-no" name="active" checked={editarActive === false}
-                        onChange={() => setEditarActive(false)} />
-                    <label htmlFor="active-no">No</label>
-                </div>
-            </form>
-            <button type="button" className="btn btn-success me-5 mt-5" onClick={updateSitter}>Save changes</button>
-            <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/sitters")}>go back</button>
-        </div>
-    )
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Edit Sitter</h2>
+
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/sitters")}
+      >
+        ← Back
+      </button>
+    </div>
+
+    <div className="card shadow-sm">
+      <div className="card-body">
+
+        <form>
+
+          <div className="mb-3">
+            <label className="form-label">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarName}
+              onChange={createName}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Last Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarLastName}
+              onChange={createLastName}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              value={editarEmail}
+              onChange={createEmail}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={editarPassword}
+              onChange={createPassword}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Phone</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarPhone}
+              onChange={createPhone}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Address</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarAddress}
+              onChange={createAddress}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label d-block">Studies</label>
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarStudies === true}
+                onChange={() => setEditarStudies(true)}
+              />
+              <label className="form-check-label">Yes</label>
+            </div>
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarStudies === false}
+                onChange={() => setEditarStudies(false)}
+              />
+              <label className="form-check-label">No</label>
+            </div>
+          </div>
+          {editarStudies && (
+            <div className="mb-3">
+              <label className="form-label">Studies Comment</label>
+              <input
+                type="text"
+                className="form-control"
+                value={editarStudiesComment}
+                onChange={createStudiesComment}
+              />
+            </div>
+          )}
+
+        
+          <div className="mb-4">
+            <label className="form-label d-block">Active</label>
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarActive === true}
+                onChange={() => setEditarActive(true)}
+              />
+              <label className="form-check-label">Yes</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarActive === false}
+                onChange={() => setEditarActive(false)}
+              />
+              <label className="form-check-label">No</label>
+            </div>
+          </div>
+          <div className="d-flex gap-3">
+            <button
+              type="button"
+              className="btn btn-dark w-100"
+              onClick={updateSitter}
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-dark w-100"
+              onClick={() => navigate("/sitters")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+)
 }
 
 export default EditSitter

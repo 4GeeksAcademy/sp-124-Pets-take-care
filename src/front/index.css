@@ -285,3 +285,56 @@ color: #C97B63;
 .nav-icon:hover {
   color: #B96C55;
 }
+
+.nav-btn-primary {
+  background-color: #C97B63;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.nav-btn-primary:hover {
+  background-color: #B96C55;
+}
+
+.admin-layout {
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  width: 240px;
+  background-color: #2E2E2E;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-link {
+  background: transparent;
+  border: none;
+  color: #D0D0D0;
+  text-align: left;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.admin-link:hover {
+  color: white;
+}
+
+.admin-content {
+  background-color: #F4F4F4;
+}
+.admin-link{
+    font-size: 0.8rem;
+    color: #999;
+    text-decoration: none;
+}
+
+.admin-link:hover{
+    color: #666;
+    text-decoration: underline;
+}

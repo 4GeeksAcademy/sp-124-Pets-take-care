@@ -69,35 +69,78 @@ const NewAppointmentSitter = () => {
     }
 
     return (
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Assign Sitter to Appointment</h2>
 
-        <div className="d-flex flex-column align-items-center my-5">
-            <div className="w-50">
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/appointments/sitters")}
+      >
+        ← Back
+      </button>
+    </div>
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <div className="mb-4">
+          <label className="form-label">Select Appointment</label>
 
-                <p>Appointment Escogido: {appointmentEscogido}</p>
-                <select onChange={handleSelect1} className="form-select">
-                    <option selected value="Ninguno ha sido seleccionado">Elige un appointment</option>
+          <select
+            className="form-select"
+            value={appointmentEscogido}
+            onChange={handleSelect1}
+          >
+            <option value="">
+              Choose an appointment
+            </option>
+            {appointmentsList?.map((appointment) => (
+              <option key={appointment.id} value={appointment.id}>
+                {appointment.user_name} — {appointment.service_name} ({appointment.pet_name})
+              </option>
+            ))}
 
-                    {appointmentsList?.map((appointment, indice) => {
-                        return <option value={appointment.id} key={indice}>
-                            {appointment.user_name}, necesita {appointment.service_name} a {appointment.pet_name}</option>
-                    })}
-
-                </select>
-
-                <p>Sitter Escogido: {sitterEscogido}</p>
-                <select onChange={handleSelect2} className="form-select">
-                    <option selected value="Ninguno ha sido seleccionado">Elige un sitter</option>
-
-                    {sittersList?.map((sitter, indice) => {
-                        return <option value={sitter.id} key={indice}>{sitter.name}</option>
-                    })}
-
-                </select>
-
-                <button className="btn btn-primary mt-5" onClick={postAS}>Crear Appointment Sitter</button>
-            </div>
+          </select>
         </div>
-    )
+        <div className="mb-4">
+          <label className="form-label">Select Sitter</label>
+          <select
+            className="form-select"
+            value={sitterEscogido}
+            onChange={handleSelect2}
+          >
+            <option value="">
+              Choose a sitter
+            </option>
+            {sittersList?.map((sitter) => (
+              <option key={sitter.id} value={sitter.id}>
+                {sitter.name}
+              </option>
+            ))}
+
+          </select>
+        </div>
+        <div className="d-flex gap-3">
+          <button
+            type="button"
+            className="btn btn-dark w-100"
+            onClick={postAS}
+          >
+            Create Assignment
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-dark w-100"
+            onClick={() => navigate("/appointments/sitters")}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+);
 }
 
 export default NewAppointmentSitter
