@@ -1,43 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { BACKEND_URL } from "../../../main"
+import { BACKEND_URL } from "../../../main";
 
 const CreatePet = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
 
-  const [users, setUsers] = useState([])
+  const navigate = useNavigate();
+
+  const [users, setUsers] = useState([]);
 
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
   const [hasNie, setHasNie] = useState(false);
   const [nie, setNie] = useState("");
   const [sterilized, setSterilized] = useState(false);
-  const [userId, setUserId] = useState(null);
-
-  
-
-
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    
-    readDogBreeds()
-
     fetch(BACKEND_URL + "api/clients")
       .then(r => r.json())
       .then(data => {
-        setUsers(data)
+        setUsers(data);
         if (data.length > 0) {
-          setUserId(data[0].id)
+          setUserId(data[0].id);
         }
       })
       .catch(err => console.log(err));
   }, []);
 
-   
-
-  const newPet = async () => {
+  const newPet = async (e) => {
+    e.preventDefault();
 
     const response = await fetch(
       BACKEND_URL + "api/signup/pets",
@@ -45,118 +36,133 @@ const CreatePet = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: name,
-          species: species,
+          name,
+          species,
           has_nie: hasNie,
-          nie: nie,
-          sterilized: sterilized,
+          nie,
+          sterilized,
           user_id: userId
         }),
-      },
+      }
     );
 
     if (!response.ok) {
       throw new Error("Error creating pet");
     }
+
     navigate("/pets");
   };
 
   return (
-    <div className="container">
-      <h1>Post new Pet 🐾</h1>
-      <form>
-        <div>
-          <h5>owner</h5>
-          <select name="users" value={userId} onChange={(e) => 
-            setUserId(Number(e.target.value))
-          }>
-            {
-              users.map(el =>
-                <option
-                  key={el.id}
-                  value={el.id}>
-                  {el.name}
-                </option>
-              )
-            }
-          </select>
 
-        </div>
-        <div>
-          <h5>pet name</h5>
-          <input
-            type="text"
-            placeholder="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <h5>especies</h5>
-          <input type="text"
-            placeholder="species"
-            value={species}
-            onChange={(e) => setSpecies(e.target.value)}
-          />
-        </div>
-        <h5>has nie?</h5>
-        <div className="container">
-          <input
-            type="radio"
-            id="nie-yes"
-            name="has-nie"
-            checked={hasNie === true}
-            onChange={() => setHasNie(true)}
-          />
-          <label htmlFor="nie-yes">Yes</label>
-        </div>
-
-        <div className="container">
-          <input
-            type="radio"
-            id="nie-no"
-            name="has-nie"
-            checked={hasNie === false}
-            onChange={() => setHasNie(false)}
-          />
-          <label htmlFor="nie-no">No</label>
-        </div>
-
-        {hasNie && (
-          <input
-            placeholder="nie"
-            value={nie}
-            onChange={(e) => setNie(e.target.value)}
-          />
-        )}
-
-        <h5>Sterilized</h5>
-        <div className="container">
-          <input
-            type="radio"
-            id="sterilized-yes"
-            name="sterilized"
-            checked={sterilized === true}
-            onChange={() => setSterilized(true)}
-          />
-          <label htmlFor="sterilized-yes">Yes</label>
-        </div>
-
-        <div className="container">
-          <input
-            type="radio"
-            id="sterilized-no"
-            name="sterilized"
-            checked={sterilized === false}
-            onChange={() => setSterilized(false)}
-          />
-          <label htmlFor="sterilized-no">No</label>
-        </div>
-
-        <button type="button" className="btn btn-primary mt-4" onClick={newPet}>
-          New Pet
+    <div>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Create Pet</h2>
+        <button
+          type="button"
+          className="btn btn-outline-dark"
+          onClick={() => navigate("/pets")}
+        >
+          ← Back
         </button>
-      </form>
+      </div>
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <form onSubmit={newPet}>
+            <div className="mb-3">
+              <label className="form-label">Owner</label>
+              <select
+                className="form-select"
+                value={userId}
+                onChange={(e) => setUserId(Number(e.target.value))}
+              >
+                {users.map(el => (
+                  <option key={el.id} value={el.id}>
+                    {el.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Pet Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Species</label>
+              <input
+                type="text"
+                className="form-control"
+                value={species}
+                onChange={(e) => setSpecies(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label d-block">Has NIE?</label>
+              <div className="form-check form-check-inline">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  checked={hasNie === true}
+                  onChange={() => setHasNie(true)}
+                />
+                <label className="form-check-label">Yes</label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  checked={hasNie === false}
+                  onChange={() => setHasNie(false)}
+                />
+                <label className="form-check-label">No</label>
+              </div>
+            </div>
+            {hasNie && (
+              <div className="mb-3">
+                <label className="form-label">NIE</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={nie}
+                  onChange={(e) => setNie(e.target.value)}
+                />
+              </div>
+            )}
+            <div className="mb-4">
+              <label className="form-label d-block">Sterilized</label>
+              <div className="form-check form-check-inline">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  checked={sterilized === true}
+                  onChange={() => setSterilized(true)}
+                />
+                <label className="form-check-label">Yes</label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  checked={sterilized === false}
+                  onChange={() => setSterilized(false)}
+                />
+                <label className="form-check-label">No</label>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="btn btn-dark w-100"
+            >
+              Create Pet
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

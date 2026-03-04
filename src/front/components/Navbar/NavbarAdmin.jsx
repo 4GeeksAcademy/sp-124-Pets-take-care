@@ -16,32 +16,49 @@ const NavbarAdmin = () => {
 
     const handleLogout = () => {
 
-        localStorage.removeItem("clientToken");
+        localStorage.removeItem("adminToken");
 
         navigate("/")
 
     }
 
     return (
-                <>
-                    <Link to="/clients/home">
-                        <span>
-                            <FontAwesomeIcon className="ms-3" icon={faHome} size="2x" />
-                        </span>
-                    </Link>
-                    <button className="btn btn-primary" onClick={() => navigate("/pets/")}>Pets</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/sitters")}>Sitters</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/sitterpets")}>Go sitters&pets</button>
-                    <button className="btn btn-danger me-3" onClick={handleLogout}>Logout</button>
-                    <Link to="/sitterskills" className="btn btn-primary me-3">SitterSkill's List</Link>
-							<Link to="/clients" className="btn btn-primary me-3">Client's List</Link>
-							<Link to="/skills" className="btn btn-primary me-3">Skill's List</Link>
-							<Link to="/services" className="btn btn-primary me-3">Services's List</Link>
-							<Link to="/appointments/sitters" className="btn btn-primary me-3">Appointment Sitter's List</Link>
 
+  <nav className="d-flex justify-content-between align-items-center px-4 py-3">
 
-                </>   
-    )
+    <div className="d-flex align-items-center gap-3">
+
+      <button
+        className="btn btn-sm btn-outline-dark"
+        onClick={() => navigate("/admin/home")}
+      >
+        <FontAwesomeIcon icon={faHome} />
+      </button>
+
+      <span className="fw-semibold">
+        Admin Panel
+      </span>
+
+    </div>
+
+    <div className="d-flex align-items-center gap-3">
+
+      <span className="text-muted small">
+        Administrator
+      </span>
+
+      <button
+        className="btn btn-sm btn-outline-dark"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </nav>
+
+);
 }
 
 export default NavbarAdmin

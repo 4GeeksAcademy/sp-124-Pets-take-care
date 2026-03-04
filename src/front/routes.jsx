@@ -89,42 +89,6 @@ export const router = createBrowserRouter(
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Home />} />
 
-      <Route path="/sitters" element={<Sitters />} />
-      <Route path="/sitters/:id" element={<InfoSitter />} />
-      <Route path="/sitters/create" element={<CreateSitter />} />
-      <Route path="/sitters/edit/:id" element={<EditSitter />} />
-      <Route path="/sitters/:id" element={<InfoSitter />} />
-
-      <Route path="/newclients" element={<NewClient />} />
-      <Route path="/clients" element={<ClientList />} />
-      <Route path="/viewclients/:id" element={<ViewClient />} />
-      <Route path="/editclients/:id" element={<EditClient />} />
-
-      <Route path="/newskills" element={<NewSkill />} />
-      <Route path="/skills" element={<SkillsList />} />
-      <Route path="/viewskills/:id" element={<ViewSkills />} />
-      <Route path="/editskills/:id" element={<EditSkill />} />
-
-      <Route path="/single/:theId" element={<Single />} />
-      <Route path="/demo" element={<Demo />} />
-
-      <Route path="/pets" element={<Pets />} />
-      <Route path="/pets/:id" element={<InfoPet />} />
-      <Route path="/pets/create" element={<CreatePet />} />
-      <Route path="/pets/edit/:id" element={<EditPet />} />
-
-      <Route path="/newservices" element={<NewService />} />
-      <Route path="/services" element={<ServiceList />} />
-      <Route path="/viewservices/:id" element={<ViewService />} />
-      <Route path="/editservices/:id" element={<EditService />} />
-
-      <Route path="/sitterpets" element={<SitterPets />} />
-      <Route path="/sitters/:id/add-pet" element={<AddSitterPets />} />
-      {/* ==================================LOGIN SITTER=================================== */}
-
-
-      <Route path="/newsitter/:id/newskills" element={<NewSitterSkills />} />
-      <Route path="/sitterskills" element={<SitterSkillsList />} />
 
       {/* ==================================SITTER LOGGED=================================== */}
 
@@ -147,6 +111,40 @@ export const router = createBrowserRouter(
         <Route path="/appointments/sitters/:id" element={<ViewAppointmentSitter />} />
         <Route path="/appointments/sitters/new" element={<NewAppointmentSitter />} />
         <Route path="/appointments/sitters/edit/:id" element={<EditAppointmentSitter />} />
+        <Route path="/sitters" element={<Sitters />} />
+        <Route path="/sitters/:id" element={<InfoSitter />} />
+        <Route path="/sitters/create" element={<CreateSitter />} />
+        <Route path="/sitters/edit/:id" element={<EditSitter />} />
+        <Route path="/sitters/:id" element={<InfoSitter />} />
+
+        <Route path="/newclients" element={<NewClient />} />
+        <Route path="/clients" element={<ClientList />} />
+        <Route path="/viewclients/:id" element={<ViewClient />} />
+        <Route path="/editclients/:id" element={<EditClient />} />
+
+        <Route path="/newskills" element={<NewSkill />} />
+        <Route path="/skills" element={<SkillsList />} />
+        <Route path="/viewskills/:id" element={<ViewSkills />} />
+        <Route path="/editskills/:id" element={<EditSkill />} />
+
+        <Route path="/single/:theId" element={<Single />} />
+        <Route path="/demo" element={<Demo />} />
+
+        <Route path="/pets" element={<Pets />} />
+        <Route path="/pets/:id" element={<InfoPet />} />
+        <Route path="/pets/create" element={<CreatePet />} />
+        <Route path="/pets/edit/:id" element={<EditPet />} />
+
+        <Route path="/newservices" element={<NewService />} />
+        <Route path="/services" element={<ServiceList />} />
+        <Route path="/viewservices/:id" element={<ViewService />} />
+        <Route path="/editservices/:id" element={<EditService />} />
+
+        <Route path="/sitterpets" element={<SitterPets />} />
+        <Route path="/sitters/:id/add-pet" element={<AddSitterPets />} />
+      
+        <Route path="/newsitter/:id/newskills" element={<NewSitterSkills />} />
+        <Route path="/sitterskills" element={<SitterSkillsList />} />
       </Route>
 
       <Route path="/clients/pets" element={<ClientsPets />} />
@@ -158,8 +156,8 @@ export const router = createBrowserRouter(
       <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
       <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
       <Route path="/clients/appointments/:appointmentId/sitters/:sitterId" element={<ClientsSitterProfile />} />
-      
-      
+
+
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/sitters/login" element={<SitterLogin />} />
       <Route path="/sitters/newaccount" element={<NewSitterAccount />} />

@@ -119,97 +119,212 @@ const EditPet = () => {
 
 
         return (
-            <div className="container">
-                <h1>Edit Pet</h1>
-                <form>
-                    <div className="container">
-                        <input type="text" placeholder="name" onChange={createName} value={editarName} />
-                    </div>
-                    <div className="container">
-                        <h5>Species</h5>
-                        <select name="species" className="form-control" onChange={e => createSpecies(e.target.value)}>
-                            <option value="Dog">Dog</option>
-                            <option value="Cat" selected>Cat</option>
-                            <option value="Exotic">Exotic</option>
-                            <option value="Bird">Bird</option>
-                        </select>
-                    </div>
-                    <div className="container">
-                        <h5>Breed</h5>
-                        <input type="text" placeholder="Breed" onChange={createBreed} value={editarBreed} />
-                    </div>
-                    <h5>Gender</h5>
-                    <div className="container">
-                        <input type="radio" id="masc" name="gender" checked={editarGender === "male"}
-                            onChange={() => setEditarGender("male")} />
-                        <label htmlFor="masc">boy</label>
-                    </div>
+  <div>
 
-                    <div className="container">
-                        <input type="radio" id="fem" name="gender" checked={editarGender === "female"}
-                            onChange={() => setEditarGender("female")} />
-                        <label htmlFor="fem">girl</label>
-                    </div>
-                    <div className="container">
-                        <input type="text" placeholder="Color" onChange={createColor} value={editarColor} />
-                    </div>
-                    <h5>Has Nie?</h5>
-                    <div className="container">
-                        <input type="radio" id="nie-yes" name="has_nie" checked={editarHasNie === true}
-                            onChange={() => setEditarHasNie(true)} />
-                        <label htmlFor="nie-yes">yes</label>
-                    </div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Edit Pet</h2>
 
-                    <div className="container">
-                        <input type="radio" id="nie-no" name="has_nie" checked={editarHasNie === false}
-                            onChange={() => setEditarHasNie(false)} />
-                        <label htmlFor="nie-no">no</label>
-                    </div>
-                    {editarHasNie && (
-                        <div className="container">
-                            <input
-                                placeholder="Nie"
-                                value={editarNie}
-                                onChange={createNie}
-                            />
-                        </div>
-                    )}
-                    <h5>Birth Date</h5>
-                    <div className="container">
-                        <input type="date" placeholder="BirthDate" onChange={createBirthDate} value={editarBirthDate} />
-                    </div>
-                    <div className="container">
-                        <input type="text" placeholder="type of food" onChange={createTypeFood} value={editarTypeFood} />
-                    </div>
-                    <h5>Special Care</h5>
-                    <div className="container">
-                        <input type="radio" id="special-care-yes" name="special-care" checked={editarSpecialCare === true}
-                            onChange={() => setEditarSpecialCare(true)} />
-                        <label htmlFor="special-care-yes">Yes</label>
-                    </div>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/pets")}
+      >
+        ← Back
+      </button>
+    </div>
 
-                    <div className="container">
-                        <input type="radio" id="special-care-no" name="special-care" checked={editarSpecialCare === false}
-                            onChange={() => setEditarSpecialCare(false)} />
-                        <label htmlFor="special-care-no">No</label>
-                    </div>
-                    <h5>Sterilized</h5>
-                    <div className="container">
-                        <input type="radio" id="sterilized-yes" name="sterilized" checked={editarSterilized === true}
-                            onChange={() => setEditarSterilized(true)} />
-                        <label htmlFor="sterilized-yes">Yes</label>
-                    </div>
+    <div className="card shadow-sm">
+      <div className="card-body">
 
-                    <div className="container">
-                        <input type="radio" id="sterilized-no" name="sterilized" checked={editarSterilized === false}
-                            onChange={() => setEditarSterilized(false)} />
-                        <label htmlFor="sterilized-no">No</label>
-                    </div>
-                </form>
-                <button type="button" className="btn btn-success me-5 mt-5" onClick={updatePet}>Save changes</button>
-                <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/sitters/login")}>go back</button>
+        <form>
+          <div className="mb-3">
+            <label className="form-label">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarName}
+              onChange={createName}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Species</label>
+            <select
+              className="form-select"
+              value={editarSpecies}
+              onChange={(e) => createSpecies(e.target.value)}
+            >
+              <option value="Dog">Dog</option>
+              <option value="Cat">Cat</option>
+              <option value="Exotic">Exotic</option>
+              <option value="Bird">Bird</option>
+            </select>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Breed</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarBreed}
+              onChange={createBreed}
+            />
+          </div>
+
+         
+          <div className="mb-3">
+            <label className="form-label d-block">Gender</label>
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarGender === "male"}
+                onChange={() => setEditarGender("male")}
+              />
+              <label className="form-check-label">Male</label>
             </div>
-        )
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarGender === "female"}
+                onChange={() => setEditarGender("female")}
+              />
+              <label className="form-check-label">Female</label>
+            </div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Color</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarColor}
+              onChange={createColor}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label d-block">Has NIE?</label>
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarHasNie === true}
+                onChange={() => setEditarHasNie(true)}
+              />
+              <label className="form-check-label">Yes</label>
+            </div>
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarHasNie === false}
+                onChange={() => setEditarHasNie(false)}
+              />
+              <label className="form-check-label">No</label>
+            </div>
+          </div>
+
+          {editarHasNie && (
+            <div className="mb-3">
+              <label className="form-label">NIE</label>
+              <input
+                type="text"
+                className="form-control"
+                value={editarNie}
+                onChange={createNie}
+              />
+            </div>
+          )}
+
+          <div className="mb-3">
+            <label className="form-label">Birth Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={editarBirthDate}
+              onChange={createBirthDate}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Type of Food</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarTypeFood}
+              onChange={createTypeFood}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label d-block">Special Care</label>
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarSpecialCare === true}
+                onChange={() => setEditarSpecialCare(true)}
+              />
+              <label className="form-check-label">Yes</label>
+            </div>
+
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarSpecialCare === false}
+                onChange={() => setEditarSpecialCare(false)}
+              />
+              <label className="form-check-label">No</label>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="form-label d-block">Sterilized</label>
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarSterilized === true}
+                onChange={() => setEditarSterilized(true)}
+              />
+              <label className="form-check-label">Yes</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                type="radio"
+                className="form-check-input"
+                checked={editarSterilized === false}
+                onChange={() => setEditarSterilized(false)}
+              />
+              <label className="form-check-label">No</label>
+            </div>
+          </div>
+          <div className="d-flex gap-3">
+            <button
+              type="button"
+              className="btn btn-dark w-100"
+              onClick={updatePet}
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-dark w-100"
+              onClick={() => navigate("/pets")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+);
     }
 
     export default EditPet

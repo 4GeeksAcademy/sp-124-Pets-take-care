@@ -111,74 +111,120 @@ const PostAppointment = () => {
 
 
   return (
-    <div className="container">
-      <h1>New Appointment</h1>
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Create Appointment</h2>
 
-      <form>
-        <div className="container mb-3">
-          <div className="container mb-3">
-            <select name="user" onChange={e => setUser(Number(e.target.value))}>
-              {
-                users.map(el =>
-                  <option
-                    key={el.id}
-                    value={el.id}>
-                    {el.name}
-
-                  </option>
-                )
-              }
-            </select>
-          </div>
-          <div className="container mb-3">
-            <select name="service" onChange={e => setService(Number(e.target.value))}>
-              {
-                services.map(el =>
-                  <option
-                    key={el.id}
-                    value={el.id}>
-                    {el.service_name}
-
-                  </option>
-                )
-              }
-            </select>
-          </div>
-          <div className="container mb-3">
-            <select name="service" onChange={e => setStatus(e.target.value)}>
-              <option value="Applied" selected>Applied</option>
-              <option value="selected">Selected</option>
-              <option value="rejected">Rejected</option>
-              <option value="rejected">Withdrawn</option>
-            </select>
-          </div>
-          <div className="container mb-3">
-            <input type="date" placeholder="date" value={appointmentDate} onChange={e => setAppointmentDate(e.target.value)} />
-          </div>
-          <div className="container mb-3">
-            <input type="time" placeholder="time" value={appointmentTime} onChange={e => setAppointmentTime(e.target.value)} />
-          </div>
-          <div className="container mb-3">
-            <select name="pet" onChange={e => setPet(Number(e.target.value))}>
-              {
-                pets.map(el =>
-                  <option
-                    key={el.id}
-                    value={el.id}
-                  >{el.name}
-
-                  </option>
-                )
-              }
-            </select>
-          </div>
-          <button className="btn btn-success" onClick={newAppointment}>New Appointment</button>
-          <button className="btn btn-primary ms-3" onClick={() => navigate("/appointments")}>Back</button>
-        </div>
-      </form>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/appointments")}
+      >
+        ← Back
+      </button>
     </div>
 
-  );
+    <div className="card shadow-sm">
+      <div className="card-body">
+
+        <form>
+          <div className="mb-3">
+            <label className="form-label">Client</label>
+            <select
+              className="form-select"
+              onChange={e => setUser(Number(e.target.value))}
+            >
+              {users.map(el => (
+                <option key={el.id} value={el.id}>
+                  {el.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Service</label>
+            <select
+              className="form-select"
+              onChange={e => setService(Number(e.target.value))}
+            >
+              {services.map(el => (
+                <option key={el.id} value={el.id}>
+                  {el.service_name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Status</label>
+            <select
+              className="form-select"
+              value={status}
+              onChange={e => setStatus(e.target.value)}
+            >
+              <option value="applied">Applied</option>
+              <option value="selected">Selected</option>
+              <option value="rejected">Rejected</option>
+              <option value="withdrawn">Withdrawn</option>
+            </select>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={appointmentDate}
+              onChange={e => setAppointmentDate(e.target.value)}
+            />
+          </div>
+
+      
+          <div className="mb-3">
+            <label className="form-label">Time</label>
+            <input
+              type="time"
+              className="form-control"
+              value={appointmentTime}
+              onChange={e => setAppointmentTime(e.target.value)}
+            />
+          </div>
+
+        
+          <div className="mb-4">
+            <label className="form-label">Pet</label>
+            <select
+              className="form-select"
+              onChange={e => setPet(Number(e.target.value))}
+            >
+              {pets.map(el => (
+                <option key={el.id} value={el.id}>
+                  {el.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="d-flex gap-3">
+            <button
+              type="button"
+              className="btn btn-dark w-100"
+              onClick={newAppointment}
+            >
+              Create Appointment
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-dark w-100"
+              onClick={() => navigate("/appointments")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+);
 };
 
 export default PostAppointment;

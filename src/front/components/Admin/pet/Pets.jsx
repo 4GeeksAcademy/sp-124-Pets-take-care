@@ -56,28 +56,64 @@ const Pets = () => {
 
 
     return (
-        <div className="container">
-            <h1>Get Pets</h1>
-            {pets.map(el => (
-                <div
-                    key={el.id}
-                    className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center">
-                    <span>{el.name} <strong>{el.species}</strong>🐾</span>
-                    <div>
-                        <button className="btn btn-primary" onClick={() => navigate(`/pets/${el.id}`)}>info
-                        </button>
-                        <button className="btn btn-warning ms-2" onClick={() => navigate(`/pets/edit/${el.id}`)}>Edit
-                        </button>
-                        <button className="btn btn-danger ms-2" onClick={() => deletePet(el.id)}>Delete
-                        </button>
-                    </div>
-                </div>
-            ))}
-            <div className="container">
-                <button className="btn btn-primary mt-5" onClick={() => navigate("/pets/create")}>Go Create Pet</button>
-            </div>
-        </div>
+  <div>
 
-    )
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Manage Pets</h2>
+      <button
+        className="btn btn-dark"
+        onClick={() => navigate("/pets/create")}
+      >
+        + New Pet
+      </button>
+    </div>
+    {pets.length === 0 ? (
+      <div className="text-muted">
+        No pets found.
+      </div>
+
+    ) : (
+      <div className="table-responsive">
+        <table className="table table-hover align-middle">
+          <thead className="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Species</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pets.map(el => (
+              <tr key={el.id}>
+                <td>{el.name}</td>
+                <td>{el.species}</td>
+                <td className="text-end">
+                  <button
+                    className="btn btn-sm btn-outline-secondary me-2"
+                    onClick={() => navigate(`/pets/${el.id}`)}
+                  >
+                    Info
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-primary me-2"
+                    onClick={() => navigate(`/pets/edit/${el.id}`)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => deletePet(el.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+)
 }
 export default Pets

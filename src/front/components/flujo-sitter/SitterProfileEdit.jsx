@@ -76,48 +76,106 @@ const SitterProfileEdit = () => {
 
     }
     return (
-        <div className="container w-50">
-            <form onSubmit={handleSubmit}>
-                <label className="display-5 mb-3">Profile</label>
-                <div className="mb-3">
-                    <label className="form-label">Name</label>
-                    <input value={name} type="text" className="form-control" onChange={(e) => setName(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Last Name</label>
-                    <input value={lastName} type="text" className="form-control" onChange={(e) => setLastName(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input value={email} type="text" className="form-control" onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Phone</label>
-                    <input value={phone} type="text" className="form-control" onChange={(e) => setPhone(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Address</label>
-                    <input value={address} type="text" className="form-control" onChange={(e) => setAddress(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input value={password} type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <div class="mb-3 form-check">
-                    <input checked={studies} type="checkbox" class="form-check-input" id="exampleCheck1" onChange={(e) => setStudies(e.target.checked)}/>
-                    <label className="form-check-label" for="exampleCheck1">Studies</label>
-                </div>
-                <div class="form-floating">
-                    <textarea value={studiesComment} className="form-control" disabled={!studies} placeholder="Leave a comment here" id="floatingTextarea" onChange={(e) => setStudiesComment(e.target.value)}></textarea>
-                    <label for="floatingTextarea">Comments</label>
-                </div>
-                <div className="mt-4">
-                    <button type="submit" className="btn btn-primary">Edit</button>
-                    <button type="button" className="btn btn-primary me-3" onClick={() => navigate("/sitter/profile")}>Back</button>
-                </div>
-            </form>
+  <div className="container my-5">
+    <div className="appointments-section p-4 p-md-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-6">
+          <h2 className="text-center mb-4">Edit Profile</h2>
+          <form onSubmit={handleSubmit} className="appointment-form">
+            <div className="mb-3">
+              <label className="form-label">Name</label>
+              <input
+                value={name}
+                type="text"
+                className="form-control"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Last Name</label>
+              <input
+                value={lastName}
+                type="text"
+                className="form-control"
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                value={email}
+                type="email"
+                className="form-control"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Phone</label>
+              <input
+                value={phone}
+                type="text"
+                className="form-control"
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Address</label>
+              <input
+                value={address}
+                type="text"
+                className="form-control"
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+              <input
+                value={password}
+                type="password"
+                className="form-control"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="mb-3 form-check">
+              <input
+                checked={studies}
+                type="checkbox"
+                className="form-check-input"
+                id="studiesCheck"
+                onChange={(e) => setStudies(e.target.checked)}
+              />
+              <label className="form-check-label" htmlFor="studiesCheck">
+                Has Studies
+              </label>
+            </div>
+            <div className="mb-4">
+              <label className="form-label">Studies Comments</label>
+              <textarea
+                value={studiesComment}
+                className="form-control"
+                disabled={!studies}
+                rows="3"
+                onChange={(e) => setStudiesComment(e.target.value)}
+              />
+            </div>
+            <div className="d-flex gap-3">
+              <button type="submit" className="btn btn-warm w-100">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-warm w-100"
+                onClick={() => navigate("/sitter/profile")}
+              >
+                Back
+              </button>
+            </div>
+          </form>
         </div>
-    )
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default SitterProfileEdit

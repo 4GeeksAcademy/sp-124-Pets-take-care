@@ -61,21 +61,60 @@ const InfoAppointment = () => {
         
     return (
 
-        <div className="container">
-            <h1>appointment detail</h1>
+  <div>
 
-            <p><strong>appointment id:</strong> {appointment.id}</p>
-            <p><strong>Client name:</strong> {appointment.user_name}</p>
-            <p><strong>Pet name:</strong> {appointment.pet_name}</p>
-            <p><strong>Species:</strong> {pets.species}</p>
-            <p><strong>Date:</strong> {appointment.appointment_date}</p>
-            <p><strong>Time:</strong> {appointment.appointment_time}</p>
-            <p><strong>Service:</strong> {appointment.service_name}</p>
-            
-            <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/appointments")}>go back</button>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Appointment Detail</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/appointments")}
+      >
+        ← Back
+      </button>
+    </div>
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>ID</strong>
+            <div>{appointment.id}</div>
+          </div>
+          <div className="col-md-6">
+            <strong>Client</strong>
+            <div>{appointment.user_name}</div>
+          </div>
         </div>
-        
-    );
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Pet</strong>
+            <div>{appointment.pet_name}</div>
+          </div>
+          <div className="col-md-6">
+            <strong>Species</strong>
+            <div>{appointment.species}</div>
+          </div>
+        </div>
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Date</strong>
+            <div>{appointment.appointment_date}</div>
+          </div>
+          <div className="col-md-6">
+            <strong>Time</strong>
+            <div>{appointment.appointment_time}</div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <strong>Service</strong>
+            <div>{appointment.service_name}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default InfoAppointment

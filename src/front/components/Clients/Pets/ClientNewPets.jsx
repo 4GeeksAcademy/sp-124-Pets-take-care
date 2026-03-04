@@ -51,96 +51,102 @@ const ClientNewPets = () => {
     };
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-12">
-                    <form onSubmit={newPetById}>
-                        <div className="my-3">
-                            <label htmlFor="exampleFormControlInput1" className="form-label">Pet Name</label>
-                            <input type="text"
-                                className="form-control"
-                                id="exampleFormControlInput1"
-                                placeholder="Pupy the cheesse master"
-                                onChange={(e) => setName(e.target.value)} />
-                        </div>
-                        <div className="col-12 mb-3">
-                        <label htmlFor="exampleFormControlInput2" className="form-label">
-                            Pet species
-                        </label>
-                        <select placeholder="species" value={species} className="form-control" 
-                        onChange={(e) => setSpecies(e.target.value)} >
-                            <option value="">Select species</option>
-                           <option value="Dog">Dog</option> 
-                           <option value="Cat">Cat</option>
-                           <option value="Exotic">Exotic</option>
-                           <option value="Bird">Bird</option>
-                          </select>  
-                    </div>
-                        <label className="form-check-label mb-2">Has nie?</label>
-                        <div className="form-check">
-                            <input className="form-check-input"
-                                type="radio"
-                                name="radioHasNie"
-                                id="radioDefault1"
-                                checked={hasNie === true}
-                                onChange={() => setHasNie(true)} />
-                            <label className="form-check-label" htmlFor="radioDefault1">
-                                Yes
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input"
-                                type="radio"
-                                name="radioHasNie"
-                                id="radioDefault2"
-                                checked={hasNie === false}
-                                onChange={() => setHasNie(false)}
-                            />
-                            <label className="form-check-label" htmlFor="radioDefault2">
-                                No
-                            </label>
-                        </div>
-                        {hasNie && (
-                            <div className="my-3">
-                                <label htmlFor="exampleFormControlInput3"
-                                    className="form-label">Pet Nie</label>
-                                <input type="text"
-                                    className="form-control"
-                                    id="exampleFormControlInput3"
-                                    placeholder="XXXXXXXXXX-X"
-                                    onChange={(e) => setNie(e.target.value)} />
-                            </div>
+  <div className="container my-5">
 
-                        )}
-                        <label className="form-check-label mb-2">Sterilized</label>
-                        <div className="form-check">
-                            <input className="form-check-input"
-                                type="radio"
-                                name="radioSterilized"
-                                id="radioDefault3"
-                                checked={sterilized === true}
-                                onChange={() => setSterilized(true)} />
-                            <label className="form-check-label" htmlFor="radioDefault3">
-                                Yes
-                            </label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input"
-                                type="radio"
-                                name="radioSterilized"
-                                id="radioDefault4"
-                                checked={sterilized === false}
-                                onChange={() => setSterilized(false)} />
-                            <label className="form-check-label" htmlFor="radioDefault4">
-                                No
-                            </label>
-                        </div>
-                        <button type="submit" className="btn btn-primary mt-4">Add new pet</button>
-                    </form>
-                </div>
+    <div className="appointments-section p-4 p-md-5">
+
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8 col-lg-6">
+
+          <h1 className="mb-4 text-center">Add New Pet</h1>
+
+          <form onSubmit={newPetById} className="appointment-form">
+            <div className="mb-3">
+              <label className="form-label">Pet Name</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Pupy the cheese master"
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
+            <div className="mb-3">
+              <label className="form-label">Pet Species</label>
+              <select
+                value={species}
+                className="form-select"
+                onChange={(e) => setSpecies(e.target.value)}
+              >
+                <option value="">Select species</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+                <option value="Exotic">Exotic</option>
+              </select>
+            </div>
+            <div className="mb-3">
+              <label className="form-label d-block">Has NIE?</label>
+
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  checked={hasNie === true}
+                  onChange={() => setHasNie(true)}
+                />
+                <label className="form-check-label">Yes</label>
+              </div>
+
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  checked={hasNie === false}
+                  onChange={() => setHasNie(false)}
+                />
+                <label className="form-check-label">No</label>
+              </div>
+            </div>
+            {hasNie && (
+              <div className="mb-3">
+                <label className="form-label">Pet NIE</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="XXXXXXXXXX-X"
+                  onChange={(e) => setNie(e.target.value)}
+                />
+              </div>
+            )}
+            <div className="mb-4">
+              <label className="form-label d-block">Sterilized</label>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  checked={sterilized === true}
+                  onChange={() => setSterilized(true)}
+                />
+                <label className="form-check-label">Yes</label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  checked={sterilized === false}
+                  onChange={() => setSterilized(false)}
+                />
+                <label className="form-check-label">No</label>
+              </div>
+            </div>
+            <button type="submit" className="btn btn-warm w-100">
+              Add New Pet
+            </button>
+          </form>
         </div>
-    )
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default ClientNewPets

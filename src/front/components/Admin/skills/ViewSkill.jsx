@@ -36,14 +36,27 @@ const ViewSkills = () => {
     }
 
     return (
-
-        <div className="container">
-            <h1>Skill detail</h1>
-
-            <p><strong>Skill:</strong> {skill.skill}</p>
-            <button className="btn btn-primary" onClick={()=>navigate(-1)} >Go Back</button>
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Skill Details</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate(-1)}
+      >
+        ← Back
+      </button>
+    </div>
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <div>
+          <strong>Skill Name</strong>
+          <div>{skill.skill}</div>
         </div>
-    );
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default ViewSkills

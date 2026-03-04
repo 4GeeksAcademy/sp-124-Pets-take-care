@@ -52,27 +52,59 @@ const EditService = () => {
     };
 
     return (
-        <div className="container">
-            <h2>Edit Service</h2>
-            <form onSubmit={editService}>
-                <div className="mb-3">
-                    <label className="form-label">Service Name</label>
-                    <input type="text" className="form-control" value={editarServiceName} onChange={e => setEditarServiceName(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Duration</label>
-                    <input type="text" className="form-control" value={editarDurationMinutes} onChange={e => setEditarDurationMinutes(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Cost</label>
-                    <input type="text" className="form-control" value={editarCost} onChange={e => setEditarCost(e.target.value)} />
-                </div>
-                
-                <button type="submit" className="btn btn-primary">Edit Service</button>
-                <Link className="btn btn-primary ms-2" to="/services">Back</Link>
-            </form>
-        </div>
-    )
+
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Edit Service</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/services")}
+      >
+        ← Back
+      </button>
+    </div>
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <form onSubmit={editService}>
+          <div className="mb-3">
+            <label className="form-label">Service Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={editarServiceName}
+              onChange={e => setEditarServiceName(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Duration (minutes)</label>
+            <input
+              type="number"
+              className="form-control"
+              value={editarDurationMinutes}
+              onChange={e => setEditarDurationMinutes(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="form-label">Cost</label>
+            <input
+              type="number"
+              className="form-control"
+              value={editarCost}
+              onChange={e => setEditarCost(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="btn btn-dark w-100"
+          >
+            Save Changes
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+)
 }
 
 export default EditService

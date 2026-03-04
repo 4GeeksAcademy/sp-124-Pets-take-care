@@ -57,28 +57,63 @@ const Sitters = () => {
     
 
     return (
-        <div className="container">
-            <h1>Get Sitter</h1>
-            {sitters.map(el => (
-                <div
-                    key={el.id}
-                    className="container border p-2 bg-secondary-subtle d-flex justify-content-between align-items-center">
-                    <span>{el.name}</span>
-                    <div>
-                    <button className="btn btn-primary" onClick={() => navigate(`/sitters/${el.id}`)}>info
-                    </button>
-                    <button className="btn btn-warning ms-2" onClick={() => navigate(`/sitters/edit/${el.id}`)}>Edit
-                    </button>
-                    <button className="btn btn-danger ms-2"  onClick={() => deleteSitter(el.id)}>Delete
-                    </button>
-                    </div>
-                </div>
-            ))}
-            <div className="container">
-                <button className="btn btn-primary mt-5" onClick={() => navigate("/sitters/create")}>Go Create Sitter</button>
-            </div>
-        </div>
 
-    )
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Manage Sitters</h2>
+      <button
+        className="btn btn-dark"
+        onClick={() => navigate("/sitters/create")}
+      >
+        + Create Sitter
+      </button>
+    </div>
+    {sitters.length === 0 ? (
+      <div className="text-muted">
+        No sitters found.
+      </div>
+    ) : (
+      <div className="table-responsive">
+        <table className="table table-hover align-middle">
+          <thead className="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sitters.map(el => (
+              <tr key={el.id}>
+                <td>{el.name} {el.last_name}</td>
+                <td>{el.email}</td>
+                <td className="text-end">
+                  <button
+                    className="btn btn-sm btn-outline-secondary me-2"
+                    onClick={() => navigate(`/sitters/${el.id}`)}
+                  >
+                    Info
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-primary me-2"
+                    onClick={() => navigate(`/sitters/edit/${el.id}`)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => deleteSitter(el.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+    </table>
+      </div>
+    )}
+  </div>
+);
 }
 export default Sitters

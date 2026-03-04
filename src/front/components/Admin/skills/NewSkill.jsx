@@ -32,20 +32,42 @@ const NewSkill = () => {
 
 
     return (
-        <div className="container">
-            <h1>New Skill</h1>
 
-            <form>
-                <div className="container">
-                    <input placeholder="skill" value={skill} onChange={e => setSkill(e.target.value)} />
-                </div>
-
-                <button type="button" onClick={postSkill}>
-                    New Skill
-                </button>
-            </form>
-        </div>
-    );
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Create Skill</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/skills")}
+      >
+        ← Back
+      </button>
+</div>
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <form>
+          <div className="mb-4">
+            <label className="form-label">Skill Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={skill}
+              onChange={e => setSkill(e.target.value)}
+            />
+          </div>
+          <button
+            type="button"
+            className="btn btn-dark w-100"
+            onClick={postSkill}
+          >
+            Create Skill
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+);
 };
 
 export default NewSkill;

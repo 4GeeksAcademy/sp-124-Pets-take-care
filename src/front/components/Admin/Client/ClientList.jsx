@@ -47,39 +47,73 @@ const ClientList = () => {
     }
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="d-flex justify-content-end my-3">
-                    <Link to="/newclients" className="btn btn-primary">Create Client</Link>
-                </div>
-                {
-                    client?.map(el =>
-                        <div className="col-lg-12" key={el.id}>
-                            <div className="card flex-row d-flex justify-content-evenly">
-                                <div className="card col-lg-3 border-0 py-3">
-                                    <img className="rounded-circle w-50 ms-5" src="https://picsum.photos/200" alt="" />
-                                </div>
-                                <div className="card-body col-lg-6">
-                                    <h4 className="card-text">{el.name} {el.last_name}</h4>
-                                    <ul className="list-unlisted">
-                                        <li className="mb-2"><i className="fa-solid fa-envelope me-2"></i>{el.email}</li>
 
-                                        <li className="mb-2"><i className="fa-solid fa-phone me-2"></i>{el.phone || "unavailable"}</li>
-                                        <li className="mb-2"><i className="fa-solid fa-location-dot me-2"></i>{el.address || "unavailable"}</li>
-                                    </ul>
-                                </div>
-                                <div className="card-footer col-lg-3 border-top-0 bg-transparent">
-                                    <div className="d-flex justify-content-end flex-wrap gap-4">
-                                        <i onClick={() => navigate("/viewclients/" + el.id)} className="fa-solid fa-info fs-3"></i>
-                                        <i onClick={() => { deleteClients(el.id) }} className="fa-regular fa-trash-can fs-3"></i>
-                                        <i onClick={() => navigate("/editclients/" + el.id)} className="fa-regular fa-pen-to-square fs-3"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>)
-                }
-            </div>
-        </div>
-    )
+  <div>
+
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Manage Clients</h2>
+      <button
+        className="btn btn-dark"
+        onClick={() => navigate("/newclients")}
+      >
+        + Create Client
+      </button>
+    </div>
+    {client?.length === 0 ? (
+      <div className="text-muted">
+        No clients found.
+      </div>
+
+    ) : (
+      <div className="table-responsive">
+        <table className="table table-hover align-middle">
+          <thead className="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th className="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {client.map(el => (
+              <tr key={el.id}>
+                <td>{el.name} {el.last_name}</td>
+                <td>{el.email}</td>
+                <td>{el.phone || "Unavailable"}</td>
+                <td>{el.address || "Unavailable"}</td>
+                <td className="text-end">
+                  <button
+                    className="btn btn-sm btn-outline-secondary me-2"
+                    onClick={() => navigate("/viewclients/" + el.id)}
+                  >
+                    Info
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-primary me-2"
+                    onClick={() => navigate("/editclients/" + el.id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => deleteClients(el.id)}
+                  >
+                    Delete
+                  </button>
+
+                </td>
+
+              </tr>
+            ))}
+
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+)
 }
 export default ClientList

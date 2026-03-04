@@ -23,27 +23,39 @@ const NavbarClient = () => {
     }
 
     return (
-        <div className = "container">
-        <nav className="navbar navbar-light bg-light rounded-5">
-            {localStorage.getItem("clientToken") ?
-                <>
-                    <Link to="/clients/home">
-                        <span>
-                            <FontAwesomeIcon className="home-icon ms-3" icon={faHome} size="2x" />
-                        </span>
-                    </Link>
-                    <button className="btn btn-warm" onClick={() => navigate("/clients/appointments")}>My appointments</button>
-                    <button className="btn btn-warm" onClick={() => navigate("/clients/pets")}>My Pets</button>
-                    <button className="btn btn-logout me-3" onClick={handleLogoutClient}>Logout</button>
+        <nav className="main-navbar d-flex justify-content-between align-items-center rounded-5 px-4 py-2">
 
+  {localStorage.getItem("clientToken") ? (
+    <>
+      <div className="d-flex align-items-center gap-4">
+        <Link to="/clients/home" className="nav-icon">
+          <FontAwesomeIcon icon={faHome} />
+        </Link>
+        <button
+          className="nav-link-btn"
+          onClick={() => navigate("/clients/appointments")}
+        >
+          Appointments
+        </button>
+        <button
+          className="nav-link-btn"
+          onClick={() => navigate("/clients/pets")}
+        >
+          Pets
+        </button>
+      </div>
+      <button
+        className="btn btn-logout"
+        onClick={handleLogoutClient}
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <h6 className="mb-0">Please login</h6>
+  )}
 
-                </>
-                : <h1>logeate</h1>
-            }
-        </nav>
-        </div>
-
-    )
+</nav>)
 }
 
 export default NavbarClient

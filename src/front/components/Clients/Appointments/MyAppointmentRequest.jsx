@@ -61,57 +61,77 @@ export const MyAppointMentRequests = () => {
     }
 
     return (
-        <>
-            <div className="container mt-3">
-                <div className="row">
-                    {requests.map(request => (
-                        <div key={request.id} className="card me-3" style={{ width: "18rem" }}>
-                            <div className="card-body">
-                                <h5 className="card-title">
-                                    {request.sitter.name.toUpperCase()}{" "}
-                                    {request.sitter.last_name.toUpperCase()}
-                                </h5>
-
-                                <button
-                                    className="btn btn-warning me-2 mb-2"
-                                    onClick={() => navigate(`/clients/appointments/${id}/sitters/${request.sitter.id}`)}
-                                >
-                                    View Profile
-                                </button>
-
-                                <div className="alert alert-info">
-                                    {request.status.toUpperCase()}
-                                </div>
-
-                                <button
-                                    className="btn btn-primary me-2"
-                                    onClick={() => updateStatus(request.id, "select")}
-                                >
-                                    Accept
-                                </button>
-
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => updateStatus(request.id, "reject")}
-                                >
-                                    Deny
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="container">
-                    <button
-                        className="btn btn-primary mt-4"
-                        onClick={() => navigate("/clients/appointments")}
+  <div className="container my-5">
+    <div className="appointments-section p-4 p-md-5">
+      <h1 className="mb-4">Sitter Requests</h1>
+      {requests.length === 0 ? (
+        <div className="empty-state text-center py-5">
+          <p>No sitters have applied yet.</p>
+        </div>
+      ) : (
+        <div className="row">
+          {requests.map(request => (
+            <div key={request.id} className="col-12 col-md-6 col-lg-4 mb-4">
+              <div className="appointment-card p-4 h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <h5 className="mb-3">
+                    {request.sitter.name} {request.sitter.last_name}
+                  </h5>
+                  <div className="mb-3">
+                    <span className="section-label">Status</span>
+                    <span
+                      className={`status-badge ${
+                        request.status === "pending"
+                          ? "badge-pending"
+                          : request.status === "selected"
+                          ? "badge-confirmed"
+                          : "badge-cancelled"
+                      }`}
                     >
-                        Back
-                    </button>
+                      {request.status}
+                    </span>
+                  </div>
                 </div>
+                <div className="d-flex flex-column gap-2">
+                  <button
+                    className="btn btn-outline-warm btn-sm"
+                    onClick={() =>
+                      navigate(`/clients/appointments/${id}/sitters/${request.sitter.id}`)
+                    }
+                  >
+                    View Profile
+                  </button>
+                  <div className="d-flex gap-2">
+                    <button
+                      className="btn btn-warm btn-sm w-100"
+                      onClick={() => updateStatus(request.id, "select")}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="btn btn-danger-soft btn-sm w-100"
+                      onClick={() => updateStatus(request.id, "reject")}
+                    >
+                      Deny
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-        </>
-    );
+          ))}
+        </div>
+      )}
+      <div className="mt-4">
+        <button
+          className="btn btn-outline-warm"
+          onClick={() => navigate("/clients/appointments")}
+        >
+          Back
+        </button>
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default MyAppointMentRequests

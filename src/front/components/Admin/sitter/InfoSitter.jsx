@@ -40,35 +40,67 @@ const InfoSitter = () => {
         
     return (
 
-        <div className="container">
-            <h1>Sitter detail</h1>
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Sitter Details</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/sitters")}
+      >
+        ← Back
+      </button>
+    </div>
 
-            <p><strong>Name:</strong> {sitter.name}</p>
-            <p><strong>Last name:</strong> {sitter.last_name}</p>
-            <p><strong>Email:</strong> {sitter.email}</p>
-            <p><strong>Phone:</strong> {sitter.phone}</p>
-            <p><strong>Address:</strong> {sitter.address}</p>
+    <div className="card shadow-sm">
+      <div className="card-body">
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Name</strong>
+            <div>{sitter.name}</div>
+          </div>
 
-            <p>
-                <strong>Studies:</strong>{" "}
-                {sitter.studies ? "Yes" : "No"}
-            </p>
-
-            {sitter.studies && (
-                <p>
-                    <strong>Studies comment:</strong>{" "}
-                    {sitter.studies_comment}
-                </p>
-            )}
-
-            <p>
-                <strong>Active:</strong>{" "}
-                {sitter.is_active ? "Yes" : "No"}
-            </p>
-            <button type="button" className="btn btn-primary mt-5" onClick={() => navigate("/sitters")}>go back</button>
+          <div className="col-md-6">
+            <strong>Last Name</strong>
+            <div>{sitter.last_name}</div>
+          </div>
         </div>
-        
-    );
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <strong>Email</strong>
+            <div>{sitter.email}</div>
+          </div>
+          <div className="col-md-6">
+            <strong>Phone</strong>
+            <div>{sitter.phone}</div>
+          </div>
+        </div>
+        <div className="mb-3">
+          <strong>Address</strong>
+          <div>{sitter.address}</div>
+        </div>
+
+        <hr />
+        <div className="row mb-3">
+          <div className="col-md-4">
+            <strong>Studies</strong>
+            <div>{sitter.studies ? "Yes" : "No"}</div>
+          </div>
+          <div className="col-md-4">
+            <strong>Active</strong>
+            <div>{sitter.is_active ? "Yes" : "No"}</div>
+          </div>
+        </div>
+        {sitter.studies && (
+          <div className="mt-3">
+            <strong>Studies Comment</strong>
+            <div>{sitter.studies_comment}</div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+);
 }
 
 export default InfoSitter

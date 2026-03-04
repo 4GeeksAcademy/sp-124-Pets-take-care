@@ -133,66 +133,106 @@ const PutAppointment = () => {
         };
 
     return (
-      <div className="container">
-      <h1>Edit Appointment</h1>
+  <div>
 
-      <form onSubmit={updateAppointment}>
-        <div className="container mb-3">
-          <div className="container mb-3">
-          <select name="user" value={editarUser} onChange={e => setEditarUser(Number(e.target.value))}>
-            {
-              users.map(el =>  
-              <option 
-                     key={el.id}
-                     value={el.id}>
-                     {el.name}
-                
-                </option>
-              )
-            }
-            </select>
-            </div>
-            <div className="container mb-3">
-          <select name="service" value={editarService} onChange={e => setEditarService(Number(e.target.value))}>
-            {
-              services.map(el =>  
-              <option 
-                     key={el.id}
-                     value={el.id}>
-                     {el.service_name}
-                
-                </option>
-              )
-            }
-            </select>
-        </div>
-        <div className="container mb-3">
-          <input type="date" placeholder="date" value={editarDate} onChange={e => setEditarDate(e.target.value)} />
-        </div>
-        <div className="container mb-3">
-          <input type="time" placeholder="time" value={editarTime} onChange={e => setEditarTime(e.target.value)} />
-        </div>
-        <div className="container mb-3">
-          <select name="pet" value={editarPet} onChange={e => setEditarPet(Number(e.target.value))}>
-            {
-              pets.map(el =>  
-              <option 
-                      key={el.id}
-                      value={el.id}
-                      >{el.name}
-              
-              </option>
-              )
-            }
-            </select>
-        </div>
-        <button type="submit" className="btn btn-success" >save Appointment</button>
-        <button className="btn btn-primary ms-3" onClick={() => navigate("/appointments")}>Back</button>
-        </div>
-      </form>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Edit Appointment</h2>
+
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate("/appointments")}
+      >
+        ← Back
+      </button>
     </div>
-    
 
+    <div className="card shadow-sm">
+      <div className="card-body">
+
+        <form onSubmit={updateAppointment}>
+
+      
+          <div className="mb-3">
+            <label className="form-label">Client</label>
+            <select
+              className="form-select"
+              value={editarUser}
+              onChange={e => setEditarUser(Number(e.target.value))}
+            >
+              {users.map(el => (
+                <option key={el.id} value={el.id}>
+                  {el.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Service</label>
+            <select
+              className="form-select"
+              value={editarService}
+              onChange={e => setEditarService(Number(e.target.value))}
+            >
+              {services.map(el => (
+                <option key={el.id} value={el.id}>
+                  {el.service_name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Date</label>
+            <input
+              type="date"
+              className="form-control"
+              value={editarDate}
+              onChange={e => setEditarDate(e.target.value)}
+            />
+          </div>
+      
+          <div className="mb-3">
+            <label className="form-label">Time</label>
+            <input
+              type="time"
+              className="form-control"
+              value={editarTime}
+              onChange={e => setEditarTime(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="form-label">Pet</label>
+            <select
+              className="form-select"
+              value={editarPet}
+              onChange={e => setEditarPet(Number(e.target.value))}
+            >
+              {pets.map(el => (
+                <option key={el.id} value={el.id}>
+                  {el.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="d-flex gap-3">
+            <button
+              type="submit"
+              className="btn btn-dark w-100"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-dark w-100"
+              onClick={() => navigate("/appointments")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 );}
 
 

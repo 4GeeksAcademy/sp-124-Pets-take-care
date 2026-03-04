@@ -37,23 +37,54 @@ const NewSitterSkills = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Add skill to sitter</h2>
 
-      {skills.map(skill => (
-        <div key={skill.id} className="border p-2 mb-2">
-          <span>{skill.skill}🐾</span>
-
-          <button
-            className="btn btn-primary ms-2"
-            onClick={() => addSkillToSitter(skill.id)}
-          >
-            add
-          </button>
-        </div>
-      ))}
+  <div>
+    <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2>Add Skill to Sitter</h2>
+      <button
+        type="button"
+        className="btn btn-outline-dark"
+        onClick={() => navigate(-1)}
+      >
+        ← Back
+      </button>
     </div>
-  );
+    {skills.length === 0 ? (
+      <div className="text-muted">
+        No skills available.
+      </div>
+
+    ) : (
+      <div className="table-responsive">
+
+        <table className="table table-hover align-middle">
+          <thead className="table-light">
+            <tr>
+              <th>Skill</th>
+              <th className="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {skills.map(skill => (
+              <tr key={skill.id}>
+                <td>{skill.skill}</td>
+                <td className="text-end">
+                  <button
+                    className="btn btn-sm btn-dark"
+                    onClick={() => addSkillToSitter(skill.id)}
+                  >
+                    Add
+                  </button>
+                </td>
+              </tr>
+            ))}
+
+        </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+);
 };
 
 

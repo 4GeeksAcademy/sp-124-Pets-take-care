@@ -24,27 +24,58 @@ const NavbarSitter = () => {
 
     return (
 
-        <nav className="navbar navbar-light bg-light rounded-5">
-            {localStorage.getItem("sitterToken") ?
-                <>
+       <nav className="main-navbar d-flex justify-content-between align-items-center rounded-5 px-4 py-2">
 
-                    <Link to="/sitters/home">
-                        <span>
-                            <FontAwesomeIcon className="ms-3" icon={faHome} size="2x" />
-                        </span>
-                    </Link>
-                    <button className="btn btn-primary" onClick={()=>navigate("/appointments/list")}>Appointment's Request</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/appointments-sitters/own")}>Open Request</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/appointments-sitters/asigned")}>Asigned Appointments</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/appointments-sitter/background")}>Background</button>
-                    <button className="btn btn-primary" onClick={() => navigate("/sitter/profile")}>My profile</button>
-                    <button className="btn btn-danger me-3" onClick={handleLogoutClient}>Logout</button>
-                    
-                
-                </>
-                : <h1>logeate</h1>
-            }
-        </nav>
+  {localStorage.getItem("sitterToken") ? (
+    <>
+      
+      <div className="d-flex align-items-center gap-4">
+        <Link to="/sitters/home" className="nav-icon">
+          <FontAwesomeIcon icon={faHome} />
+        </Link>
+        <button
+          className="nav-link-btn"
+          onClick={() => navigate("/appointments/list")}
+        >
+          Requests
+        </button>
+        <button
+          className="nav-link-btn"
+          onClick={() => navigate("/appointments-sitters/own")}
+        >
+          Open
+        </button>
+        <button
+          className="nav-link-btn"
+          onClick={() => navigate("/appointments-sitters/asigned")}
+        >
+          Assigned
+        </button>
+        <button
+          className="nav-link-btn"
+          onClick={() => navigate("/appointments-sitter/background")}
+        >
+          Background
+        </button>
+        <button
+          className="nav-link-btn"
+          onClick={() => navigate("/sitter/profile")}
+        >
+          Profile
+        </button>
+      </div>
+      <button
+        className="btn btn-logout"
+        onClick={handleLogoutClient}
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <h6 className="mb-0">Please login</h6>
+  )}
+
+</nav>
 
     )
 }

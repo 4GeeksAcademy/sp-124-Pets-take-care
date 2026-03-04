@@ -44,30 +44,54 @@ const AdminLogin = () => {
     }
 
     
+return (
+  <div className="container my-5">
 
-    return (
-        <div className="container">
-            <form onSubmit={handleSubmit}>
-                <input type="text"
-                    className="form-control"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+    <div className="row justify-content-center">
+      <div className="col-12 col-md-4">
 
-                <input type="password"
-                    className="form-control"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+        <div className="appointment-form p-4">
 
-                <button type="submit"
-                    className="btn btn-success">
-                    Login
-                </button>
+          <h2 className="text-center mb-4">Admin Login</h2>
 
-            </form>
+          <form onSubmit={handleSubmit}>
+
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-outline-dark w-100"
+            >
+              Login
+            </button>
+
+          </form>
+
         </div>
-    )
+
+      </div>
+    </div>
+
+  </div>
+);
 }
 
 
