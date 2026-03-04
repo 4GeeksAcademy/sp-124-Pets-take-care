@@ -80,6 +80,8 @@ import { LayoutAdmin } from "./layouts/LayoutAdmin";
 import { LayoutGuest } from "./layouts/LayoutGuest";
 import ClientsSitterProfile from "./components/Clients/Appointments/ClientsSitterProfile";
 import SitterProfile from "./components/flujo-sitter/SitterProfile";
+import RegisterClient from "./components/Clients/Loggin/RegisterClient";
+import RegisterSitter from "./components/flujo-sitter/RegisterSitter";
 
 
 export const router = createBrowserRouter(
@@ -97,6 +99,8 @@ export const router = createBrowserRouter(
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/clients/login" element={<ClientLogin />} />
         <Route path="/sitters/login" element={<SitterLogin />} />
+        <Route path="/clients/newclient" element={<RegisterClient />} />
+        <Route path="/newsitters" element={<RegisterSitter />} />
       </Route>
 
 
@@ -164,8 +168,8 @@ export const router = createBrowserRouter(
       <Route path="/appointments/list" element={<AppointmentList />} />
       <Route path="/appointments-sitters/own" element={<AppointmentListOwn />} />
       <Route path="/appointments-sitters/asigned" element={<AppointmentAsigned />} />
-
       <Route path="/clients/pets/profile/:id" element={<PetProfile />} />
+
       <Route element={<LayoutClient />}>
         <Route path="/clients/home" element={<ClientHome />} />
         <Route path="/clients/pets" element={<ClientsPets />} />
@@ -175,6 +179,7 @@ export const router = createBrowserRouter(
         <Route path="/clients/appointments/edit/:id" element={<MyAppointmentsEdit />} />
         <Route path="/clients/appointments/new" element={<MyNewAppointment />} />
         <Route path="/clients/appointments/requests/:id" element={<MyAppointMentRequests />} />
+
       </Route>
 
       <Route element={<LayoutSitter />}>
